@@ -1,5 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <p>OBS! spara alla mediciner och personer i storage</p>
     <q-page-container>
       <q-page>
         <div class="q-pa-md">
