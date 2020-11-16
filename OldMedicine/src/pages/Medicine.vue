@@ -14,12 +14,17 @@ export default {
     }
   },
   mounted () {
-    this.$store.commit('user/updateUrl', 3)
-    // Get person with store
     this.person = this.$store.state.user.person
-
-    // Get medicine with store
     this.medicine = this.$store.state.user.medicine
+
+    if (this.medicine === null) {
+      if (this.person === null) {
+        this.$router.push('/People')
+      }
+      this.$router.push('/People/Person')
+    }
+
+    this.$store.commit('user/updateUrl', 3)
   }
 }
 </script>
