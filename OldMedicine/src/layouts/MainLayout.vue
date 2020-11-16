@@ -35,13 +35,6 @@
 
 export default {
   name: 'MainLayout',
-  data () {
-    return {
-      // url: null,
-      // person: null,
-      // medicine: null
-    }
-  },
   computed: {
     url () {
       return this.$store.state.user.url
@@ -53,24 +46,5 @@ export default {
       return this.$store.state.user.medicine
     }
   }
-  // },
-  // watch: {
-  //   url (newCount, oldCount) {
-  //     // Our fancy notification (2).
-  //     // console.log(`We have ${newCount} fruits now, yay!`)
-  //   }
-  // }
-
-  // watch: {
-  //   url: function () {
-  //     this.url = this.$store.state.user.url
-  //   },
-  //   person: function () {
-  //     this.person = this.$store.state.user.person
-  //   },
-  //   medicine: function () {
-  //     this.medicine = this.$store.state.user.medicine
-  //   }
-  // }
 }
 </script>

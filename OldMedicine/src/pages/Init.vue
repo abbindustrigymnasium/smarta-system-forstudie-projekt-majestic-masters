@@ -1,21 +1,37 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <q-page class="flex flex-center">
-        <img
-          alt="Quasar logo"
-          src="~assets/quasar-logo-full.svg"
-        >
-      </q-page>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
+
+import {
+  Loading,
+  QSpinnerFacebook
+} from 'quasar'
+
 export default {
   name: 'Init',
   mounted () {
-    this.$router.push('/People')
+    this.showLoading()
+    setTimeout(() => {
+      Loading.hide()
+      this.$router.push('/People')
+    }, 3000)
+  },
+  methods: {
+    showLoading () {
+      Loading.show({
+        spinner: QSpinnerFacebook,
+        spinnerColor: 'primary',
+        spinnerSize: 130,
+        backgroundColor: 'white',
+        message: 'We are getting things ready for you. Hang on...',
+        messageColor: 'secondary'
+      })
+    }
   }
 }
 </script>
