@@ -1,5 +1,6 @@
 export default {
   url: null,
-  person: null,
-  medicine: null
+  personPointer: null,
+  medicinePointer: null,
+  people: []
 }

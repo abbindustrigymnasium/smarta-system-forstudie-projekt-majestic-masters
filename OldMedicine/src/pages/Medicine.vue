@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <h1>page for {{ medicine }}</h1>
+    <h6>{{ personer[personPointer].mediciner[medicinePointer].namn }} {{ personer[personPointer].mediciner[medicinePointer].antal }} {{ personer[personPointer].mediciner[medicinePointer].beskrivning }}</h6>
   </q-page>
 </template>
 
@@ -9,22 +9,25 @@ export default {
   name: 'PageIndex',
   data () {
     return {
-      person: null,
-      medicine: null
+      personer: null,
+      personPointer: null,
+      medicinePointer: null
     }
   },
   mounted () {
-    this.person = this.$store.state.user.person
-    this.medicine = this.$store.state.user.medicine
+    this.personer = this.$store.state.user.people
+    this.personPointer = this.$store.state.user.personPointer
+    this.medicinePointer = this.$store.state.user.medicinePointer
 
-    if (this.medicine === null) {
-      if (this.person === null) {
+    if (this.medicinePointer === null) {
+      if (this.personPointer === null) {
         this.$router.push('/People')
+      } else {
+        this.$router.push('/People/Person')
       }
-      this.$router.push('/People/Person')
+    } else {
+      this.$store.commit('user/updateUrl', 3)
     }
-
-    this.$store.commit('user/updateUrl', 3)
   }
 }
 </script>

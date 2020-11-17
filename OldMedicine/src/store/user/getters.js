@@ -1,3 +1,4 @@
 export const url = ({ url }) => url
-export const person = ({ person }) => person
-export const medicine = ({ medicine }) => medicine
+export const personPointer = ({ personPointer }) => personPointer
+export const medicinePointer = ({ medicinePointer }) => medicinePointer
+export const people = ({ people }) => people

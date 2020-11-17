@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-
+    <p>{{ personPointer }} <br> {{ medicinePointer }} <br> {{ people }}</p>
     <!-- <q-header bordered class="bg-primary text-white">
       <q-toolbar>
         <q-toolbar-title v-if="url === 1" class="text-center">
@@ -23,8 +23,8 @@
       <q-toolbar inset>
         <q-breadcrumbs active-color="white" style="font-size: 16px">
           <q-breadcrumbs-el label="Personer" icon="people" to="/People"></q-breadcrumbs-el>
-          <q-breadcrumbs-el v-if="url >= 2" :label="person" icon="person" to="/People/Person"></q-breadcrumbs-el>
-          <q-breadcrumbs-el v-if="url >= 3" :label="medicine" icon="medical_services"></q-breadcrumbs-el>
+          <q-breadcrumbs-el v-if="url >= 2" :label="people[personPointer].namn" icon="person" to="/People/Person"></q-breadcrumbs-el>
+          <q-breadcrumbs-el v-if="url >= 3" :label="people[personPointer].mediciner[medicinePointer].namn" icon="medical_services"></q-breadcrumbs-el>
         </q-breadcrumbs>
       </q-toolbar>
     </div>
@@ -39,11 +39,14 @@ export default {
     url () {
       return this.$store.state.user.url
     },
-    person () {
-      return this.$store.state.user.person
+    personPointer () {
+      return this.$store.state.user.personPointer
     },
-    medicine () {
-      return this.$store.state.user.medicine
+    medicinePointer () {
+      return this.$store.state.user.medicinePointer
+    },
+    people () {
+      return this.$store.state.user.people
     }
   }
 }

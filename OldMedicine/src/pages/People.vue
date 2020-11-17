@@ -1,11 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <p>OBS! spara alla mediciner och personer i storage</p>
     <q-page-container>
       <q-page>
         <div class="q-pa-md">
-          <div v-for="(name, index) in personer" :key="index" class="row q-pb-md">
-            <q-btn size="lg" class="full-width" color="primary" :label="name" @click="goToPerson(name)"></q-btn>
+          <div v-for="(person, index) in personer" :key="index" class="row q-pb-md">
+            <q-btn size="lg" class="full-width" color="positive" :label="person.namn" @click="goToPerson(index)"></q-btn>
           </div>
         </div>
         <!-- <span>
@@ -36,6 +35,10 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.$store.commit('user/updateUrl', 1)
+    this.personer = this.$store.state.user.people
+  },
   methods: {
     makeID: function (length) {
       var result = ''
@@ -47,15 +50,21 @@ export default {
       return result
     },
     addPerson: function (id) {
-      this.personer.push(id)
+      var element = {
+        namn: id,
+        mediciner: [
+
+        ]
+      }
+      element.id = id
+      this.personer.push(element) // om du ändrar personer här kommer du ändra i store? för detta är en pointer???
+      this.$store.commit('user/updatePeople', this.personer)
+      // this.personer = this.$store.state.user.people
     },
-    goToPerson: function (Person) {
-      this.$store.commit('user/updatePerson', Person)
+    goToPerson: function (personPointer) {
+      this.$store.commit('user/updatePersonPointer', personPointer)
       this.$router.push('/People/Person')
     }
-  },
-  mounted () {
-    this.$store.commit('user/updateUrl', 1)
   }
 }
 </script>

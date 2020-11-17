@@ -3,8 +3,9 @@
     <q-page-container>
       <q-page>
         <div class="q-pa-md">
-          <div v-for="(medicin, index) in mediciner" :key="index" class="row q-pb-md">
-            <q-btn size="lg" class="full-width" color="primary" :label="medicin" @click="goToDrug(medicin)"></q-btn>
+          <div v-for="(medicin, index) in personer[personPointer].mediciner" :key="index" class="row q-pb-md">
+            <p>{{ medicin }} {{ index }}</p>
+            <q-btn size="lg" class="full-width" color="primary" :label="medicin.namn" @click="goToDrug(index)"></q-btn>
           </div>
         </div>
         <!-- <span>
@@ -12,7 +13,7 @@
         </span> -->
         <!-- class="text-center q-pa-none q-pt-md" style="border-radius: 5px;" -->
         <div class="items-center">
-          <p class="text-center text-dark text-subtitle1" v-if="!this.mediciner.length"> <!-- !Object.keys(this.mediciner).length -->
+          <p class="text-center text-dark text-subtitle1" v-if="!this.personer[this.personPointer].mediciner.length"> <!-- !Object.keys(this.mediciner).length -->
             Här kan du lägga till mediciner
           </p>
         </div>
@@ -30,18 +31,21 @@ export default {
   name: 'PageIndex',
   data () {
     return {
-      person: null,
-      mediciner: [
-
-      ]
+      personer: null,
+      personPointer: null
     }
   },
   mounted () {
-    this.person = this.$store.state.user.person
-    if (this.person === null) {
+    this.personer = this.$store.state.user.people
+    this.personPointer = this.$store.state.user.personPointer
+    // console.log(this.personer[this.personPointer])
+    if (this.personPointer === null) {
       this.$router.push('/People')
+    } else {
+      this.$store.commit('user/updateUrl', 2)
     }
-    this.$store.commit('user/updateUrl', 2)
+    // console.log(this.personer)
+    // console.log(this.personPointer)
   },
   methods: {
     makeID: function (length) {
@@ -54,10 +58,17 @@ export default {
       return result
     },
     addDrugs: function (id) {
-      this.mediciner.push(id)
+      var element = {
+        namn: id,
+        antal: Math.floor(Math.random() * 100),
+        beskrivning: 'lamao'
+      }
+      element.id = id
+      this.personer[this.personPointer].mediciner.push(element)
+      this.$store.commit('user/updatePeople', this.personer)
     },
-    goToDrug: function (Drug) {
-      this.$store.commit('user/updateMedicine', Drug)
+    goToDrug: function (drugPointer) {
+      this.$store.commit('user/updateMedicinePointer', drugPointer)
       this.$router.push('/People/Person/Medicine')
     }
   }
