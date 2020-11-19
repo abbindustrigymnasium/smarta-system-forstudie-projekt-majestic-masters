@@ -57,8 +57,8 @@ export default {
         ]
       }
       element.id = id
-      this.personer.push(element) // om du ändrar personer här kommer du ändra i store? för detta är en pointer???
-      this.$store.commit('user/updatePeople', this.personer)
+      // this.personer.push(element) // om du ändrar personer här kommer du ändra i store? för detta är en pointer???
+      this.$store.commit('user/addPerson', element)
       // this.personer = this.$store.state.user.people
     },
     goToPerson: function (personPointer) {

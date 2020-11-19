@@ -64,8 +64,9 @@ export default {
         beskrivning: 'lamao'
       }
       element.id = id
-      this.personer[this.personPointer].mediciner.push(element)
-      this.$store.commit('user/updatePeople', this.personer)
+      // this.personer[this.personPointer].mediciner.push(element)
+      console.log(element)
+      this.$store.commit('user/addMedicine', [this.personPointer, element])
     },
     goToDrug: function (drugPointer) {
       this.$store.commit('user/updateMedicinePointer', drugPointer)
