@@ -1,44 +1,40 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <p>{{ personPointer }} <br> {{ medicinePointer }} <br> {{ people }}</p>
-    <!-- <q-header bordered class="bg-primary text-white">
-      <q-toolbar>
-        <q-toolbar-title v-if="url === 1" class="text-center">
-          Personer
-        </q-toolbar-title>
-        <q-toolbar-title v-else-if="url === 2" class="text-center">
-          {{ person }}
-        </q-toolbar-title>
-        <q-toolbar-title v-else class="text-center">
-          {{ medicine }}
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-header> -->
+  <q-layout view="hHh Lpr lff">
+
+    <Header @changeAddPersonDialog="changeAddPersonDialog()" @changeSearchDialog="changeSearchDialog()" :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/>
+    <!-- <DrawerLeft :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/> -->
+
+    <q-dialog v-model="showDialogSearch">
+      <SearchDialog :people="people"/>
+    </q-dialog>
+
+    <q-dialog v-model="showDialogAddPerson">
+      <AddPersonDialog :people="people"/>
+    </q-dialog>
 
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
 
-    <div class="bg-primary text-white fixed-bottom">
-      <q-toolbar inset>
-        <q-breadcrumbs active-color="white" style="font-size: 16px">
-          <q-breadcrumbs-el label="Personer" icon="people" to="/People"></q-breadcrumbs-el>
-          <q-breadcrumbs-el v-if="url >= 2" :label="people[personPointer].namn" icon="person" to="/People/Person"></q-breadcrumbs-el>
-          <q-breadcrumbs-el v-if="url >= 3" :label="people[personPointer].mediciner[medicinePointer].namn" icon="medical_services"></q-breadcrumbs-el>
-        </q-breadcrumbs>
-      </q-toolbar>
-    </div>
   </q-layout>
 </template>
 
 <script>
 
+import Header from '../components/Layout/Header.vue'
+import SearchDialog from '../components/Layout/SearchDialog.vue'
+import AddPersonDialog from '../components/Layout/AddPersonDialog.vue'
+// import DrawerLeft from '../components/Layout/DrawerLeft.vue'
+
 export default {
   name: 'MainLayout',
+  data () {
+    return {
+      showDialogSearch: false,
+      showDialogAddPerson: false
+    }
+  },
   computed: {
-    url () {
-      return this.$store.state.user.url
-    },
     personPointer () {
       return this.$store.state.user.personPointer
     },
@@ -47,6 +43,26 @@ export default {
     },
     people () {
       return this.$store.state.user.people
+    },
+    filterForgotten () {
+      return this.$store.state.user.filterForgotten
+    },
+    filterRunningOut () {
+      return this.$store.state.user.filterRunningOut
+    }
+  },
+  components: {
+    Header,
+    SearchDialog,
+    AddPersonDialog
+    // DrawerLeft
+  },
+  methods: {
+    changeSearchDialog () {
+      this.showDialogSearch = true
+    },
+    changeAddPersonDialog () {
+      this.showDialogAddPerson = true
     }
   }
 }

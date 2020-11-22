@@ -1,6 +1,7 @@
 export default {
-  url: null,
   personPointer: null,
   medicinePointer: null,
-  people: []
+  people: [],
+  filterForgotten: false,
+  filterRunningOut: false
 }
