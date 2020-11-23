@@ -16,15 +16,18 @@
 <script>
 export default {
   name: 'Dialog-Layout-Add-Person',
-  props: ['people'],
+  props: ['people', 'keyInit'],
   data () {
     return {
-      name: '',
+      name: this.keyInit,
       id: '',
       invalidName: true,
       invalidID: true,
       buttonPress: false
     }
+  },
+  mounted () {
+    this.validOptions()
   },
   watch: {
     name: function (newName, oldName) {
@@ -56,6 +59,7 @@ export default {
     addPerson () {
       this.buttonPress = true
       this.$store.commit('user/addPerson', { name: this.name, id: this.id })
+      this.$emit('changeKey', '')
     }
   }
 }

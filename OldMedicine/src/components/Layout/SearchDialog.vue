@@ -4,6 +4,11 @@
       <q-input outlined v-model="key" label="Vart vill du gå?">
       </q-input>
 
+      <div v-if="noResults">
+        <p>Hittar ingen som heter '{{ key }}'. <br> Vill du lägga till den personen?</p>
+        <q-btn @click="changeKey(); changeSearchDialog(); changeAddDialog()">Ja</q-btn>
+      </div>
+
       <q-list content-class="bg-grey-3">
         <template v-for="(searchResult, index) in searchList">
           <q-separator :key="`q-sep-${index}`"></q-separator>
@@ -52,7 +57,8 @@ export default {
   data () {
     return {
       key: '',
-      searchList: []
+      searchList: [],
+      noResults: false
     }
   },
   watch: {
@@ -69,9 +75,11 @@ export default {
             this.searchList.push({ isPerson: true, item: this.people[i] })
           }
         }
-        if (!this.searchList.length) {
-          console.log('aw no one found')
-        }
+      }
+      if (!this.searchList.length && newKey !== '') {
+        this.noResults = true
+      } else {
+        this.noResults = false
       }
     }
   },
@@ -103,6 +111,15 @@ export default {
         }
       }
       return false
+    },
+    changeSearchDialog () {
+      this.$emit('changeSearchDialog')
+    },
+    changeAddDialog () {
+      this.$emit('changeAddDialog')
+    },
+    changeKey () {
+      this.$emit('changeKey', this.key)
     }
   }
 }

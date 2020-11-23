@@ -13,12 +13,13 @@
 </template>
 
 <script>
+
 export default {
   name: 'Dialog-Layout-Add-Medicine',
-  props: ['people', 'personPointer'],
+  props: ['people', 'personPointer', 'keyInit'],
   data () {
     return {
-      name: '',
+      name: this.keyInit,
       amount: '',
       invalidName: true,
       buttonPress: false
@@ -40,6 +41,7 @@ export default {
     addMedicine () {
       this.buttonPress = true
       this.$store.commit('user/addMedicine', { state: this.personPointer, name: this.name, amount: this.amount })
+      this.$emit('changeKey', '')
     }
   }
 }

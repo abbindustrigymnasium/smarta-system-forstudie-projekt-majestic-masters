@@ -41,8 +41,8 @@ export default {
     }
   },
   methods: {
-    goToPerson (index) {
-      this.$store.commit('user/changePersonPointer', index)
+    goToPerson (personPointer) {
+      this.$store.commit('user/changePersonPointer', personPointer)
       this.$router.push('/Person')
     },
     lookForAmount (meds, key) {

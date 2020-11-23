@@ -23,6 +23,7 @@
         :person="people[personPointer]"
         :buttons="buttons"
       />
+
     </q-header>
   </div>
 </template>

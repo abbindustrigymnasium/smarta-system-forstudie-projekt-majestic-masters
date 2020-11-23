@@ -14,6 +14,9 @@ export default {
   name: 'Person',
   mounted () {
     this.$store.commit('user/changeMedicinePointer', null)
+    if (this.$store.state.user.personPointer === null) {
+      this.$router.push('/')
+    }
   },
   computed: {
     person () {

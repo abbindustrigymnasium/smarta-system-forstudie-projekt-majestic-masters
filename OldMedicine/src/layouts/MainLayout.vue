@@ -2,14 +2,15 @@
   <q-layout view="hHh Lpr lff">
 
     <Header @changeAddDialog="changeAddDialog()" @changeSearchDialog="changeSearchDialog()" :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/>
-    <!-- <DrawerLeft :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/> -->
+
+    <DrawerLeft v-if="personPointer !== null" :people="people" :personPointer="personPointer"/>
 
     <q-dialog v-model="showDialogSearch">
-      <SearchDialog :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/>
+      <SearchDialog @changeKey="changeKey" @changeSearchDialog="changeSearchDialog" @changeAddDialog="changeAddDialog" :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/>
     </q-dialog>
 
     <q-dialog v-model="showDialogAdd">
-      <AddDialog :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/>
+      <AddDialog @changeKey="changeKey" :keyInit="keyInit" :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/>
     </q-dialog>
 
     <q-page-container>
@@ -23,14 +24,15 @@
 import Header from '../components/Layout/Header.vue'
 import SearchDialog from '../components/Layout/SearchDialog.vue'
 import AddDialog from '../components/Layout/AddDialog.vue'
-// import DrawerLeft from '../components/Layout/DrawerLeft.vue'
+import DrawerLeft from '../components/Layout/DrawerLeft.vue'
 
 export default {
   name: 'MainLayout',
   data () {
     return {
       showDialogSearch: false,
-      showDialogAdd: false
+      showDialogAdd: false,
+      keyInit: ''
     }
   },
   computed: {
@@ -50,18 +52,29 @@ export default {
       return this.$store.state.user.filterRunningOut
     }
   },
+  watch: {
+    showDialogAdd (newBool, oldBool) {
+      if (!newBool) {
+        this.changeKey('')
+      }
+    }
+  },
   components: {
     Header,
     SearchDialog,
-    AddDialog
-    // DrawerLeft
+    AddDialog,
+    DrawerLeft
   },
   methods: {
     changeSearchDialog () {
-      this.showDialogSearch = true
+      // this.keyInit = key //123 main layout key måste återställas efter du är klar med att lägga till en person
+      this.showDialogSearch = !this.showDialogSearch
     },
     changeAddDialog () {
-      this.showDialogAdd = true
+      this.showDialogAdd = !this.showDialogAdd
+    },
+    changeKey (key) {
+      this.keyInit = key
     }
   }
 }

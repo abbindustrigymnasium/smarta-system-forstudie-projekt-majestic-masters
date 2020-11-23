@@ -9,6 +9,13 @@
 <script>
 
 export default {
-  name: 'Medicine'
+  name: 'Medicine',
+  mounted () {
+    if (this.$store.state.user.personPointer === null) {
+      this.$router.push('/')
+    } else if (this.$store.state.user.medicinePointer === null) {
+      this.$router.push('/Person')
+    }
+  }
 }
 </script>
