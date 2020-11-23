@@ -12,6 +12,10 @@ import People from '../components/Home/People.vue'
 
 export default {
   name: 'Home',
+  mounted () {
+    this.$store.commit('user/changePersonPointer', null)
+    this.$store.commit('user/changeMedicinePointer', null)
+  },
   computed: {
     people () {
       return this.$store.state.user.people

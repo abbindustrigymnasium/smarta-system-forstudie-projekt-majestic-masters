@@ -1,28 +1,47 @@
-export const updatePersonPointer = (state, adress) => {
-  state.personPointer = adress
-}
-
-export const updateMedicinePointer = (state, adress) => {
-  state.medicinePointer = adress
-}
-
-export const addPerson = (state, person) => {
-  state.people.push(person)
-}
-
-export const addMedicine = (state, medicineAndState) => {
-  state.people[medicineAndState[0]].medications.push(medicineAndState[1])
-}
-
-// export const addMedicine = (state, personPointer, medicine) => { // VARFÖR FUNKAR INTE DETTA?
-//   console.log(personPointer, medicine)
-//   state.people[personPointer].medications.push(medicine)
-// }
-
 export const updateFilterForgotten = (state, filterForgotten) => {
   state.filterForgotten = filterForgotten
 }
 
 export const updateFilterRunningOut = (state, filterRunningOut) => {
   state.filterRunningOut = filterRunningOut
+}
+
+export const addPerson = (state, nameAndId) => {
+  var element = {
+    index: state.people.length,
+    name: nameAndId.name,
+    medications: [
+      // {
+      //   name: 'weed',
+      //   hasForgot: 1,
+      //   isRunningOut: 1
+      // },
+      // {
+      //   name: 'shroom',
+      //   hasForgot: 1,
+      //   isRunningOut: 1
+      // }
+    ]
+  }
+  element.id = nameAndId.id
+  state.people.push(element)
+}
+
+export const addMedicine = (state, medicineAndState) => {
+  var medicine = {
+    index: state.people[medicineAndState.state].medications.length,
+    name: medicineAndState.name,
+    amount: medicineAndState.amount,
+    hasForgot: 1,
+    isRunningOut: 1
+  }
+  state.people[medicineAndState.state].medications.push(medicine)
+}
+
+export const changePersonPointer = (state, personPointer) => {
+  state.personPointer = personPointer
+}
+
+export const changeMedicinePointer = (state, medicinePointer) => {
+  state.medicinePointer = medicinePointer
 }

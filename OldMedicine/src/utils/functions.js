@@ -23,3 +23,5 @@ const goToPerson = function (personPointer) {
   this.$store.commit('user/updatePersonPointer', personPointer)
   this.$router.push('/People/Person')
 }
+
+export { goToPerson, addPerson, makeID }
