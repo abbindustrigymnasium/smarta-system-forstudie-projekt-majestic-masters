@@ -1,7 +1,13 @@
 <template>
   <q-layout view="hHh Lpr lff">
 
-    <Header @changeAddDialog="changeAddDialog()" @changeSearchDialog="changeSearchDialog()" :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/>
+    <Header
+      @changeAddDialog="changeAddDialog()"
+      @changeSearchDialog="changeSearchDialog()"
+      :people="people"
+      :personPointer="personPointer"
+      :medicinePointer="medicinePointer"
+    />
 
     <DrawerLeft v-if="personPointer !== null" :people="people" :personPointer="personPointer"/>
 
@@ -67,7 +73,6 @@ export default {
   },
   methods: {
     changeSearchDialog () {
-      // this.keyInit = key //123 main layout key måste återställas efter du är klar med att lägga till en person
       this.showDialogSearch = !this.showDialogSearch
     },
     changeAddDialog () {

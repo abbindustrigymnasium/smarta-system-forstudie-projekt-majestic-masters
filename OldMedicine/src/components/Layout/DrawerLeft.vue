@@ -16,7 +16,9 @@
         <q-list content-class="bg-grey-3">
           <template v-for="(person, index) in people">
             <q-separator :key="`q-sep-${index}`"></q-separator>
-            <q-item :key="index" clickable v-ripple @click="goToPerson(person.index)">
+            <q-item :key="index" clickable v-ripple @click="goToPerson(person.index)" v-bind:class="{'bg-grey-4':(index === personPointer)}">
+
+              <q-icon name="person" class="text-primary"/>
 
               <q-item-section>
                 {{ person.name }}

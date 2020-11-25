@@ -1,12 +1,14 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-        <h1>lamaomedicinelamao</h1>
+      <MedicineComponent/>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
+
+import MedicineComponent from '../components/Medicine/MedicineComponent.vue'
 
 export default {
   name: 'Medicine',
@@ -16,6 +18,9 @@ export default {
     } else if (this.$store.state.user.medicinePointer === null) {
       this.$router.push('/Person')
     }
+  },
+  components: {
+    MedicineComponent
   }
 }
 </script>

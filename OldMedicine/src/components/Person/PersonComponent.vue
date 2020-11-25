@@ -8,6 +8,8 @@
         <q-separator :key="`q-sep-${index}`"></q-separator>
         <q-item :key="index" clickable v-ripple @click="goToMedicine(medicine.index)">
 
+          <q-icon name="medical_services" class="text-secondary"/>
+
           <q-item-section>
             {{ medicine.name }}
           </q-item-section>
