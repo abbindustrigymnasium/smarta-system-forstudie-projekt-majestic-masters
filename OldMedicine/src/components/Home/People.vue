@@ -45,7 +45,7 @@ export default {
         (this.lookFor(person.medications, 'hasForgot') && this.filterForgotten) ||
         (this.lookFor(person.medications, 'isRunningOut') && this.filterRunningOut)
       )).forEach(person => {
-        list.push({ isPerson: true, item: person })
+        list.push(person)
       })
       return list
     }

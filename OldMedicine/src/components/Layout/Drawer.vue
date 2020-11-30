@@ -2,7 +2,7 @@
   <q-scroll-area class="fit">
     <q-list>
 
-      <q-item v-if="personPointer !== null" clickable v-ripple @click="home()">
+      <q-item v-if="personPointer !== null" clickable v-ripple @click="goTo('/')">
         <q-item-section avatar>
           <q-icon name="people"/>
         </q-item-section>
@@ -11,7 +11,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item v-else clickable v-ripple @click="home()">
+      <q-item v-else clickable v-ripple @click="goTo('/People')">
         <q-item-section avatar>
           <q-icon name="medical_services"/>
         </q-item-section>
@@ -64,8 +64,8 @@ export default {
   name: 'Drawer',
   props: ['list', 'personPointer', 'medicinePointer'],
   methods: {
-    home () {
-      this.$router.push({ path: '/' })
+    goTo (where) {
+      this.$router.push({ path: where })
     },
     changeRoute (index) {
       if (this.personPointer !== null) {

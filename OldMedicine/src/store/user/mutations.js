@@ -10,18 +10,7 @@ export const addPerson = (state, nameAndId) => {
   var element = {
     index: state.people.length,
     name: nameAndId.name,
-    medications: [
-      // {
-      //   name: 'weed',
-      //   hasForgot: 1,
-      //   isRunningOut: 1
-      // },
-      // {
-      //   name: 'shroom',
-      //   hasForgot: 1,
-      //   isRunningOut: 1
-      // }
-    ]
+    medications: []
   }
   element.id = nameAndId.id
   state.people.push(element)
@@ -29,13 +18,14 @@ export const addPerson = (state, nameAndId) => {
 
 export const addMedicine = (state, medicineAndState) => {
   var medicine = {
-    index: state.people[medicineAndState.state].medications.length,
+    personPointer: medicineAndState.personPointer,
+    index: state.people[medicineAndState.personPointer].medications.length,
     name: medicineAndState.name,
     amount: medicineAndState.amount,
     hasForgot: 1,
     isRunningOut: 1
   }
-  state.people[medicineAndState.state].medications.push(medicine)
+  state.people[medicineAndState.personPointer].medications.push(medicine)
 }
 
 export const changePersonPointer = (state, personPointer) => {

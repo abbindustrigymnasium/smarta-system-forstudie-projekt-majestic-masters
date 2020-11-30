@@ -23,7 +23,7 @@ export default {
         (medications.hasForgot && this.filterForgotten) ||
         (medications.isRunningOut && this.filterRunningOut)
       )).forEach(medication => {
-        list.push({ personPointer: this.person.index, isPerson: false, item: medication })
+        list.push(medication)
       })
       return list
     }

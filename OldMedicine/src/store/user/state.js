@@ -9,6 +9,7 @@ export default {
       id: 'bbkxnzbs',
       medications: [
         {
+          personPointer: 0,
           index: 0,
           name: 'Weed',
           hasForgot: 1,
@@ -22,6 +23,7 @@ export default {
       id: 'mzöaldöa',
       medications: [
         {
+          personPointer: 1,
           index: 0,
           name: 'Lsd',
           hasForgot: 0,
@@ -35,6 +37,7 @@ export default {
       id: 'mxmnzösäa',
       medications: [
         {
+          personPointer: 2,
           index: 0,
           name: 'Shrooms',
           hasForgot: 0,

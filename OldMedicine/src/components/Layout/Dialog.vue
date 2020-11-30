@@ -10,10 +10,7 @@
       </div>
 
       <List @showNewDialog="showNewDialog($event)" :list="dialogsObjects.search.list" :personPointer="personPointer"/>
-      <!-- {{ dialogsObjects.search.error }} <br>
-      {{ dialogsObjects.addPerson.error }}<br>
-      {{ dialogsObjects.addMedicine.error }} -->
-      <!-- error messages ITTERERA igenom alla? -->
+
       <div
         white-space:
         pre-line
@@ -93,13 +90,6 @@ export default {
         this.dialogsObjects.addMedicine.error.name = 'Namn fältet får ej vara tomt!'
       }
     }
-    // if (this.medicinePerson && this.keyInit === '') {
-    //   this.errorMessage = 'Namn fältet får ej vara tomt!'
-    //   this.invalidInput = true
-    // } else if (this.medicinePerson === 'personens') {
-    //   this.errorMessage = 'Felaktigt ID'
-    //   this.invalidInput = true
-    // }
   },
   watch: {
     'dialogsObjects.search.key' (newKey, oldKey) {
@@ -108,17 +98,17 @@ export default {
         for (var i = 0; i < this.list.length; i++) {
           for (var q = 0; q < this.list[i].medications.length; q++) {
             if (this.list[i].medications[q].name.toLowerCase().includes(newKey)) {
-              this.dialogsObjects.search.list.push({ isPerson: false, item: this.list[i].medications[q], personPointer: this.list[i].index, personName: this.list[i].name })
+              this.dialogsObjects.search.list.push(this.list[i].medications[q])
             }
           }
           if (this.list[i].name.toLowerCase().includes(newKey) && this.personPointer === null) {
-            this.dialogsObjects.search.list.push({ isPerson: true, item: this.list[i] })
+            this.dialogsObjects.search.list.push(this.list[i])
           }
         }
       } else if (newKey !== '') {
         for (var r = 0; r < this.list.medications.length; r++) {
           if (this.list.medications[r].name.toLowerCase().includes(newKey)) {
-            this.dialogsObjects.search.list.push({ isPerson: false, item: this.list.medications[r], personPointer: this.list.index, personName: this.list.name })
+            this.dialogsObjects.search.list.push(this.list.medications[r])
           }
         }
       }
@@ -177,11 +167,12 @@ export default {
     createNew () {
       this.showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })
       if (this.person) {
-        this.$store.commit('user/addPerson', { index: this.$store.state.user.people.length, name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id })
+        this.$store.commit('user/addPerson', { name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id })
       } else {
-        const lengtsada = this.$store.state.user.people[this.$store.state.user.personPointer].medications.length
-        console.log(this.$store.state.user.people[this.$store.state.user.personPointer].medications.length, this.$store.state.user.people, this.$store.state.user.personPointer)
-        this.$store.commit('user/addMedicine', { index: lengtsada, personPointer: this.$store.state.user.personPointer, name: this.dialogsObjects.addMedicine.name, amount: this.dialogsObjects.addMedicine.amount })
+        // const lengtsada = this.$store.state.user.people[this.$store.state.user.personPointer].medications.length
+        // console.log(this.$store.state.user.people[this.$store.state.user.personPointer].medications.length, this.$store.state.user.people, this.$store.state.user.personPointer)
+        this.$store.commit('user/addMedicine', { personPointer: this.$store.state.user.personPointer, name: this.dialogsObjects.addMedicine.name, amount: this.dialogsObjects.addMedicine.amount })
+        console.log(this.$store.state.user.people)
       }
     }
   },
