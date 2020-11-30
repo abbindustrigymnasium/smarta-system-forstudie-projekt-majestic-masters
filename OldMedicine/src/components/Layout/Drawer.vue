@@ -76,11 +76,11 @@ export default {
     },
     goToPerson (personPointer) {
       this.$store.commit('user/changePersonPointer', personPointer)
-      this.$router.push({ path: '/Person' }).catch(this.$forceUpdate())
+      this.$router.push({ path: '/Person' }).catch(() => {})
     },
     goToMedicine (medicinePointer) {
       this.$store.commit('user/changePersonPointer', medicinePointer)
-      this.$router.push({ path: '/Person/Medicine' }).catch(this.$forceUpdate())
+      this.$router.push({ path: '/Person/Medicine' }).catch(() => {})
     },
     lookForAmount (meds, key) {
       let amount = 0
