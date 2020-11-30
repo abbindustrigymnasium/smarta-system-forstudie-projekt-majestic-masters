@@ -1,14 +1,14 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <PersonComponent :person="person" :filterForgotten="filterForgotten" :filterRunningOut="filterRunningOut"/>
+      <!-- <PersonComponent :person="person" :filterForgotten="filterForgotten" :filterRunningOut="filterRunningOut"/> -->
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
 
-import PersonComponent from '../components/Person/PersonComponent.vue'
+// import PersonComponent from '../components/Person/PersonComponent.vue'
 
 export default {
   name: 'Person',
@@ -28,9 +28,9 @@ export default {
     filterRunningOut () {
       return this.$store.state.user.filterRunningOut
     }
-  },
-  components: {
-    PersonComponent
-  }
+  }//,
+  // components: {
+  //   PersonComponent
+  // }
 }
 </script>

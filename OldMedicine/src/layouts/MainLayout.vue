@@ -1,43 +1,84 @@
-<template>
+<template><!-- showdialog resets key changeKey changes key to given value -->
   <q-layout view="hHh Lpr lff">
 
     <Header
-      @changeAddDialog="changeAddDialog()"
-      @changeSearchDialog="changeSearchDialog()"
+      @showNewDialog="showNewDialog($event)"
       :people="people"
       :personPointer="personPointer"
       :medicinePointer="medicinePointer"
+      :filterForgotten="filterForgotten"
+      :filterRunningOut="filterRunningOut"
+      :forgotAmount="forgotAmount"
+      :runningOutAmount="runningOutAmount"
     />
 
-    <DrawerLeft v-if="personPointer !== null" :people="people" :personPointer="personPointer"/>
+    <q-drawer v-if="personPointer !== null" id="DrawerPerson" show-if-above :width="200" :breakpoint="200" bordered content-class="bg-grey-3">
+      <Drawer
+        :list="people"
+        :personPointer="personPointer"
+      />
+    </q-drawer>
 
-    <q-dialog v-model="showDialogSearch">
-      <SearchDialog @changeKey="changeKey" @changeSearchDialog="changeSearchDialog" @changeAddDialog="changeAddDialog" :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/>
+    <q-drawer v-if="medicinePointer !== null" id="DrawerMedicine" show-if-above :width="200" :breakpoint="200" bordered content-class="bg-grey-3">
+      <Drawer
+        :list="people[personPointer]"
+        :medicinePointer="medicinePointer"
+      />
+    </q-drawer>
+
+    <!-- <q-dialog v-if="dialogBooleans.searchDialog || dialogBooleans.addPersonDialog || dialogBooleans.addMedicineDialog"> WHY IS THIS NOT REACTIVE-->
+    <q-dialog v-model="dialogBooleans.searchDialog">
+      <Dialog
+        v-model="dialogBooleans.searchDialog"
+        @showNewDialog="showNewDialog($event)"
+        :list="currentList"
+        :personPointer="personPointer"
+      />
     </q-dialog>
 
-    <q-dialog v-model="showDialogAdd">
-      <AddDialog @changeKey="changeKey" :keyInit="keyInit" :people="people" :personPointer="personPointer" :medicinePointer="medicinePointer"/>
+    <q-dialog v-model="dialogBooleans.addPersonDialog">
+      <Dialog
+        v-model="dialogBooleans.addPersonDialog"
+        @showNewDialog="showNewDialog($event)"
+        :list="people"
+        :keyInit="keyInit"
+        medicinePerson="personens"
+      />
+    </q-dialog>
+
+    <q-dialog v-model="dialogBooleans.addMedicineDialog">
+      <Dialog
+        v-model="dialogBooleans.addMedicineDialog"
+        @showNewDialog="showNewDialog($event)"
+        :list="people"
+        :keyInit="keyInit"
+        :personPointer="personPointer"
+        medicinePerson="medicinens"
+      />
     </q-dialog>
 
     <q-page-container>
       <router-view/>
     </q-page-container>
+
   </q-layout>
 </template>
 
 <script>
 
 import Header from '../components/Layout/Header.vue'
-import SearchDialog from '../components/Layout/SearchDialog.vue'
-import AddDialog from '../components/Layout/AddDialog.vue'
-import DrawerLeft from '../components/Layout/DrawerLeft.vue'
+import Drawer from '../components/Layout/Drawer.vue'
+import Dialog from '../components/Layout/Dialog.vue'
 
 export default {
-  name: 'MainLayout',
+  name: 'Main-Layout',
   data () {
     return {
-      showDialogSearch: false,
-      showDialogAdd: false,
+      dialogBooleans: {
+        searchDialog: false,
+        addPersonDialog: false,
+        addMedicineDialog: false
+      },
       keyInit: ''
     }
   },
@@ -56,30 +97,63 @@ export default {
     },
     filterRunningOut () {
       return this.$store.state.user.filterRunningOut
-    }
-  },
-  watch: {
-    showDialogAdd (newBool, oldBool) {
-      if (!newBool) {
-        this.changeKey('')
+    },
+    currentList () {
+      if (this.personPointer !== null) {
+        return [this.people[this.personPointer]]
       }
+      return this.people
+    },
+    forgotAmount () {
+      return this.currentList.filter(person => (this.lookFor(person.medications, 'hasForgot'))).length
+    },
+    runningOutAmount () {
+      return this.currentList.filter(person => (this.lookFor(person.medications, 'isRunningOut'))).length
     }
+    //,
+    // filteredList () {
+    //   if (this.personPointer !== null) {
+    //     return this.people[this.personPointer].filter(meds => (
+    //       (!this.filterRunningOut && !this.filterForgotten) ||
+    //       (this.lookFor(meds, 'hasForgot') && this.filterForgotten) ||
+    //       (this.lookFor(meds, 'isRunningOut') && this.filterRunningOut)
+    //     ))
+    //   }
+    //   return this.people.filter(person => (
+    //     (!this.filterRunningOut && !this.filterForgotten) ||
+    //     (this.lookFor(person.medications, 'hasForgot') && this.filterForgotten) ||
+    //     (this.lookFor(person.medications, 'isRunningOut') && this.filterRunningOut)
+    //   ))
+    // }
   },
   components: {
     Header,
-    SearchDialog,
-    AddDialog,
-    DrawerLeft
+    Drawer,
+    Dialog
   },
   methods: {
-    changeSearchDialog () {
-      this.showDialogSearch = !this.showDialogSearch
+    showNewDialog (object) {
+      console.log(object)
+      this.dialogBooleans = object.dialogBooleans
+      this.keyInit = object.key
+      // console.log(this.dialogBooleans)
     },
-    changeAddDialog () {
-      this.showDialogAdd = !this.showDialogAdd
-    },
-    changeKey (key) {
-      this.keyInit = key
+    // lookForAmount (meds, key) {
+    //   let amount = 0
+    //   for (let i = 0; i < meds.length; i++) {
+    //     if (meds[i][key]) {
+    //       amount++
+    //     }
+    //   }
+    //   return amount
+    // },
+    lookFor (meds, key) {
+      for (let i = 0; i < meds.length; i++) {
+        if (meds[i][key]) {
+          return true
+        }
+      }
+      return false
     }
   }
 }

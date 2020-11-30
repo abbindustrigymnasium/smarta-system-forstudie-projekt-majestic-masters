@@ -1,3 +1,3 @@
 # OldMedicine (oldmedicine)
 
-try to create components like display people, that can be used everywhere you want to display ppl
+du ska fixa drawer sedan gå ner listan i main layout 
