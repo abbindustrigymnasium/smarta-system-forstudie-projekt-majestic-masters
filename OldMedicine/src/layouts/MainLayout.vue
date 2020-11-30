@@ -42,7 +42,7 @@
         @showNewDialog="showNewDialog($event)"
         :list="people"
         :keyInit="keyInit"
-        medicinePerson="personens"
+        person=True
       />
     </q-dialog>
 
@@ -53,7 +53,7 @@
         :list="people"
         :keyInit="keyInit"
         :personPointer="personPointer"
-        medicinePerson="medicinens"
+        medicine=True
       />
     </q-dialog>
 

@@ -2,22 +2,23 @@
   <div id="Dialog-Layout">
     <q-card>
       <div>
-        <q-input v-if="medicinePerson" outlined v-model="name" :label="`Skriv in ${medicinePerson} namn`"/>
-        <q-input v-if="medicinePerson === 'personens'" outlined v-model="id" label="Skriv in enhetens ID"/>
-        <q-input v-else-if="medicinePerson === 'medicinens'" outlined v-model="amount" label="Skriv in antalet tabletter"/>
-        <q-input v-if="!medicinePerson" outlined v-model="searchKey" label="Vart vill du gå?"/>
+        <q-input v-if="person" outlined v-model="personName" :label="`Skriv in personens namn`"/>
+        <q-input v-else-if="medicine" outlined v-model="medicineName" :label="`Skriv in medicinens namn`"/>
+        <q-input v-if="person" outlined v-model="id" label="Skriv in enhetens ID"/>
+        <q-input v-else-if="medicine" outlined v-model="amount" label="Skriv in antalet tabletter"/>
+        <q-input v-if="!medicine && !person" outlined v-model="searchKey" label="Vart vill du gå?"/>
       </div>
 
       <List @showNewDialog="showNewDialog($event)" :list="searchList"/>
 
       <!-- error messages -->
-      <div white-space: pre-line v-if="noResults || invalidInput">
+      <div white-space: pre-line v-if="errorMessage !== ''">
         <p>{{ errorMessage }}</p>
-        <q-btn v-if="noResults && personPointer === null" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, key: searchKey })">Ja</q-btn>
-        <q-btn v-else-if="noResults" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, key: searchKey })">Ja</q-btn>
+        <q-btn v-if="!medicine && !person && personPointer === null" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, key: searchKey })">Ja</q-btn>
+        <q-btn v-else-if="!medicine && !person" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, key: searchKey })">Ja</q-btn>
       </div>
 
-      <div v-if="medicinePerson">
+      <div v-if="medicine && person">
         <q-btn @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })">Avbryt</q-btn>
         <q-btn @click="createNew()" :disabled="invalidInput">Lägg till</q-btn>
       </div>
@@ -31,27 +32,31 @@ import List from '../List.vue'
 
 export default {
   name: 'Dialog-Layout',
-  props: ['list', 'keyInit', 'personPointer', 'medicinePerson'],
+  props: ['list', 'keyInit', 'personPointer', 'medicine', 'person'],
   data () {
     return {
-      name: this.keyInit,
+      personName: '',
+      medicineName: '',
       id: '',
       amount: 0,
       searchKey: '',
       searchList: [],
-      errorMessage: '',
-      noResults: false,
-      invalidInput: false
+      errorMessage: ''
     }
   },
   mounted () {
-    if (this.medicinePerson && this.keyInit === '') {
-      this.errorMessage = 'Namn fältet får ej vara tomt!'
-      this.invalidInput = true
-    } else if (this.medicinePerson === 'personens') {
-      this.errorMessage = 'Felaktigt ID'
-      this.invalidInput = true
+    if (this.medicine) {
+      this.medicineName = this.keyInit
+    } else if (this.person) {
+      this.personName = this.keyInit
     }
+    // if (this.medicinePerson && this.keyInit === '') {
+    //   this.errorMessage = 'Namn fältet får ej vara tomt!'
+    //   this.invalidInput = true
+    // } else if (this.medicinePerson === 'personens') {
+    //   this.errorMessage = 'Felaktigt ID'
+    //   this.invalidInput = true
+    // }
   },
   watch: {
     searchKey (newKey, oldKey) {
@@ -75,57 +80,46 @@ export default {
         } else {
           subject = 'medicinen'
         }
-        this.noResults = true
         this.errorMessage = `Hittar ingen som heter '${newKey}'. \n Vill du lägga till den ${subject}?`
       } else {
-        this.noResults = false
+        this.errorMessage = ''
       }
     },
-    name (newName, oldName) {
-      this.validOptions()
+    personName (newName, oldName) {
+      if (newName === '') {
+        this.errorMessage = 'Namn fältet får ej vara tomt!'
+      }
+    },
+    medicineName (newName, oldName) {
+      if (newName === '') {
+        this.errorMessage = 'Namn fältet får ej vara tomt!'
+      }
     },
     id (newId, oldId) {
-      this.validOptions()
+      if (newId === '') {
+        this.errorMessage = 'Felaktigt ID'
+      } else {
+        for (var i = 0; i < this.list.length; i++) {
+          if (newId === this.list[i].id) {
+            this.errorMessage = 'Felaktigt ID. Redan använt'
+            break
+          }
+        }
+      }
     },
     amount (newAmount, oldAmount) {
-      this.validOptions()
+      if (isNaN(parseInt(newAmount))) {
+        this.errorMessage = `${newAmount} är inte ett nummer`
+      }
     }
   },
   methods: {
     showNewDialog (object) {
-      console.log(object)
       this.$emit('showNewDialog', object)
-    },
-    validOptions () {
-      if (this.id === '' && this.medicinePerson === 'personens') {
-        this.invalidInput = true
-        this.errorMessage = 'Felaktigt ID'
-      } else if (this.medicinePerson === 'personens') {
-        this.invalidInput = false
-      }
-      if (this.name === '' && this.medicinePerson) {
-        this.invalidInput = true
-        this.errorMessage = 'Namn fältet får ej vara tomt!'
-      } else if (this.medicinePerson === 'medicinens') {
-        this.invalidInput = false
-      }
-      for (var i = 0; i < this.list.length; i++) {
-        if (this.id === this.list[i].id) {
-          this.invalidInput = true
-          this.errorMessage = 'Felaktigt ID. Redan använt'
-          break
-        }
-      }
-      if (isNaN(parseInt(this.amount)) && this.name !== '') {
-        this.invalidInput = true
-        this.errorMessage = `${this.amount} är inte ett nummer`
-      } else if (this.name !== '') {
-        this.invalidInput = false
-      }
     },
     createNew () {
       this.showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })
-      if (this.medicinePerson === 'personens') {
+      if (this.person) {
         this.$store.commit('user/addPerson', { name: this.name, id: this.id })
       } else {
         this.$store.commit('user/addMedicine', { state: this.personPointer, name: this.name, amount: this.amount })
