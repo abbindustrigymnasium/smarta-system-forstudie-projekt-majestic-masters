@@ -79,7 +79,7 @@ export default {
       this.$router.push({ path: '/Person' }).catch(() => {})
     },
     goToMedicine (medicinePointer) {
-      this.$store.commit('user/changePersonPointer', medicinePointer)
+      this.$store.commit('user/changeMedicinePointer', medicinePointer)
       this.$router.push({ path: '/Person/Medicine' }).catch(() => {})
     },
     lookForAmount (meds, key) {

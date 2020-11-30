@@ -1,6 +1,7 @@
 <template><!-- showdialog resets key changeKey changes key to given value -->
   <q-layout view="hHh Lpr lff">
     <Header
+      v-if="medicinePointer === null"
       @showNewDialog="showNewDialog($event)"
       :people="people"
       :personPointer="personPointer"

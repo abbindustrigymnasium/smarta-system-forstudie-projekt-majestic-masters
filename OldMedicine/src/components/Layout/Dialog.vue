@@ -177,9 +177,11 @@ export default {
     createNew () {
       this.showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })
       if (this.person) {
-        this.$store.commit('user/addPerson', { name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id })
+        this.$store.commit('user/addPerson', { index: this.$store.state.user.people.length, name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id })
       } else {
-        this.$store.commit('user/addMedicine', { state: this.personPointer, name: this.dialogsObjects.addMedicine.name, amount: this.dialogsObjects.addMedicine.amount })
+        const lengtsada = this.$store.state.user.people[this.$store.state.user.personPointer].medications.length
+        console.log(this.$store.state.user.people[this.$store.state.user.personPointer].medications.length, this.$store.state.user.people, this.$store.state.user.personPointer)
+        this.$store.commit('user/addMedicine', { index: lengtsada, personPointer: this.$store.state.user.personPointer, name: this.dialogsObjects.addMedicine.name, amount: this.dialogsObjects.addMedicine.amount })
       }
     }
   },

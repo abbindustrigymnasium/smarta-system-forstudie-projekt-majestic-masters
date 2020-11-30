@@ -65,6 +65,7 @@ export default {
         this.$store.commit('user/changePersonPointer', subject.item.index)
         this.$router.push('/Person')
       } else {
+        console.log('AAAAAAAAA', subject)
         this.$store.commit('user/changePersonPointer', subject.personPointer)
         this.$store.commit('user/changeMedicinePointer', subject.item.index)
         this.$router.push('/Person/Medicine')

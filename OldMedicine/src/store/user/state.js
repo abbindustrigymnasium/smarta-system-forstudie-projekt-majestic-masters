@@ -1,6 +1,6 @@
 export default {
-  personPointer: 0,
-  medicinePointer: 0,
+  personPointer: null,
+  medicinePointer: null,
   // people: [],
   people: [
     {
@@ -9,6 +9,7 @@ export default {
       id: 'bbkxnzbs',
       medications: [
         {
+          index: 0,
           name: 'Weed',
           hasForgot: 1,
           isRunningOut: 0
@@ -21,6 +22,7 @@ export default {
       id: 'mzöaldöa',
       medications: [
         {
+          index: 0,
           name: 'Lsd',
           hasForgot: 0,
           isRunningOut: 1
@@ -33,6 +35,7 @@ export default {
       id: 'mxmnzösäa',
       medications: [
         {
+          index: 0,
           name: 'Shrooms',
           hasForgot: 0,
           isRunningOut: 0
