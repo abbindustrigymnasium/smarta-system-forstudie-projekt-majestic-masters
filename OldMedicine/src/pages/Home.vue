@@ -1,7 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <People :people="people" :filterForgotten="filterForgotten" :filterRunningOut="filterRunningOut"/>
+      <People
+        :people="people"
+        :filterForgotten="filterForgotten"
+        :filterRunningOut="filterRunningOut"
+      />
     </q-page-container>
   </q-layout>
 </template>

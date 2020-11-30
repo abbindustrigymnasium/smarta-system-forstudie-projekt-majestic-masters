@@ -3,7 +3,9 @@
 
     <p class="text-subtitle1">Personer - {{ list.length }}</p>
 
-    <q-list content-class="bg-grey-3">
+    <List :list="list"/>
+
+    <!-- <q-list content-class="bg-grey-3">
       <template v-for="(person, index) in list">
         <q-separator :key="`q-sep-${index}`"></q-separator>
         <q-item :key="index" clickable v-ripple @click="goToPerson(person.index)">
@@ -24,22 +26,28 @@
 
         </q-item>
       </template>
-    </q-list>
+    </q-list> -->
   </div>
 </template>
 
 <script>
+
+import List from '../List.vue'
 
 export default {
   name: 'People-Home',
   props: ['people', 'filterForgotten', 'filterRunningOut'],
   computed: {
     list: function () {
-      return this.people.filter(person => (
+      const list = []
+      this.people.filter(person => (
         (!this.filterRunningOut && !this.filterForgotten) ||
         (this.lookFor(person.medications, 'hasForgot') && this.filterForgotten) ||
         (this.lookFor(person.medications, 'isRunningOut') && this.filterRunningOut)
-      ))
+      )).forEach(person => {
+        list.push({ isPerson: true, item: person })
+      })
+      return list
     }
   },
   methods: {
@@ -64,6 +72,9 @@ export default {
       }
       return false
     }
+  },
+  components: {
+    List
   }
 }
 </script>

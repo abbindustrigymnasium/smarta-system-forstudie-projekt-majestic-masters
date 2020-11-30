@@ -9,7 +9,7 @@
         <q-input v-if="!medicine && !person" outlined v-model="searchKey" label="Vart vill du gå?"/>
       </div>
 
-      <List @showNewDialog="showNewDialog($event)" :list="searchList"/>
+      <List @showNewDialog="showNewDialog($event)" :list="searchList" :personPointer="personPointer"/>
 
       <!-- error messages -->
       <div white-space: pre-line v-if="errorMessage !== ''">
@@ -18,9 +18,9 @@
         <q-btn v-else-if="!medicine && !person" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, key: searchKey })">Ja</q-btn>
       </div>
 
-      <div v-if="medicine && person">
+      <div v-if="medicine || person">
         <q-btn @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })">Avbryt</q-btn>
-        <q-btn @click="createNew()" :disabled="invalidInput">Lägg till</q-btn>
+        <q-btn @click="createNew()" :disabled="errorMessage !==''">Lägg till</q-btn>
       </div>
     </q-card>
   </div>
@@ -61,7 +61,7 @@ export default {
   watch: {
     searchKey (newKey, oldKey) {
       this.searchList = []
-      if (newKey !== '') {
+      if (this.personPointer === null && newKey !== '') {
         for (var i = 0; i < this.list.length; i++) {
           for (var q = 0; q < this.list[i].medications.length; q++) {
             if (this.list[i].medications[q].name.toLowerCase().includes(newKey)) {
@@ -72,7 +72,14 @@ export default {
             this.searchList.push({ isPerson: true, item: this.list[i] })
           }
         }
+      } else if (newKey !== '') {
+        for (var r = 0; r < this.list.medications.length; r++) {
+          if (this.list.medications[r].name.toLowerCase().includes(newKey)) {
+            this.searchList.push({ isPerson: false, item: this.list.medications[r], personPointer: this.list.index, personName: this.list.name })
+          }
+        }
       }
+
       if (!this.searchList.length && newKey !== '') {
         let subject = ''
         if (this.personPointer === null) {
@@ -120,9 +127,9 @@ export default {
     createNew () {
       this.showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })
       if (this.person) {
-        this.$store.commit('user/addPerson', { name: this.name, id: this.id })
+        this.$store.commit('user/addPerson', { name: this.personName, id: this.id })
       } else {
-        this.$store.commit('user/addMedicine', { state: this.personPointer, name: this.name, amount: this.amount })
+        this.$store.commit('user/addMedicine', { state: this.personPointer, name: this.medicineName, amount: this.amount })
       }
     }
   },

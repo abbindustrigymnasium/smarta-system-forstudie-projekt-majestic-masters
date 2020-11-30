@@ -1,6 +1,5 @@
 <template><!-- showdialog resets key changeKey changes key to given value -->
   <q-layout view="hHh Lpr lff">
-
     <Header
       @showNewDialog="showNewDialog($event)"
       :people="people"
@@ -100,14 +99,20 @@ export default {
     },
     currentList () {
       if (this.personPointer !== null) {
-        return [this.people[this.personPointer]]
+        return this.people[this.personPointer]
       }
       return this.people
     },
     forgotAmount () {
+      if (this.personPointer !== null) {
+        return this.lookForAmount(this.currentList.medications, 'hasForgot')
+      }
       return this.currentList.filter(person => (this.lookFor(person.medications, 'hasForgot'))).length
     },
     runningOutAmount () {
+      if (this.personPointer !== null) {
+        return this.lookForAmount(this.currentList.medications, 'isRunningOut')
+      }
       return this.currentList.filter(person => (this.lookFor(person.medications, 'isRunningOut'))).length
     }
     //,
@@ -133,20 +138,18 @@ export default {
   },
   methods: {
     showNewDialog (object) {
-      console.log(object)
       this.dialogBooleans = object.dialogBooleans
       this.keyInit = object.key
-      // console.log(this.dialogBooleans)
     },
-    // lookForAmount (meds, key) {
-    //   let amount = 0
-    //   for (let i = 0; i < meds.length; i++) {
-    //     if (meds[i][key]) {
-    //       amount++
-    //     }
-    //   }
-    //   return amount
-    // },
+    lookForAmount (meds, key) {
+      let amount = 0
+      for (let i = 0; i < meds.length; i++) {
+        if (meds[i][key]) {
+          amount++
+        }
+      }
+      return amount
+    },
     lookFor (meds, key) {
       for (let i = 0; i < meds.length; i++) {
         if (meds[i][key]) {

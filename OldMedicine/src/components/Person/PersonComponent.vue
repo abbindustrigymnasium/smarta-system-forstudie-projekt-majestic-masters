@@ -3,39 +3,29 @@
 
     <p class="text-subtitle1">Mediciner - {{ list.length }}</p>
 
-    <q-list content-class="bg-grey-3">
-      <template v-for="(medicine, index) in list">
-        <q-separator :key="`q-sep-${index}`"></q-separator>
-        <q-item :key="index" clickable v-ripple @click="goToMedicine(medicine.index)">
+    <List :list="list"/>
 
-          <q-icon name="medical_services" class="text-secondary"/>
-
-          <q-item-section>
-            {{ medicine.name }}
-          </q-item-section>
-
-          <q-item-section avatar v-if="medicine.hasForgot">
-            <q-icon name="warning" class="text-red"></q-icon>
-          </q-item-section>
-
-          <q-item-section avatar v-if="medicine.isRunningOut">
-            <q-icon name="warning" class="text-yellow-6"></q-icon>
-          </q-item-section>
-
-        </q-item>
-      </template>
-    </q-list>
   </div>
 </template>
 
 <script>
+
+import List from '../List.vue'
 
 export default {
   name: 'Person-Component',
   props: ['person', 'filterForgotten', 'filterRunningOut'],
   computed: {
     list: function () {
-      return this.person.medications.filter(medications => ((!this.filterRunningOut && !this.filterForgotten) || (medications.hasForgot && this.filterForgotten) || (medications.isRunningOut && this.filterRunningOut)))
+      const list = []
+      this.person.medications.filter(medications => (
+        (!this.filterRunningOut && !this.filterForgotten) ||
+        (medications.hasForgot && this.filterForgotten) ||
+        (medications.isRunningOut && this.filterRunningOut)
+      )).forEach(medication => {
+        list.push({ isPerson: false, item: medication })
+      })
+      return list
     }
   },
   methods: {
@@ -43,6 +33,9 @@ export default {
       this.$store.commit('user/changeMedicinePointer', index)
       this.$router.push('/Person/Medicine')
     }
+  },
+  components: {
+    List
   }
 }
 </script>

@@ -9,7 +9,7 @@
         <q-icon v-else name="medical_services" class="text-secondary"/>
 
         <q-item-section>
-          <span v-if="!searchResult.isPerson">
+          <span v-if="!searchResult.isPerson && personPointer === null">
             {{ searchResult.personName }}/{{ searchResult.item.name }}
           </span>
           <div v-else>
@@ -45,7 +45,7 @@
 <script>
 export default {
   name: 'Dialog-Layout',
-  props: ['list'],
+  props: ['list', 'personPointer'],
   methods: {
     lookForAmount (meds, key) {
       let amount = 0
