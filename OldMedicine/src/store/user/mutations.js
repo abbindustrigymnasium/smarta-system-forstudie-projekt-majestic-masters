@@ -21,9 +21,9 @@ export const addMedicine = (state, medicineAndState) => {
     personPointer: medicineAndState.personPointer,
     index: state.people[medicineAndState.personPointer].medications.length,
     name: medicineAndState.name,
-    amount: medicineAndState.amount,
-    hasForgot: 1,
-    isRunningOut: 1
+    amount: parseInt(medicineAndState.amount),
+    hasForgot: 0,
+    isRunningOut: 0
   }
   state.people[medicineAndState.personPointer].medications.push(medicine)
 }

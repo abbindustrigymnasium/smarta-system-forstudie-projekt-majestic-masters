@@ -114,13 +114,11 @@ export default {
       }
 
       if (!this.dialogsObjects.search.list.length && newKey !== '') {
-        let subject = ''
         if (this.personPointer === null) {
-          subject = 'personen'
+          this.dialogsObjects.search.error.list = `Hittar ingen som heter '${newKey}'. \n Vill du lägga till den personen?`
         } else {
-          subject = 'medicinen'
+          this.dialogsObjects.search.error.list = `Hittar inget med '${newKey}'. \n Vill du lägga till den medicinen?`
         }
-        this.dialogsObjects.search.error.list = `Hittar ingen som heter '${newKey}'. \n Vill du lägga till den ${subject}?`
       } else {
         this.dialogsObjects.search.error.list = ''
       }
