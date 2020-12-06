@@ -9,7 +9,7 @@
         <q-input v-if="!medicine && !person" outlined v-model="dialogsObjects.search.key" label="Vart vill du gå?"/>
       </div>
 
-      <List @showNewDialog="showNewDialog($event)" :list="dialogsObjects.search.list" :personPointer="personPointer"/>
+      <List @showNewDialog="showNewDialog($event)" :list="dialogsObjects.search.list" :personPointer="personPointer" :people="list"/>
 
       <div
         white-space:
@@ -101,7 +101,7 @@ export default {
               this.dialogsObjects.search.list.push(this.list[i].medications[q])
             }
           }
-          if (this.list[i].name.toLowerCase().includes(newKey) && this.personPointer === null) {
+          if (this.list[i].name.toLowerCase().includes(newKey)) {
             this.dialogsObjects.search.list.push(this.list[i])
           }
         }

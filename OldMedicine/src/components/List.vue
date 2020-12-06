@@ -1,6 +1,8 @@
 <template>
   <div>
+    <!-- {{ list }} -->
     <template v-for="(searchResult, index) in list">
+      <!-- {{ searchResult.hasOwnProperty('id') }} -->
       <q-separator :key="`q-sep-${index}`"></q-separator>
 
       <q-item :key="index" clickable v-ripple @click="goTo(searchResult, searchResult.hasOwnProperty('id'))">
@@ -45,7 +47,7 @@
 <script>
 export default {
   name: 'Dialog-Layout',
-  props: ['list', 'personPointer'],
+  props: ['list', 'personPointer', 'people'],
   methods: {
     lookForAmount (meds, key) {
       let amount = 0
