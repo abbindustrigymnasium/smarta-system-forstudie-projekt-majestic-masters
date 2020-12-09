@@ -1,4 +1,4 @@
-<template><!-- showdialog resets key changeKey changes key to given value -->
+<template>
   <q-layout view="hHh Lpr lff">
     <Header
       v-if="medicinePointer === null"
@@ -14,19 +14,20 @@
 
     <q-drawer v-if="personPointer !== null" id="DrawerPerson" show-if-above :width="200" :breakpoint="200" bordered content-class="bg-grey-3">
       <Drawer
+        v-if="personPointer !== null"
         :list="people"
         :personPointer="personPointer"
+        :medicinePointer="null"
       />
-    </q-drawer>
-
-    <q-drawer v-if="medicinePointer !== null" id="DrawerMedicine" show-if-above :width="200" :breakpoint="200" bordered content-class="bg-grey-3">
       <Drawer
-        :list="people[personPointer]"
+        v-if="medicinePointer !== null"
+        :list="people[personPointer].medications"
+        :personPointer="null"
         :medicinePointer="medicinePointer"
+        :name="people[personPointer].name"
       />
     </q-drawer>
 
-    <!-- <q-dialog v-if="dialogBooleans.searchDialog || dialogBooleans.addPersonDialog || dialogBooleans.addMedicineDialog"> WHY IS THIS NOT REACTIVE-->
     <q-dialog v-model="dialogBooleans.searchDialog">
       <Dialog
         v-model="dialogBooleans.searchDialog"

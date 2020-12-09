@@ -1,8 +1,7 @@
 <template>
   <q-scroll-area class="fit">
     <q-list>
-
-      <q-item v-if="personPointer !== null" clickable v-ripple @click="goTo('/')">
+      <q-item v-if="personPointer !== null && medicinePointer === null" clickable v-ripple @click="goTo('/')">
         <q-item-section avatar>
           <q-icon name="people"/>
         </q-item-section>
@@ -11,12 +10,12 @@
         </q-item-section>
       </q-item>
 
-      <q-item v-else clickable v-ripple @click="goTo('/People')">
+      <q-item v-if="medicinePointer !== null" clickable v-ripple @click="goTo('/Person')">
         <q-item-section avatar>
-          <q-icon name="medical_services"/>
+          <q-icon name="person"/>
         </q-item-section>
         <q-item-section>
-          Mediciner
+          {{ name }}
         </q-item-section>
       </q-item>
 
@@ -34,22 +33,6 @@
               {{ item.name }}
             </q-item-section>
 
-            <!-- <q-badge v-if="personPointer !== null && lookFor(item.medications, 'hasForgot')" text-color="white" color="red">
-              {{ lookForAmount(item.medications, 'hasForgot') }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
-            </q-badge>
-
-            <q-badge v-else-if="lookFor(item, 'hasForgot')" text-color="white" color="red">
-              {{ lookForAmount(item.medications, 'hasForgot') }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
-            </q-badge>
-
-            <q-badge v-if="personPointer !== null && lookFor(person.medications, 'isRunningOut')" text-color="black" color="yellow-6">
-              {{ lookForAmount(item.medications, 'isRunningOut') }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
-            </q-badge>
-
-            <q-badge v-else-if="lookFor(item, 'isRunningOut')" text-color="black" color="yellow-6">
-              {{ lookForAmount(item.medications, 'isRunningOut') }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
-            </q-badge> -->
-
           </q-item>
         </template>
       </q-list>
@@ -62,7 +45,7 @@
 
 export default {
   name: 'Drawer',
-  props: ['list', 'personPointer', 'medicinePointer'],
+  props: ['list', 'personPointer', 'medicinePointer', 'name'],
   methods: {
     goTo (where) {
       this.$router.push({ path: where })
