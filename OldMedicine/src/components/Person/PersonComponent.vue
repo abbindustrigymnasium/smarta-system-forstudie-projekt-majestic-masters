@@ -21,7 +21,7 @@ export default {
       this.person.medications.filter(medications => (
         (!this.filterRunningOut && !this.filterForgotten) ||
         (medications.hasForgot && this.filterForgotten) ||
-        (medications.isRunningOut && this.filterRunningOut)
+        (medications.remind >= medications.amount * medications.interval && this.filterRunningOut)
       )).forEach(medication => {
         list.push(medication)
       })

@@ -1,6 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
+      <q-btn @click="showLoading">login</q-btn>
     </q-page-container>
   </q-layout>
 </template>
@@ -15,11 +16,7 @@ import {
 export default {
   name: 'Init',
   mounted () {
-    this.showLoading()
-    setTimeout(() => {
-      Loading.hide()
-      this.$router.push('/People')
-    }, 3000)
+    this.$store.commit('user/getInit')
   },
   methods: {
     showLoading () {
@@ -31,6 +28,10 @@ export default {
         message: 'We are getting things ready for you. Hang on...',
         messageColor: 'secondary'
       })
+      setTimeout(() => {
+        Loading.hide()
+        this.$router.push('/')
+      }, 3000)
     }
   }
 }

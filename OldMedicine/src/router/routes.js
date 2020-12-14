@@ -7,12 +7,12 @@ const routes = [
       { path: 'Person', component: () => import('pages/Person.vue') },
       { path: 'Person/Medicine', component: () => import('pages/Medicine.vue') }
     ]
-  }
+  },
 
-  // {
-  //   path: '/Login',
-  //   component: () => import('pages/Login.vue')
-  // },
+  {
+    path: '/Login',
+    component: () => import('pages/Login.vue')
+  }
 
   // // Always leave this as last one,
   // // but you can also remove it

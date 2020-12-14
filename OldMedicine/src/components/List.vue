@@ -20,12 +20,12 @@
         </q-item-section>
 
         <div v-if="searchResult.hasOwnProperty('id')">
-          <q-badge text-color="white" color="red" v-if="lookForAmount(searchResult.medications, 'hasForgot')">
-            {{ lookForAmount(searchResult.medications, 'hasForgot') }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
+          <q-badge text-color="white" color="red" v-if="lookForForgotAmount(searchResult.medications)">
+            {{ lookForForgotAmount(searchResult.medications) }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
           </q-badge>
 
-          <q-badge text-color="black" color="yellow-6" v-if="lookForAmount(searchResult.medications, 'isRunningOut')">
-            {{ lookForAmount(searchResult.medications, 'isRunningOut') }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
+          <q-badge text-color="black" color="yellow-6" v-if="lookForRunningOutAmount(searchResult.medications)">
+            {{ lookForRunningOutAmount(searchResult.medications) }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
           </q-badge>
         </div>
 
@@ -34,7 +34,7 @@
             <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
           </q-badge>
 
-          <q-badge text-color="black" color="yellow-6" v-if="searchResult.isRunningOut">
+          <q-badge text-color="black" color="yellow-6" v-if="searchResult.remind >= searchResult.amount * searchResult.interval">
             <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
           </q-badge>
         </div>
@@ -49,14 +49,31 @@ export default {
   name: 'Dialog-Layout',
   props: ['list', 'personPointer', 'people'],
   methods: {
-    lookForAmount (meds, key) {
+    lookForForgotAmount (meds) {
       let amount = 0
       for (let i = 0; i < meds.length; i++) {
-        if (meds[i][key]) {
+        if (meds[i].hasForgot) {
           amount++
         }
       }
       return amount
+    },
+    lookForRunningOutAmount (meds) {
+      let amount = 0
+      for (let i = 0; i < meds.length; i++) {
+        if (meds[i].remind >= meds[i].amount * meds[i].interval) {
+          amount++
+        }
+      }
+      return amount
+    },
+    lookForRunningOut (meds) {
+      for (let i = 0; i < meds.length; i++) {
+        if (meds[i].remind >= meds[i].amount * meds[i].interval) {
+          return true
+        }
+      }
+      return false
     },
     showNewDialog (dialogBooleans, key) {
       this.$emit('showNewDialog', { dialogBooleans: dialogBooleans, key: key })

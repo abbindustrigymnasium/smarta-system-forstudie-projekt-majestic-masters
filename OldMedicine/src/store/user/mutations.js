@@ -9,22 +9,48 @@ export const updateFilterRunningOut = (state, filterRunningOut) => {
   state.filterRunningOut = filterRunningOut
 }
 
-export const getInit = (state, clientId) => {
-  var queryParameters = '?client_id=' + clientId
+export const getInit = (state) => {
+  var queryParameters = '?client_id=' + state.clientId
   axios.get(baseURL + 'connections/get' + queryParameters).then(response1 => {
     for (let i = 0; i < response1.data.body.length; i++) {
-      console.log(response1.data.body[i])
-      axios.get(baseURL + 'information-patient/get' + '?patient_id=' + response1.data.body[i].patient_id).then(response2 => {
-        console.log(response2.data.body)
-      }).catch(function (error) {
-        console.log(error)
+      state.people.push({
+        index: i,
+        name: response1.data.body[i].patient_name,
+        medications: [],
+        id: response1.data.body[i].patient_id
       })
+
       axios.get(baseURL + 'medicine/get' + '?patient_id=' + response1.data.body[i].patient_id).then(response2 => {
         console.log(response2.data.body)
+        for (let q = 0; q < response2.data.body.length; q++) {
+          state.people[i].medications.push({
+            personPointer: i,
+            index: q,
+            name: response2.data.body[q].medicine_name,
+            amount: response2.data.body[q].amount,
+            hasForgot: 0,
+            remind: response2.data.body[q].remind,
+            interval: response2.data.body[q].medicine_interval,
+            startTime: response2.data.body[q].start_time
+          })
+        }
       }).catch(function (error) {
         console.log(error)
       })
     }
+  }).catch(function (error) {
+    console.log(error)
+  })
+}
+
+const addPersonApi = (state, nameAndId) => {
+  axios({
+    method: 'post',
+    url: baseURL + 'connections/post',
+    headers: {},
+    data: { client_id: state.clientId, patient_id: nameAndId.id, patient_name: nameAndId.name }
+  }).then(response => {
+    console.log(response)
   }).catch(function (error) {
     console.log(error)
   })
@@ -38,6 +64,30 @@ export const addPerson = (state, nameAndId) => { // denna person ska läggas til
   }
   element.id = nameAndId.id
   state.people.push(element)
+
+  addPersonApi(state, nameAndId)
+}
+
+export const addMedicineApi = (state, medicineAndState) => {
+  axios({ // add interval to medicineAndState
+    method: 'post',
+    url: baseURL + 'medicine/post',
+    headers: {},
+    data: {
+      client_id: state.clientId,
+      patient_id: state.people[state.personPointer].id,
+      patient_name: state.people[state.personPointer].name,
+      amount: medicineAndState.amount,
+      interval: medicineAndState.interval,
+      remind: medicineAndState.remind,
+      start_time: (new Date()).getTime(),
+      medicine_name: medicineAndState.name
+    }
+  }).then(response => {
+    console.log(response)
+  }).catch(function (error) {
+    console.log(error)
+  })
 }
 
 export const addMedicine = (state, medicineAndState) => { // denna medicin ska läggas till i store men även skickas till api (använd person id för att veta hoss vem medicinen ska läggas till)
@@ -47,9 +97,13 @@ export const addMedicine = (state, medicineAndState) => { // denna medicin ska l
     name: medicineAndState.name,
     amount: parseInt(medicineAndState.amount),
     hasForgot: 0,
-    isRunningOut: 0
+    interval: medicineAndState.interval,
+    remind: medicineAndState.remind,
+    startTime: (new Date()).getTime()
   }
   state.people[medicineAndState.personPointer].medications.push(medicine)
+
+  addMedicineApi(state, medicineAndState)
 }
 
 export const changePersonPointer = (state, personPointer) => {

@@ -19,7 +19,6 @@ export default {
   mounted () {
     this.$store.commit('user/changePersonPointer', null)
     this.$store.commit('user/changeMedicinePointer', null)
-    this.$store.commit('user/getInit', 'loasmdoasdlöase')
   },
   computed: {
     people () {

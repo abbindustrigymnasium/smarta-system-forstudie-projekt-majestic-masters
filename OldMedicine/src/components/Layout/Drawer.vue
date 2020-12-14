@@ -33,6 +33,26 @@
               {{ item.name }}
             </q-item-section>
 
+            <div v-if="item.hasOwnProperty('id')">
+              <q-badge text-color="white" color="red" v-if="lookForForgotAmount(item.medications)">
+                {{ lookForForgotAmount(item.medications) }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
+              </q-badge>
+
+              <q-badge text-color="black" color="yellow-6" v-if="lookForRunningOutAmount(item.medications)">
+                {{ lookForRunningOutAmount(item.medications) }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
+              </q-badge>
+            </div>
+
+            <div v-else>
+              <q-badge text-color="white" color="red" v-if="item.hasForgot">
+                <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
+              </q-badge>
+
+              <q-badge text-color="black" color="yellow-6" v-if="item.remind >= item.amount * item.interval">
+                <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
+              </q-badge>
+            </div>
+
           </q-item>
         </template>
       </q-list>
@@ -65,14 +85,31 @@ export default {
       this.$store.commit('user/changeMedicinePointer', medicinePointer)
       this.$router.push({ path: '/Person/Medicine' }).catch(() => {})
     },
-    lookForAmount (meds, key) {
+    lookForForgotAmount (meds) {
       let amount = 0
       for (let i = 0; i < meds.length; i++) {
-        if (meds[i][key]) {
+        if (meds[i].hasForgot) {
           amount++
         }
       }
       return amount
+    },
+    lookForRunningOutAmount (meds) {
+      let amount = 0
+      for (let i = 0; i < meds.length; i++) {
+        if (meds[i].remind >= meds[i].amount * meds[i].interval) {
+          amount++
+        }
+      }
+      return amount
+    },
+    lookForRunningOut (meds) {
+      for (let i = 0; i < meds.length; i++) {
+        if (meds[i].remind >= meds[i].amount * meds[i].interval) {
+          return true
+        }
+      }
+      return false
     }
   }
 }

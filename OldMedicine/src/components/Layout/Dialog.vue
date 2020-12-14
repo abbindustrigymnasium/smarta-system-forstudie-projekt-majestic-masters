@@ -6,6 +6,18 @@
         <q-input v-else-if="medicine" outlined v-model="dialogsObjects.addMedicine.name" :label="`Skriv in medicinens namn`"/>
         <q-input v-if="person" outlined v-model="dialogsObjects.addPerson.id" label="Skriv in enhetens ID"/>
         <q-input v-else-if="medicine" type='number' outlined v-model="dialogsObjects.addMedicine.amount" label="Skriv in antalet tabletter"/>
+        <q-card v-if="medicine">
+          Intervall
+          <q-input type='number' outlined v-model="dialogsObjects.addMedicine.interval.days" label="Dagar"/>
+          <q-input type='number' outlined v-model="dialogsObjects.addMedicine.interval.hours" label="Timmar"/>
+          <q-input type='number' outlined v-model="dialogsObjects.addMedicine.interval.minutes" label="Minuter"/>
+        </q-card>
+        <q-card v-if="medicine">
+          Påminnelse när det tar slut
+          <q-input type='number' outlined v-model="dialogsObjects.addMedicine.remind.days" label="Dagar"/>
+          <q-input type='number' outlined v-model="dialogsObjects.addMedicine.remind.hours" label="Timmar"/>
+          <q-input type='number' outlined v-model="dialogsObjects.addMedicine.remind.minutes" label="Minuter"/>
+        </q-card>
         <q-input v-if="!medicine && !person" outlined v-model="dialogsObjects.search.key" label="Vart vill du gå?"/>
       </div>
 
@@ -32,7 +44,7 @@
 
       <div v-if="medicine || person">
         <q-btn @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })">Avbryt</q-btn>
-        <q-btn @click="createNew()" :disabled="dialogsObjects.addPerson.error.name !== '' || dialogsObjects.addPerson.error.id !== '' || dialogsObjects.addMedicine.error.name !== ''">Lägg till</q-btn>
+        <q-btn @click="createNew()" :disabled="dialogsObjects.addPerson.error.name !== '' || dialogsObjects.addPerson.error.id !== '' || dialogsObjects.addMedicine.error.name !== '' || dialogsObjects.addMedicine.error.interval !== '' || dialogsObjects.addMedicine.error.remind !== ''">Lägg till</q-btn>
       </div>
     </q-card>
   </div>
@@ -53,7 +65,6 @@ export default {
           list: [],
           error: {
             list: ''
-            // message: ['Hittar ingen som heter __. \n Vill du lägga till den __?']
           }
         },
         addPerson: {
@@ -62,16 +73,18 @@ export default {
           error: {
             name: '',
             id: ''
-            // message: ['Namn fältet får ej vara tomt!', 'Ogiltigt ID', 'Ogiltigt ID, redan använt']
           }
         },
         addMedicine: {
           name: '',
           amount: 0,
+          interval: { days: 0, hours: 0, minutes: 0 },
+          remind: { days: 0, hours: 0, minutes: 0 },
           error: {
             name: '',
-            amount: ''
-            // message: ['Namn fältet får ej vara tomt!']
+            amount: '',
+            interval: '',
+            remind: ''
           }
         }
       }
@@ -151,16 +164,37 @@ export default {
       }
     },
     'dialogsObjects.addMedicine.amount' (newAmount, oldAmount) {
-      if (newAmount === null || newAmount === '' || newAmount < 0 || !Number.isInteger(parseInt(newAmount))) {
-        this.dialogsObjects.addMedicine.error.amount = 'Ogiltig mängd'
-      } else {
-        this.dialogsObjects.addMedicine.error.amount = ''
-      }
+      this.dialogsObjects.addMedicine.error.amount = this.validInt(newAmount, 'Ogiltig mängd')
+    },
+    'dialogsObjects.addMedicine.interval.days' (newAmount, oldAmount) {
+      this.dialogsObjects.addMedicine.error.interval = this.validInt(newAmount, 'Ogiltig datum för intervall')
+    },
+    'dialogsObjects.addMedicine.interval.hours' (newAmount, oldAmount) {
+      this.dialogsObjects.addMedicine.error.interval = this.validInt(newAmount, 'Ogiltig datum för intervall')
+    },
+    'dialogsObjects.addMedicine.interval.minutes' (newAmount, oldAmount) {
+      this.dialogsObjects.addMedicine.error.interval = this.validInt(newAmount, 'Ogiltig datum för intervall')
+    },
+    'dialogsObjects.addMedicine.remind.days' (newAmount, oldAmount) {
+      this.dialogsObjects.addMedicine.error.remind = this.validInt(newAmount, 'Ogiltig datum för påminnelse')
+    },
+    'dialogsObjects.addMedicine.remind.hours' (newAmount, oldAmount) {
+      this.dialogsObjects.addMedicine.error.remind = this.validInt(newAmount, 'Ogiltig datum för påminnelse')
+    },
+    'dialogsObjects.addMedicine.remind.minutes' (newAmount, oldAmount) {
+      this.dialogsObjects.addMedicine.error.remind = this.validInt(newAmount, 'Ogiltig datum för påminnelse')
     }
   },
   methods: {
     showNewDialog (object) {
       this.$emit('showNewDialog', object)
+    },
+    validInt (value, error) {
+      if (value === null || value === '' || value < 0 || !Number.isInteger(parseInt(value))) {
+        return error
+      } else {
+        return ''
+      }
     },
     createNew () {
       this.showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })
@@ -169,7 +203,13 @@ export default {
       } else {
         // const lengtsada = this.$store.state.user.people[this.$store.state.user.personPointer].medications.length
         // console.log(this.$store.state.user.people[this.$store.state.user.personPointer].medications.length, this.$store.state.user.people, this.$store.state.user.personPointer)
-        this.$store.commit('user/addMedicine', { personPointer: this.$store.state.user.personPointer, name: this.dialogsObjects.addMedicine.name, amount: this.dialogsObjects.addMedicine.amount })
+        this.$store.commit('user/addMedicine', {
+          personPointer: this.$store.state.user.personPointer,
+          name: this.dialogsObjects.addMedicine.name,
+          amount: this.dialogsObjects.addMedicine.amount,
+          interval: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.interval.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.interval.hours + 1000 * 60 * this.dialogsObjects.addMedicine.interval.minutes,
+          remind: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.remind.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.remind.hours + 1000 * 60 * this.dialogsObjects.addMedicine.remind.minutes
+        })
         console.log(this.$store.state.user.people)
       }
     }

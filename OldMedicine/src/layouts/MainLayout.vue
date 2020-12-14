@@ -107,15 +107,15 @@ export default {
     },
     forgotAmount () {
       if (this.personPointer !== null) {
-        return this.lookForAmount(this.currentList.medications, 'hasForgot')
+        return this.lookForForgotAmount(this.currentList.medications)
       }
-      return this.currentList.filter(person => (this.lookFor(person.medications, 'hasForgot'))).length
+      return this.currentList.filter(person => (this.lookForForgot(person.medications))).length
     },
     runningOutAmount () {
       if (this.personPointer !== null) {
-        return this.lookForAmount(this.currentList.medications, 'isRunningOut')
+        return this.lookForRunningOutAmount(this.currentList.medications)
       }
-      return this.currentList.filter(person => (this.lookFor(person.medications, 'isRunningOut'))).length
+      return this.currentList.filter(person => (this.lookForRunningOut(person.medications))).length
     }
     //,
     // filteredList () {
@@ -143,23 +143,57 @@ export default {
       this.dialogBooleans = object.dialogBooleans
       this.keyInit = object.key
     },
-    lookForAmount (meds, key) {
+    lookForForgotAmount (meds) {
       let amount = 0
       for (let i = 0; i < meds.length; i++) {
-        if (meds[i][key]) {
+        if (meds[i].hasForgot) {
           amount++
         }
       }
       return amount
     },
-    lookFor (meds, key) {
+    lookForRunningOutAmount (meds) {
+      let amount = 0
       for (let i = 0; i < meds.length; i++) {
-        if (meds[i][key]) {
+        if (meds[i].remind >= meds[i].amount * meds[i].interval) {
+          amount++
+        }
+      }
+      return amount
+    },
+    lookForForgot (meds) {
+      for (let i = 0; i < meds.length; i++) {
+        if (meds[i].hasForgot) {
+          return true
+        }
+      }
+      return false
+    },
+    lookForRunningOut (meds) {
+      for (let i = 0; i < meds.length; i++) {
+        if (meds[i].remind >= meds[i].amount * meds[i].interval) {
           return true
         }
       }
       return false
     }
+    // lookForAmount (meds, key) {
+    //   let amount = 0
+    //   for (let i = 0; i < meds.length; i++) {
+    //     if (meds[i][key]) {
+    //       amount++
+    //     }
+    //   }
+    //   return amount
+    // },
+    // lookFor (meds, key) {
+    //   for (let i = 0; i < meds.length; i++) {
+    //     if (meds[i][key]) {
+    //       return true
+    //     }
+    //   }
+    //   return false
+    // }
   }
 }
 </script>
