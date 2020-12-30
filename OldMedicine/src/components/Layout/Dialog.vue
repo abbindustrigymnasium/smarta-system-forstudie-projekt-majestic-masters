@@ -13,7 +13,7 @@
           <q-input type='number' outlined v-model="dialogsObjects.addMedicine.interval.minutes" label="Minuter"/>
         </q-card>
         <q-card v-if="medicine">
-          Påminnelse när det tar slut
+          Påminnelse innan medicinen tar slut
           <q-input type='number' outlined v-model="dialogsObjects.addMedicine.remind.days" label="Dagar"/>
           <q-input type='number' outlined v-model="dialogsObjects.addMedicine.remind.hours" label="Timmar"/>
           <q-input type='number' outlined v-model="dialogsObjects.addMedicine.remind.minutes" label="Minuter"/>
@@ -199,7 +199,7 @@ export default {
     createNew () {
       this.showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })
       if (this.person) {
-        const personObject = { clientId: this.$store.state.user.clientId, index: this.$store.state.user.people.length, name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id }
+        const personObject = { index: this.$store.state.user.people.length, name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id }
         this.$store.dispatch('user/addPerson', personObject)
       } else {
         const medicineObject = {
@@ -209,7 +209,6 @@ export default {
           amount: this.dialogsObjects.addMedicine.amount,
           interval: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.interval.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.interval.hours + 1000 * 60 * this.dialogsObjects.addMedicine.interval.minutes,
           remind: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.remind.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.remind.hours + 1000 * 60 * this.dialogsObjects.addMedicine.remind.minutes,
-          clientId: this.$store.state.user.clientId,
           personId: this.$store.state.user.people[this.personPointer].id,
           personName: this.$store.state.user.people[this.personPointer].name
         }

@@ -16,7 +16,7 @@ import {
 export default {
   name: 'Init',
   mounted () {
-    this.$store.dispatch('user/getInit', this.$store.state.user.clientId)
+    this.$store.dispatch('user/getInit')
   },
   methods: {
     showLoading () {
@@ -31,7 +31,7 @@ export default {
       setTimeout(() => {
         Loading.hide()
         this.$router.push('/')
-      }, 3000)
+      }, 1000)
     }
   }
 }

@@ -56,7 +56,7 @@
           </q-list>
 
           <q-list v-else-if="showDelete == 'person'">
-            <q-item clickable v-close-popup @click="$store.dispatch('user/deletePerson', { clientId: this.$store.state.user.clientId, index: searchResult.index, id: searchResult.id })">
+            <q-item clickable v-close-popup @click="$store.dispatch('user/deletePerson', { index: searchResult.index, id: searchResult.id })">
               <q-item-section>
                 <q-item-label >Ta bort person</q-item-label>
               </q-item-section>

@@ -8,9 +8,9 @@ const guid = () => {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
 }
 
-export const getInit = ({ commit }, clientId) => {
+export const getInit = ({ commit, state }) => {
   commit('resetPeople')
-  var queryParameters = '?client_id=' + clientId
+  var queryParameters = '?client_id=' + state.clientId
   axios.get(baseURL + 'connections/get' + queryParameters).then(response1 => {
     for (let i = 0; i < response1.data.body.length; i++) {
       commit('pushPerson', {
@@ -46,7 +46,7 @@ export const getInit = ({ commit }, clientId) => {
   })
 }
 
-export const addPerson = ({ commit }, object) => {
+export const addPerson = ({ commit, state }, object) => {
   commit('pushPerson', {
     index: object.index,
     name: object.name,
@@ -58,7 +58,7 @@ export const addPerson = ({ commit }, object) => {
     method: 'post',
     url: baseURL + 'connections/post',
     headers: {},
-    data: { client_id: object.clientId, patient_id: object.id, patient_name: object.name }
+    data: { client_id: state.clientId, patient_id: object.id, patient_name: object.name }
   }).then(response => {
     console.log(response)
   }).catch(function (error) {
@@ -66,7 +66,7 @@ export const addPerson = ({ commit }, object) => {
   })
 }
 
-export const addMedicine = ({ commit }, object) => {
+export const addMedicine = ({ commit, state }, object) => {
   const uniqueid = guid()
   const time = (new Date()).getTime()
 
@@ -90,7 +90,7 @@ export const addMedicine = ({ commit }, object) => {
     url: baseURL + 'medicine/post',
     headers: {},
     data: {
-      client_id: object.clientId,
+      client_id: state.clientId,
       patient_id: object.personId,
       patient_name: object.personName,
       amount: object.amount,
@@ -107,14 +107,14 @@ export const addMedicine = ({ commit }, object) => {
   })
 }
 
-export const deletePerson = ({ commit }, object) => {
+export const deletePerson = ({ commit, state }, object) => {
   commit('popPerson', object.index)
 
   axios({
     method: 'delete',
     url: baseURL + 'connections/delete',
     headers: {},
-    data: { patient_id: object.id, client_id: object.clientId }
+    data: { patient_id: object.id, client_id: state.clientId }
   }).then(response => {
     console.log(response)
   }).catch(function (error) {
