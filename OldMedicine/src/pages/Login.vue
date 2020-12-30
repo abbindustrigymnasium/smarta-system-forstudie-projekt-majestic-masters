@@ -16,7 +16,7 @@ import {
 export default {
   name: 'Init',
   mounted () {
-    this.$store.commit('user/getInit')
+    this.$store.dispatch('user/getInit', this.$store.state.user.clientId)
   },
   methods: {
     showLoading () {

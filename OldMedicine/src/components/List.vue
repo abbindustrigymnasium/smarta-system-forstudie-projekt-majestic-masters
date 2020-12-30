@@ -1,11 +1,9 @@
 <template>
   <div>
-    <!-- {{ list }} -->
     <template v-for="(searchResult, index) in list">
-      <!-- {{ searchResult.hasOwnProperty('id') }} -->
       <q-separator :key="`q-sep-${index}`"></q-separator>
 
-      <q-item :key="index" clickable v-ripple @click="goTo(searchResult, searchResult.hasOwnProperty('id'))">
+      <q-item :key="`q-item-${index}`" clickable v-ripple @click="goTo(searchResult, searchResult.hasOwnProperty('id'))">
 
         <q-icon v-if="searchResult.hasOwnProperty('id')" name="person" class="text-primary"/>
         <q-icon v-else name="medical_services" class="text-secondary"/>
@@ -40,6 +38,38 @@
         </div>
 
       </q-item>
+
+      <div :key="`q-div-${index}`" v-if="showDelete">
+        <q-btn-dropdown color="primary" icon="more_vert" dropdown-icon=" ">
+          <q-list v-if="showDelete == 'medicine'">
+            <q-item clickable v-close-popup @click="$store.dispatch('user/deleteMedicine', { id: searchResult.medicine_id, index: searchResult.index })">
+              <q-item-section>
+                <q-item-label >Ta bort medicin</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-close-popup @click="showNewDialog({ searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, '')">
+              <!-- $store.commit('user/changeMedicine', { id, amount, interval, startTime, medicineName }) -->
+              <q-item-section>
+                <q-item-label>Ändra medicin</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+
+          <q-list v-else-if="showDelete == 'person'">
+            <q-item clickable v-close-popup @click="$store.dispatch('user/deletePerson', { clientId: this.$store.state.user.clientId, index: searchResult.index, id: searchResult.id })">
+              <q-item-section>
+                <q-item-label >Ta bort person</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-close-popup @click="$store.commit('user/changePerson', searchResult.index)">
+              <q-item-section>
+                <q-item-label>Ändra person</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+      </div>
+
     </template>
   </div>
 </template>
@@ -47,7 +77,7 @@
 <script>
 export default {
   name: 'Dialog-Layout',
-  props: ['list', 'personPointer', 'people'],
+  props: ['list', 'personPointer', 'people', 'showDelete'],
   methods: {
     lookForForgotAmount (meds) {
       let amount = 0

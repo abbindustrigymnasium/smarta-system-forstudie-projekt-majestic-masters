@@ -199,17 +199,21 @@ export default {
     createNew () {
       this.showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })
       if (this.person) {
-        this.$store.commit('user/addPerson', { name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id })
+        const personObject = { clientId: this.$store.state.user.clientId, index: this.$store.state.user.people.length, name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id }
+        this.$store.dispatch('user/addPerson', personObject)
       } else {
-        // const lengtsada = this.$store.state.user.people[this.$store.state.user.personPointer].medications.length
-        // console.log(this.$store.state.user.people[this.$store.state.user.personPointer].medications.length, this.$store.state.user.people, this.$store.state.user.personPointer)
-        this.$store.commit('user/addMedicine', {
-          personPointer: this.$store.state.user.personPointer,
+        const medicineObject = {
+          personPointer: this.personPointer,
+          index: this.$store.state.user.people[this.personPointer].medications.length,
           name: this.dialogsObjects.addMedicine.name,
           amount: this.dialogsObjects.addMedicine.amount,
           interval: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.interval.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.interval.hours + 1000 * 60 * this.dialogsObjects.addMedicine.interval.minutes,
-          remind: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.remind.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.remind.hours + 1000 * 60 * this.dialogsObjects.addMedicine.remind.minutes
-        })
+          remind: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.remind.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.remind.hours + 1000 * 60 * this.dialogsObjects.addMedicine.remind.minutes,
+          clientId: this.$store.state.user.clientId,
+          personId: this.$store.state.user.people[this.personPointer].id,
+          personName: this.$store.state.user.people[this.personPointer].name
+        }
+        this.$store.dispatch('user/addMedicine', medicineObject)
         console.log(this.$store.state.user.people)
       }
     }

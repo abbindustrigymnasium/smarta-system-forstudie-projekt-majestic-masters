@@ -3,7 +3,7 @@
 
     <p class="text-subtitle1">Mediciner - {{ list.length }}</p>
 
-    <List :list="list"/>
+    <List :list="list" showDelete="medicine"/>
 
   </div>
 </template>
