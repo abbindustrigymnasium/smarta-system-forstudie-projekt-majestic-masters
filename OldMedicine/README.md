@@ -1,4 +1,7 @@
 # OldMedicine (oldmedicine)
+
+Får snart slut på medicin räknas bara när du startar om sidan
+
 Krävs endast medicine sidans funktionallitet och drawers funktionallitet sedan är funktionalliteten avklarad
 
 

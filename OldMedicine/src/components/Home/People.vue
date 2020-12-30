@@ -1,6 +1,7 @@
 <template>
   <div id="People-Home">
-    <p class="text-subtitle1">Personer - {{ list.length }}</p>
+    <p class="text-subtitle1">Personer - {{ people.length }} </p>
+    <p class="text-subtitle3">Filtrerad - ({{ list.length }})</p>
     <List :list="list" showDelete="person"/>
   </div>
 </template>

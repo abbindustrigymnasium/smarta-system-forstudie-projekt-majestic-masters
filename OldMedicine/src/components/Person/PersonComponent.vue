@@ -1,7 +1,7 @@
 <template>
   <div id="Person-Component">
-
-    <p class="text-subtitle1">Mediciner - {{ list.length }}</p>
+    <p class="text-subtitle1">Mediciner - {{ person.medications.length }}</p>
+    <p class="text-subtitle3">Filtrerad - ({{ list.length }})</p>
 
     <List :list="list" showDelete="medicine"/>
 
