@@ -91,8 +91,8 @@ export const addMedicine = ({ commit }, object) => {
     headers: {},
     data: {
       client_id: object.clientId,
-      patient_id: object.personId, // state.people[state.personPointer].id,
-      patient_name: object.personName, // state.people[state.personPointer].name,
+      patient_id: object.personId,
+      patient_name: object.personName,
       amount: object.amount,
       interval: object.interval,
       remind: object.remind,
