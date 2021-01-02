@@ -11,7 +11,7 @@
         <q-item-section>
           <q-item-label v-if="!searchResult.hasOwnProperty('id')">{{ searchResult.name }}</q-item-label>
           <q-item-label v-else>{{ searchResult.name }}</q-item-label>
-          <q-item-label caption v-if="!searchResult.hasOwnProperty('id')">{{ people.name }}</q-item-label>
+          <q-item-label caption v-if="!searchResult.hasOwnProperty('id')">{{ searchResult.name }}</q-item-label>
           <q-item-label caption v-else>{{ searchResult.id }}</q-item-label>
         </q-item-section>
 
@@ -46,7 +46,7 @@
           </q-btn-dropdown>
         </q-item-section>
 
-        <q-item-section v-if="searchResult.hasOwnProperty('id')" class="column" style="max-width: 20px">
+        <q-item-section v-if="searchResult.hasOwnProperty('id') && showDelete" class="column" style="max-width: 20px">
           <q-badge text-color="white" color="red" v-if="lookForForgotAmount(searchResult.medications)" class="col">
             {{ lookForForgotAmount(searchResult.medications) }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
           </q-badge>
@@ -56,7 +56,7 @@
           </q-badge>
         </q-item-section>
 
-        <q-item-section v-else class="column" style="max-width: 20px">
+        <q-item-section v-else-if="showDelete" class="column" style="max-width: 20px">
           <q-badge text-color="white" color="red" v-if="searchResult.hasForgot" class="col">
             <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
           </q-badge>

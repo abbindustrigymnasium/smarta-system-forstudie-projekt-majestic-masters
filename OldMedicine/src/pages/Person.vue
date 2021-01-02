@@ -2,6 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <PersonComponent
+        :people="people"
         :person="person"
         :filterForgotten="filterForgotten"
         :filterRunningOut="filterRunningOut"
@@ -23,6 +24,9 @@ export default {
     }
   },
   computed: {
+    people () {
+      return this.$store.state.user.people
+    },
     person () {
       return this.$store.state.user.people[this.$store.state.user.personPointer]
     },

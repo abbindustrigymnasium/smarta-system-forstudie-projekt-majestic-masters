@@ -5,7 +5,7 @@
       <q-item-label caption>Filtrerad - {{ list.length }}</q-item-label>
     </q-item-section>
 
-    <List :list="list" showDelete="medicine" :people="person"/>
+    <List :list="list" showDelete="medicine" :people="people"/>
 
   </div>
 </template>
@@ -16,7 +16,7 @@ import List from '../List.vue'
 
 export default {
   name: 'Person-Component',
-  props: ['person', 'filterForgotten', 'filterRunningOut'],
+  props: ['people', 'person', 'filterForgotten', 'filterRunningOut'],
   computed: {
     list: function () {
       const list = []
