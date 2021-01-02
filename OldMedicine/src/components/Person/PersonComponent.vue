@@ -1,9 +1,11 @@
 <template>
   <div id="Person-Component">
-    <p class="text-subtitle1">Mediciner - {{ person.medications.length }}</p>
-    <p class="text-subtitle3">Filtrerad - ({{ list.length }})</p>
+    <q-item-section>
+      <q-item-label>Mediciner - {{ person.medications.length }}</q-item-label>
+      <q-item-label caption>Filtrerad - {{ list.length }}</q-item-label>
+    </q-item-section>
 
-    <List :list="list" showDelete="medicine"/>
+    <List :list="list" showDelete="medicine" :people="person"/>
 
   </div>
 </template>

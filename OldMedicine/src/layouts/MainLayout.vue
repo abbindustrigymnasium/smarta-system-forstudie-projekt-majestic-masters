@@ -58,8 +58,8 @@
       />
     </q-dialog>
 
-    <q-page-container>
-      <router-view/>
+    <q-page-container class="bg-light1">
+      <router-view />
     </q-page-container>
 
   </q-layout>

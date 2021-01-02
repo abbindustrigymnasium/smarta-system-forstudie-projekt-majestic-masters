@@ -213,7 +213,6 @@ export default {
           personName: this.$store.state.user.people[this.personPointer].name
         }
         this.$store.dispatch('user/addMedicine', medicineObject)
-        console.log(this.$store.state.user.people)
       }
     }
   },

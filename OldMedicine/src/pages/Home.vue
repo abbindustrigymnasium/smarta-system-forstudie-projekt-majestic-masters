@@ -1,7 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      {{people}}
       <People
         :people="people"
         :filterForgotten="filterForgotten"
@@ -18,6 +17,9 @@ import People from '../components/Home/People.vue'
 export default {
   name: 'Home',
   mounted () {
+    if (this.$store.state.user.clientId === '') {
+      this.$router.push('/Login')
+    }
     this.$store.commit('user/changePersonPointer', null)
     this.$store.commit('user/changeMedicinePointer', null)
   },

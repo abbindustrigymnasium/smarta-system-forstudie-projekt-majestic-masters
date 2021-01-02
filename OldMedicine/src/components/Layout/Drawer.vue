@@ -3,7 +3,7 @@
     <q-list>
       <q-item v-if="personPointer !== null && medicinePointer === null" clickable v-ripple @click="goTo('/')">
         <q-item-section avatar>
-          <q-icon name="people"/>
+          <q-icon name="people" class="text-primary1"/>
         </q-item-section>
         <q-item-section>
           Personer
@@ -12,7 +12,7 @@
 
       <q-item v-if="medicinePointer !== null" clickable v-ripple @click="goTo('/Person')">
         <q-item-section avatar>
-          <q-icon name="person"/>
+          <q-icon name="person" class="text-primary1"/>
         </q-item-section>
         <q-item-section>
           {{ name }}
@@ -21,13 +21,13 @@
 
       <q-separator></q-separator>
 
-      <q-list content-class="bg-grey-3">
+      <q-list content-class="bg-grey-4">
         <template v-for="(item, index) in list">
           <q-separator :key="`q-sep-${index}`"></q-separator>
           <q-item :key="index" clickable v-ripple @click="changeRoute(index)" v-bind:class="{'bg-grey-4':(index === personPointer || index === medicinePointer)}">
 
-            <q-icon v-if="personPointer !== null" name="person" class="text-primary"/>
-            <q-icon v-else name="medical_services" class="text-secondary"/>
+            <q-icon v-if="personPointer !== null" name="person" class="text-primary1"/>
+            <q-icon v-else name="medical_services" class="text-primary1"/>
 
             <q-item-section>
               {{ item.name }}

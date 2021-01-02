@@ -1,7 +1,10 @@
 <template>
   <div id="People-Home">
-    <p class="text-subtitle1">Personer - {{ people.length }} </p>
-    <p class="text-subtitle3">Filtrerad - ({{ list.length }})</p>
+    <q-item-section>
+      <q-item-label>Personer - {{ people.length }}</q-item-label>
+      <q-item-label caption>Filtrerad - {{ list.length }}</q-item-label>
+    </q-item-section>
+
     <List :list="list" showDelete="person"/>
   </div>
 </template>
