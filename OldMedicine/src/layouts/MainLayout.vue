@@ -1,8 +1,8 @@
 <template>
   <q-layout view="hHh Lpr fFf">
 
-    <q-header class="bg-primary1 elevated" v-if="medicinePointer === null && $q.platform.is.desktop">
-      <Header
+    <q-header class="bg-primary1 elevated" v-if="$q.platform.is.desktop">
+      <Tabs
         @showNewDialog="showNewDialog($event)"
         :people="people"
         :personPointer="personPointer"
@@ -14,7 +14,20 @@
       />
     </q-header>
 
-    <q-footer class="bg-primary1 elevated reveal sticky" v-if="!$q.platform.is.desktop">
+    <q-footer class="bg-primary1 elevated reveal sticky" v-else>
+      <Tabs
+        @showNewDialog="showNewDialog($event)"
+        :people="people"
+        :personPointer="personPointer"
+        :medicinePointer="medicinePointer"
+        :filterForgotten="filterForgotten"
+        :filterRunningOut="filterRunningOut"
+        :forgotAmount="forgotAmount"
+        :runningOutAmount="runningOutAmount"
+      />
+    </q-footer>
+
+    <q-footer class="bg-primary1 elevated reveal sticky" v-if="medicinePointer === null">
       <Header
         @showNewDialog="showNewDialog($event)"
         :people="people"
@@ -27,14 +40,14 @@
       />
     </q-footer>
 
-    <q-drawer v-if="personPointer !== null && $q.platform.is.desktop" id="DrawerPerson" show-if-above :width="200" :breakpoint="200" bordered content-class="bg-grey-3">
-      <Drawer
+    <q-drawer v-if="1==2 && personPointer !== null && $q.platform.is.desktop" id="DrawerPerson" show-if-above :width="400" :breakpoint="200" bordered content-class="bg-grey-3 row">
+      <Drawer class="col"
         v-if="personPointer !== null"
         :list="people"
         :personPointer="personPointer"
         :medicinePointer="null"
       />
-      <Drawer
+      <Drawer class="col"
         v-if="medicinePointer !== null"
         :list="people[personPointer].medications"
         :personPointer="null"
@@ -82,7 +95,7 @@
         <q-btn
           round
           size="lg"
-          class="bg-primary1 text-white"
+          class="bg-secondary1 text-white"
           icon="search"
           @click="showNewDialog({ dialogBooleans: { searchDialog: true, addPersonDialog: false, addMedicineDialog: false }, key: '' })"
         />
@@ -90,16 +103,16 @@
           round
           size="lg"
           icon="add"
-          class="bg-primary1 text-white"
+          class="bg-secondary1 text-white"
           @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, key: '' })"
         />
       </q-page-sticky>
 
-      <q-page-sticky v-else class="bottom-right" :offset="[20, 20]">
+      <q-page-sticky v-else-if="medicinePointer === null" class="bottom-right" :offset="[20, 20]">
         <q-btn
           round
           size="lg"
-          class="bg-primary1 text-white"
+          class="bg-secondary1 text-white"
           icon="search"
           @click="showNewDialog({ dialogBooleans: { searchDialog: true, addPersonDialog: false, addMedicineDialog: false }, key: '' })"
         />
@@ -107,7 +120,7 @@
           round
           size="lg"
           icon="add"
-          class="bg-primary1 text-white"
+          class="bg-secondary1 text-white"
           @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, key: '' })"
         />
       </q-page-sticky>
@@ -118,6 +131,7 @@
 
 <script>
 
+import Tabs from '../components/Layout/Tabs.vue'
 import Header from '../components/Layout/Header.vue'
 import Drawer from '../components/Layout/Drawer.vue'
 import Dialog from '../components/Layout/Dialog.vue'
@@ -190,6 +204,7 @@ export default {
     // }
   },
   components: {
+    Tabs,
     Header,
     Drawer,
     Dialog

@@ -1,6 +1,6 @@
 <template>
   <div id="People-Home">
-    <q-item-section>
+    <q-item-section class="q-gutter-sm q-pt-sm q-pl-sm">
       <q-item-label>Personer - {{ people.length }}</q-item-label>
       <q-item-label caption>Filtrerad - {{ list.length }}</q-item-label>
     </q-item-section>

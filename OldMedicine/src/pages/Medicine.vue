@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <MedicineComponent :medicine="medicine"/>
+      <MedicineComponent :medicine="medicine" :name="name"/>
     </q-page-container>
   </q-layout>
 </template>
@@ -21,8 +21,10 @@ export default {
   },
   computed: {
     medicine () {
-      console.log(this.$store.state.user.personPointer, this.$store.state.user.medicinePointer)
       return this.$store.state.user.people[this.$store.state.user.personPointer].medications[this.$store.state.user.medicinePointer]
+    },
+    name () {
+      return this.$store.state.user.people[this.$store.state.user.personPointer].name
     }
   },
   components: {

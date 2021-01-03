@@ -1,6 +1,6 @@
 <template>
   <div id="Header-Layout" class="row justify-center">
-    <q-item-section avatar v-if="$q.platform.is.desktop">
+    <q-item-section avatar v-if="$q.platform.is.desktop" class="q-pl-sm">
       <q-icon v-if="personPointer === null && medicinePointer === null" name="people" class="white" size="lg"/>
       <q-icon v-else name="person" class="white" size="lg"/>
     </q-item-section>
@@ -61,6 +61,16 @@ export default {
         forgot: '3px solid transparent',
         runningOut: '3px solid transparent'
       }
+    }
+  },
+  mounted () {
+    if (this.filterForgotten) {
+      this.buttons.all = '3px solid transparent'
+      this.buttons.forgot = '3px solid white'
+    }
+    if (this.filterRunningOut) {
+      this.buttons.all = '3px solid transparent'
+      this.buttons.runningOut = '3px solid white'
     }
   },
   watch: {

@@ -14,8 +14,11 @@
           <q-item-label caption v-else>{{ searchResult.id }}</q-item-label>
         </q-item-section>
 
-        <q-item-section :key="`q-div-${index}`" v-if="showDelete" style="max-width: 100px">
-          <q-btn-dropdown color="primary2" icon="more_vert" dropdown-icon=" ">
+        <!-- <q-item-section :key="`q-div-${index}`" v-if="showDelete"> -->
+        <q-btn v-if="showDelete === 'person'" @click="$store.dispatch('user/deletePerson', { index: searchResult.index, id: searchResult.id })" icon="delete_outline" class="text-white bg-primary1" round/>
+        <q-btn v-else-if="showDelete === 'medicine'" @click="$store.dispatch('user/deleteMedicine', { id: searchResult.medicine_id, index: searchResult.index })" icon="delete_outline" class="text-white bg-primary1" round/>
+
+          <!-- <q-btn-dropdown color="primary2" icon="more_vert" dropdown-icon=" ">
             <q-list v-if="showDelete == 'medicine'">
               <q-item clickable v-close-popup @click="$store.dispatch('user/deleteMedicine', { id: searchResult.medicine_id, index: searchResult.index })">
                 <q-item-section>
@@ -23,7 +26,7 @@
                 </q-item-section>
               </q-item>
               <q-item clickable v-close-popup @click="showNewDialog({ searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, '')">
-                <!-- $store.commit('user/changeMedicine', { id, amount, interval, startTime, medicineName }) -->
+                $store.commit('user/changeMedicine', { id, amount, interval, startTime, medicineName })
                 <q-item-section>
                   <q-item-label>Ändra medicin</q-item-label>
                 </q-item-section>
@@ -42,8 +45,8 @@
                 </q-item-section>
               </q-item>
             </q-list>
-          </q-btn-dropdown>
-        </q-item-section>
+          </q-btn-dropdown> -->
+        <!-- </q-item-section> -->
 
         <q-item-section v-if="searchResult.hasOwnProperty('id') && showDelete" class="column" style="max-width: 20px">
           <q-badge text-color="white" color="red" v-if="lookForForgotAmount(searchResult.medications)" class="col">

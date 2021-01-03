@@ -1,6 +1,6 @@
 <template>
   <div id="Person-Component">
-    <q-item-section>
+    <q-item-section class="q-gutter-sm q-pt-sm q-pl-sm">
       <q-item-label>Mediciner - {{ person.medications.length }}</q-item-label>
       <q-item-label caption>Filtrerad - {{ list.length }}</q-item-label>
     </q-item-section>
