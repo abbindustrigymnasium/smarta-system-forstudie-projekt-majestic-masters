@@ -1,77 +1,51 @@
 <template>
-  <div id="Header-Layout">
-    <q-header elevated class="bg-primary1 row">
-      <q-item-section avatar>
-        <q-icon v-if="personPointer === null && medicinePointer === null" name="people" class="white" size="lg"/>
-        <q-icon v-else name="person" class="white" size="lg"/>
-      </q-item-section>
+  <div id="Header-Layout" class="row justify-center">
+    <q-item-section avatar v-if="$q.platform.is.desktop">
+      <q-icon v-if="personPointer === null && medicinePointer === null" name="people" class="white" size="lg"/>
+      <q-icon v-else name="person" class="white" size="lg"/>
+    </q-item-section>
 
-      <q-item-section>
-        <q-item-label v-if="personPointer === null && medicinePointer === null">Personer</q-item-label>
-        <q-item-label v-else>{{ people[personPointer].name }}</q-item-label>
-      </q-item-section>
+    <q-item-section v-if="$q.platform.is.desktop">
+      <q-item-label v-if="personPointer === null && medicinePointer === null">Personer</q-item-label>
+      <q-item-label v-else>{{ people[personPointer].name }}</q-item-label>
+    </q-item-section>
 
-      <q-btn flat label="Alla" color="white" @click="changeAllSearch()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.all}"/>
-      <q-btn flat label="Glömt tagit" color="white" @click="changeSearchForgotten()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.forgot}">
-        <q-badge class="q-ml-xs" text-color="white" color="red" v-if="forgotAmount">
-          {{ forgotAmount }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
-        </q-badge>
-      </q-btn>
+    <q-btn flat label="Alla" color="white" @click="changeAllSearch()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.all}"/>
+    <q-btn flat label="Glömt tagit" color="white" @click="changeSearchForgotten()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.forgot}">
+      <q-badge class="q-ml-xs" text-color="white" color="red" v-if="forgotAmount">
+        {{ forgotAmount }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
+      </q-badge>
+    </q-btn>
 
-      <q-btn flat label="Snart slut på medicin" color="white" @click="changeSearchRunningOut()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.runningOut}">
-        <q-badge class="q-ml-xs" text-color="black" color="yellow-6" v-if="runningOutAmount">
-          {{ runningOutAmount }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
-        </q-badge>
-      </q-btn>
+    <q-btn flat label="Snart slut på medicin" color="white" @click="changeSearchRunningOut()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.runningOut}">
+      <q-badge class="q-ml-xs" text-color="black" color="yellow-6" v-if="runningOutAmount">
+        {{ runningOutAmount }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
+      </q-badge>
+    </q-btn>
 
-      <q-page-sticky v-if="personPointer === null && medicinePointer === null" class="bottom-right" :offset="[20, 20]">
-        <q-btn
-          round
-          size="lg"
-          class="bg-primary1"
-          icon="search"
-          @click="showNewDialog({ searchDialog: true, addPersonDialog: false, addMedicineDialog: false }, '')"
-        />
-        <q-btn
-          round
-          size="lg"
-          icon="add"
-          class="bg-primary1"
-          @click="showNewDialog({ searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, '')"
-        />
-      </q-page-sticky>
+    <!-- <div class="bg-primary text-white fixed-bottom">
+      <q-toolbar>
+        <q-breadcrumbs active-color="white" style="font-size: 16px">
+          <q-breadcrumbs-el label="Personer" icon="people" to="/"></q-breadcrumbs-el>
+          <q-breadcrumbs-el v-if="personPointer !== null" :label="people[personPointer].namn" icon="person" to="/Person"></q-breadcrumbs-el>
+          <q-breadcrumbs-el v-if="medicinePointer !== null" :label="people[personPointer].mediciner[medicinePointer].namn" icon="medical_services"></q-breadcrumbs-el>
+        </q-breadcrumbs>
+      </q-toolbar>
+    </div> -->
 
-      <q-page-sticky v-else class="bottom-right" :offset="[20, 20]">
-        <q-btn
-          round
-          size="lg"
-          class="bg-primary1"
-          icon="search"
-          @click="showNewDialog({ searchDialog: true, addPersonDialog: false, addMedicineDialog: false }, '')"
-        />
-        <q-btn
-          round
-          size="lg"
-          icon="add"
-          class="bg-primary1"
-          @click="showNewDialog({ searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, '')"
-        />
-      </q-page-sticky>
+    <!-- <q-btn
+      v-if="personPointer === null && medicinePointer === null"
+      label="Lägg till någon"
+      class="bg-green"
+      @click="showNewDialog({ searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, '')"
+    />
 
-      <!-- <q-btn
-        v-if="personPointer === null && medicinePointer === null"
-        label="Lägg till någon"
-        class="bg-green"
-        @click="showNewDialog({ searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, '')"
-      />
-
-      <q-btn
-        v-else
-        label="Lägg till en medicin"
-        class="bg-green"
-        @click="showNewDialog({ searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, '')"
-      /> -->
-    </q-header>
+    <q-btn
+      v-else
+      label="Lägg till en medicin"
+      class="bg-green"
+      @click="showNewDialog({ searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, '')"
+    /> -->
   </div>
 </template>
 

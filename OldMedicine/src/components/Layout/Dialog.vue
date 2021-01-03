@@ -21,7 +21,7 @@
         <q-input v-if="!medicine && !person" outlined v-model="dialogsObjects.search.key" label="Vart vill du gå?"/>
       </div>
 
-      <List @showNewDialog="showNewDialog($event)" :list="dialogsObjects.search.list" :personPointer="personPointer" :people="list"/>
+      <List @showNewDialog="showNewDialog($event)" :list="dialogsObjects.search.list" :personPointer="personPointer" :people="people"/>
 
       <div
         white-space:
@@ -56,7 +56,7 @@ import List from '../List.vue'
 
 export default {
   name: 'Dialog-Layout',
-  props: ['list', 'keyInit', 'personPointer', 'person', 'medicine'],
+  props: ['list', 'keyInit', 'personPointer', 'person', 'medicine', 'people'],
   data () {
     return {
       dialogsObjects: {

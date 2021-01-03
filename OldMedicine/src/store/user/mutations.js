@@ -8,7 +8,7 @@ export const updateFilterRunningOut = (state, filterRunningOut) => {
 
 export const resetPeople = (state) => {
   state.people = []
-  state.clientId = '678900'
+  state.clientId = '67890'
 }
 
 export const pushPerson = (state, person) => {

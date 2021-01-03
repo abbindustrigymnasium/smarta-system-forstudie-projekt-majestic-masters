@@ -1,18 +1,33 @@
 <template>
-  <q-layout view="hHh Lpr lff">
-    <Header
-      v-if="medicinePointer === null"
-      @showNewDialog="showNewDialog($event)"
-      :people="people"
-      :personPointer="personPointer"
-      :medicinePointer="medicinePointer"
-      :filterForgotten="filterForgotten"
-      :filterRunningOut="filterRunningOut"
-      :forgotAmount="forgotAmount"
-      :runningOutAmount="runningOutAmount"
-    />
+  <q-layout view="hHh Lpr fFf">
 
-    <q-drawer v-if="personPointer !== null" id="DrawerPerson" show-if-above :width="200" :breakpoint="200" bordered content-class="bg-grey-3">
+    <q-header class="bg-primary1 elevated" v-if="medicinePointer === null && $q.platform.is.desktop">
+      <Header
+        @showNewDialog="showNewDialog($event)"
+        :people="people"
+        :personPointer="personPointer"
+        :medicinePointer="medicinePointer"
+        :filterForgotten="filterForgotten"
+        :filterRunningOut="filterRunningOut"
+        :forgotAmount="forgotAmount"
+        :runningOutAmount="runningOutAmount"
+      />
+    </q-header>
+
+    <q-footer class="bg-primary1 elevated reveal sticky" v-if="!$q.platform.is.desktop">
+      <Header
+        @showNewDialog="showNewDialog($event)"
+        :people="people"
+        :personPointer="personPointer"
+        :medicinePointer="medicinePointer"
+        :filterForgotten="filterForgotten"
+        :filterRunningOut="filterRunningOut"
+        :forgotAmount="forgotAmount"
+        :runningOutAmount="runningOutAmount"
+      />
+    </q-footer>
+
+    <q-drawer v-if="personPointer !== null && $q.platform.is.desktop" id="DrawerPerson" show-if-above :width="200" :breakpoint="200" bordered content-class="bg-grey-3">
       <Drawer
         v-if="personPointer !== null"
         :list="people"
@@ -33,6 +48,7 @@
         v-model="dialogBooleans.searchDialog"
         @showNewDialog="showNewDialog($event)"
         :list="currentList"
+        :people="people"
         :personPointer="personPointer"
       />
     </q-dialog>
@@ -41,6 +57,7 @@
       <Dialog
         v-model="dialogBooleans.addPersonDialog"
         @showNewDialog="showNewDialog($event)"
+        :people="people"
         :list="people"
         :keyInit="keyInit"
         person=True
@@ -51,6 +68,7 @@
       <Dialog
         v-model="dialogBooleans.addMedicineDialog"
         @showNewDialog="showNewDialog($event)"
+        :people="people"
         :list="people"
         :keyInit="keyInit"
         :personPointer="personPointer"
@@ -60,6 +78,39 @@
 
     <q-page-container class="bg-light1">
       <router-view />
+      <q-page-sticky v-if="personPointer === null && medicinePointer === null" class="bottom-right" :offset="[20, 20]">
+        <q-btn
+          round
+          size="lg"
+          class="bg-primary1 text-white"
+          icon="search"
+          @click="showNewDialog({ dialogBooleans: { searchDialog: true, addPersonDialog: false, addMedicineDialog: false }, key: '' })"
+        />
+        <q-btn
+          round
+          size="lg"
+          icon="add"
+          class="bg-primary1 text-white"
+          @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, key: '' })"
+        />
+      </q-page-sticky>
+
+      <q-page-sticky v-else class="bottom-right" :offset="[20, 20]">
+        <q-btn
+          round
+          size="lg"
+          class="bg-primary1 text-white"
+          icon="search"
+          @click="showNewDialog({ dialogBooleans: { searchDialog: true, addPersonDialog: false, addMedicineDialog: false }, key: '' })"
+        />
+        <q-btn
+          round
+          size="lg"
+          icon="add"
+          class="bg-primary1 text-white"
+          @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, key: '' })"
+        />
+      </q-page-sticky>
     </q-page-container>
 
   </q-layout>
@@ -81,6 +132,11 @@ export default {
         addMedicineDialog: false
       },
       keyInit: ''
+    }
+  },
+  mounted () {
+    if (!this.$q.platform.is.desktop) {
+      this.buttonHeight = 80
     }
   },
   computed: {

@@ -2,7 +2,6 @@
   <div class="q-pa-sm">
     <q-list class="q-gutter-sm">
       <q-item v-for="(searchResult, index) in list" :key="`q-item-${index}`" class="bg-light2 q-pa-sm q-pb-none" clickable v-ripple @click="goTo(searchResult, searchResult.hasOwnProperty('id'))">
-
         <q-item-section avatar>
           <q-icon v-if="searchResult.hasOwnProperty('id')" name="person" class="text-primary2" size="lg"/>
           <q-icon v-else name="medical_services" class="text-primary2" size="lg"/>
@@ -11,7 +10,7 @@
         <q-item-section>
           <q-item-label v-if="!searchResult.hasOwnProperty('id')">{{ searchResult.name }}</q-item-label>
           <q-item-label v-else>{{ searchResult.name }}</q-item-label>
-          <q-item-label caption v-if="!searchResult.hasOwnProperty('id')">{{ searchResult.name }}</q-item-label>
+          <q-item-label caption v-if="!searchResult.hasOwnProperty('id')">{{ people[searchResult.personPointer].name }}</q-item-label>
           <q-item-label caption v-else>{{ searchResult.id }}</q-item-label>
         </q-item-section>
 
