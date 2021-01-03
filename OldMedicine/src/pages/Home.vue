@@ -19,6 +19,17 @@ export default {
   mounted () {
     this.$store.commit('user/changePersonPointer', null)
     this.$store.commit('user/changeMedicinePointer', null)
+    console.log(this.$store.state.user)
+    const idToken = this.$store.state.user.idToken
+    console.log('IDTOKEN', idToken)
+    if (idToken.length === 0) {
+      this.$router.push('/Login')
+    } else {
+      const auth = this.$store.state.user.idToken
+      console.log('AUUUUUUUUUUUUUUUUUUUUUUTH', auth)
+      console.log(this.$store.state.user)
+      this.$store.commit('user/getInit', auth)
+    }
   },
   computed: {
     people () {

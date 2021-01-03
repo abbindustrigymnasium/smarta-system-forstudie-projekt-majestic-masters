@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseURL = 'https://pxe6lsvbkl.execute-api.eu-north-1.amazonaws.com/default/'
+// const baseURL = 'https://pxe6lsvbkl.execute-api.eu-north-1.amazonaws.com/default/'
+const baseURLAUTH = 'https://2r6362m556.execute-api.eu-north-1.amazonaws.com/default/'
 
 export const updateFilterForgotten = (state, filterForgotten) => {
   state.filterForgotten = filterForgotten
@@ -9,9 +10,24 @@ export const updateFilterRunningOut = (state, filterRunningOut) => {
   state.filterRunningOut = filterRunningOut
 }
 
-export const getInit = (state) => {
+export const updateIdToken = (state, idToken) => {
+  console.log('UPDATING ID TOKEN', idToken)
+  state.idToken = idToken
+}
+
+export const getIdToken = (state) => {
+  console.log('AAAAAAAAAAAAAAAAAAAAAA', state)
+  return state.idToken
+}
+
+export const getInit = (state, idToken) => {
+  console.log('ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ', state)
   var queryParameters = '?client_id=' + state.clientId
-  axios.get(baseURL + 'connections/get' + queryParameters).then(response1 => {
+  axios.get(baseURLAUTH + 'connections/get' + queryParameters, {
+    headers: {
+      Authorization: idToken
+    }
+  }).then(response1 => {
     for (let i = 0; i < response1.data.body.length; i++) {
       state.people.push({
         index: i,
@@ -20,7 +36,11 @@ export const getInit = (state) => {
         id: response1.data.body[i].patient_id
       })
 
-      axios.get(baseURL + 'medicine/get' + '?patient_id=' + response1.data.body[i].patient_id).then(response2 => {
+      axios.get(baseURLAUTH + 'medicine/get' + '?patient_id=' + response1.data.body[i].patient_id, {
+        headers: {
+          Authorization: idToken
+        }
+      }).then(response2 => {
         console.log(response2.data.body)
         for (let q = 0; q < response2.data.body.length; q++) {
           state.people[i].medications.push({
@@ -46,8 +66,10 @@ export const getInit = (state) => {
 const addPersonApi = (state, nameAndId) => {
   axios({
     method: 'post',
-    url: baseURL + 'connections/post',
-    headers: {},
+    url: baseURLAUTH + 'connections/post',
+    headers: {
+      Authorization: nameAndId.token
+    },
     data: { client_id: state.clientId, patient_id: nameAndId.id, patient_name: nameAndId.name }
   }).then(response => {
     console.log(response)
@@ -64,15 +86,16 @@ export const addPerson = (state, nameAndId) => { // denna person ska läggas til
   }
   element.id = nameAndId.id
   state.people.push(element)
-
   addPersonApi(state, nameAndId)
 }
 
 export const addMedicineApi = (state, medicineAndState) => {
   axios({ // add interval to medicineAndState
     method: 'post',
-    url: baseURL + 'medicine/post',
-    headers: {},
+    url: baseURLAUTH + 'medicine/post',
+    headers: {
+      Authorization: medicineAndState.token
+    },
     data: {
       client_id: state.clientId,
       patient_id: state.people[state.personPointer].id,

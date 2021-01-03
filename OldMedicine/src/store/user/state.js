@@ -4,5 +4,6 @@ export default {
   clientId: '67890',
   people: [],
   filterForgotten: false,
-  filterRunningOut: false
+  filterRunningOut: false,
+  idToken: ''
 }

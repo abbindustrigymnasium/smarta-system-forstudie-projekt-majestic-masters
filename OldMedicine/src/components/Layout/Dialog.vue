@@ -198,8 +198,9 @@ export default {
     },
     createNew () {
       this.showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })
+      const idToken = this.$store.state.user.idToken
       if (this.person) {
-        this.$store.commit('user/addPerson', { name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id })
+        this.$store.commit('user/addPerson', { name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id, token: idToken })
       } else {
         // const lengtsada = this.$store.state.user.people[this.$store.state.user.personPointer].medications.length
         // console.log(this.$store.state.user.people[this.$store.state.user.personPointer].medications.length, this.$store.state.user.people, this.$store.state.user.personPointer)
@@ -208,7 +209,8 @@ export default {
           name: this.dialogsObjects.addMedicine.name,
           amount: this.dialogsObjects.addMedicine.amount,
           interval: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.interval.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.interval.hours + 1000 * 60 * this.dialogsObjects.addMedicine.interval.minutes,
-          remind: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.remind.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.remind.hours + 1000 * 60 * this.dialogsObjects.addMedicine.remind.minutes
+          remind: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.remind.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.remind.hours + 1000 * 60 * this.dialogsObjects.addMedicine.remind.minutes,
+          token: idToken
         })
         console.log(this.$store.state.user.people)
       }

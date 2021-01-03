@@ -7,13 +7,20 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "serve": "vue-cli-service serve"
   },
   "dependencies": {
     "@quasar/cli": "^1.1.2",
     "@quasar/extras": "^1.0.0",
+    "amazon-cognito-identity-js": "^4.5.6",
+    "aws-sdk": "^2.820.0",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
+    "cryptojs": "^2.5.3",
+    "macaddress": "^0.5.1",
+    "machine-id": "^1.0.0",
+    "node-machine-id": "^1.1.12",
     "quasar": "^1.0.0"
   },
   "devDependencies": {
