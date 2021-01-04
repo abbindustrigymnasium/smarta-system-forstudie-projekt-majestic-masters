@@ -1,12 +1,14 @@
 <template>
   <div id="Tabs-Layout" class="bg-primary1 text-white">
-    <q-toolbar>
-      <q-breadcrumbs active-color="white" style="font-size: 15px">
-        <q-breadcrumbs-el label="Personer" icon="people" to="/"></q-breadcrumbs-el>
-        <q-breadcrumbs-el v-if="personPointer !== null" :label="people[personPointer].name" icon="person" to="/Person"></q-breadcrumbs-el>
-        <q-breadcrumbs-el v-if="medicinePointer !== null" :label="people[personPointer].medications[medicinePointer].name" icon="medical_services"></q-breadcrumbs-el>
-      </q-breadcrumbs>
-    </q-toolbar>
+    <q-item-section>
+      <q-toolbar>
+        <q-breadcrumbs gutter="xs" class="no-wrap" active-color="white" style="font-size: 15px">
+          <q-breadcrumbs-el label="Personer" icon="people" to="/"></q-breadcrumbs-el>
+          <q-breadcrumbs-el v-if="personPointer !== null" :label="people[personPointer].name" icon="person" to="/Person"></q-breadcrumbs-el>
+          <q-breadcrumbs-el v-if="medicinePointer !== null" :label="people[personPointer].medications[medicinePointer].name" icon="medical_services"></q-breadcrumbs-el>
+        </q-breadcrumbs>
+      </q-toolbar>
+    </q-item-section>
   </div>
 </template>
 

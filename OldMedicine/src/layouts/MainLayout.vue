@@ -14,7 +14,7 @@
       />
     </q-header>
 
-    <q-footer class="bg-primary1 elevated reveal sticky" v-else>
+    <!-- <q-footer class="bg-primary1 elevated reveal sticky" v-else>
       <Tabs
         @showNewDialog="showNewDialog($event)"
         :people="people"
@@ -25,9 +25,9 @@
         :forgotAmount="forgotAmount"
         :runningOutAmount="runningOutAmount"
       />
-    </q-footer>
+    </q-footer> -->
 
-    <q-footer class="bg-primary1 elevated reveal sticky" v-if="medicinePointer === null">
+    <q-footer class="bg-primary1 elevated reveal sticky">
       <Header
         @showNewDialog="showNewDialog($event)"
         :people="people"
@@ -91,7 +91,7 @@
 
     <q-page-container class="bg-light1">
       <router-view />
-      <q-page-sticky v-if="personPointer === null && medicinePointer === null" class="bottom-right" :offset="[20, 20]">
+      <q-page-sticky v-if="personPointer === null && medicinePointer === null" class="bottom-right" :offset="[90, 20]">
         <q-btn
           round
           size="lg"
@@ -99,23 +99,29 @@
           icon="search"
           @click="showNewDialog({ dialogBooleans: { searchDialog: true, addPersonDialog: false, addMedicineDialog: false }, key: '' })"
         />
+      </q-page-sticky>
+
+      <q-page-sticky v-else-if="medicinePointer === null" class="bottom-right" :offset="[90, 20]">
         <q-btn
           round
           size="lg"
-          icon="add"
+          class="bg-secondary1 text-white"
+          icon="search"
+          @click="showNewDialog({ dialogBooleans: { searchDialog: true, addPersonDialog: false, addMedicineDialog: false }, key: '' })"
+        />
+      </q-page-sticky>
+
+      <q-page-sticky v-if="personPointer === null && medicinePointer === null" class="bottom-right" :offset="[20, 20]">
+        <q-btn
+          round
+          size="lg"
+          icon="person_add"
           class="bg-secondary1 text-white"
           @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, key: '' })"
         />
       </q-page-sticky>
 
       <q-page-sticky v-else-if="medicinePointer === null" class="bottom-right" :offset="[20, 20]">
-        <q-btn
-          round
-          size="lg"
-          class="bg-secondary1 text-white"
-          icon="search"
-          @click="showNewDialog({ dialogBooleans: { searchDialog: true, addPersonDialog: false, addMedicineDialog: false }, key: '' })"
-        />
         <q-btn
           round
           size="lg"
