@@ -1,29 +1,29 @@
 <template>
   <div id="Dialog-Layout">
     <q-card>
-      <div>
+      <q-card-action class="row items-center">
         <q-input v-if="person" outlined v-model="dialogsObjects.addPerson.name" :label="`Skriv in personens namn`"/>
         <q-input v-else-if="medicine" outlined v-model="dialogsObjects.addMedicine.name" :label="`Skriv in medicinens namn`"/>
         <q-input v-if="person" outlined v-model="dialogsObjects.addPerson.id" label="Skriv in enhetens ID"/>
         <q-input v-else-if="medicine" type='number' outlined v-model="dialogsObjects.addMedicine.amount" label="Skriv in antalet tabletter"/>
-        <q-card v-if="medicine">
+        <q-card-action v-if="medicine">
           Intervall
           <q-input type='number' outlined v-model="dialogsObjects.addMedicine.interval.days" label="Dagar"/>
           <q-input type='number' outlined v-model="dialogsObjects.addMedicine.interval.hours" label="Timmar"/>
           <q-input type='number' outlined v-model="dialogsObjects.addMedicine.interval.minutes" label="Minuter"/>
-        </q-card>
-        <q-card v-if="medicine">
+        </q-card-action>
+        <q-card-action v-if="medicine">
           Påminnelse innan medicinen tar slut
           <q-input type='number' outlined v-model="dialogsObjects.addMedicine.remind.days" label="Dagar"/>
           <q-input type='number' outlined v-model="dialogsObjects.addMedicine.remind.hours" label="Timmar"/>
           <q-input type='number' outlined v-model="dialogsObjects.addMedicine.remind.minutes" label="Minuter"/>
-        </q-card>
+        </q-card-action>
         <q-input v-if="!medicine && !person" outlined v-model="dialogsObjects.search.key" label="Vart vill du gå?"/>
-      </div>
+      </q-card-action>
 
       <List @showNewDialog="showNewDialog($event)" :list="dialogsObjects.search.list" :personPointer="personPointer" :people="people"/>
 
-      <div
+      <q-card-section
         white-space:
         pre-line
         v-if="
@@ -38,14 +38,18 @@
             {{ error }}
           </template>
         </template>
-        <q-btn v-if="!medicine && !person && personPointer === null" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, key: dialogsObjects.search.key })">Ja</q-btn>
-        <q-btn v-else-if="!medicine && !person" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, key: dialogsObjects.search.key })">Ja</q-btn>
-      </div>
 
-      <div v-if="medicine || person">
-        <q-btn @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })">Avbryt</q-btn>
-        <q-btn @click="createNew()" :disabled="dialogsObjects.addPerson.error.name !== '' || dialogsObjects.addPerson.error.id !== '' || dialogsObjects.addMedicine.error.name !== '' || dialogsObjects.addMedicine.error.interval !== '' || dialogsObjects.addMedicine.error.remind !== ''">Lägg till</q-btn>
-      </div>
+        <q-card-actions align="right">
+          <q-btn flat v-if="!medicine && !person && personPointer === null" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, key: dialogsObjects.search.key })">Ja</q-btn>
+          <q-btn flat v-else-if="!medicine && !person" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, key: dialogsObjects.search.key })">Ja</q-btn>
+        </q-card-actions>
+
+      </q-card-section>
+
+      <q-card-actions align="right" v-if="medicine || person">
+        <q-btn flat @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })">Avbryt</q-btn>
+        <q-btn flat @click="createNew()" :disabled="dialogsObjects.addPerson.error.name !== '' || dialogsObjects.addPerson.error.id !== '' || dialogsObjects.addMedicine.error.name !== '' || dialogsObjects.addMedicine.error.interval !== '' || dialogsObjects.addMedicine.error.remind !== ''">Lägg till</q-btn>
+      </q-card-actions>
     </q-card>
   </div>
 </template>

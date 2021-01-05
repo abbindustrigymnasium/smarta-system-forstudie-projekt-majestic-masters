@@ -1,5 +1,5 @@
 <template>
-  <div id="Header-Layout" class="column justify-center">
+  <div id="Header-Layout" class="column justify-center no-wrap q-pa-none q-ma-none q-gutter-none">
     <!-- <q-item-section avatar v-if="$q.platform.is.desktop" class="q-pl-sm">
       <q-icon v-if="personPointer === null && medicinePointer === null" name="people" class="white" size="lg"/>
       <q-icon v-else name="person" class="white" size="lg"/>
@@ -10,17 +10,17 @@
       <q-item-label v-else>{{ people[personPointer].name }}</q-item-label>
     </q-item-section> -->
 
-    <div class="row justify-center no-wrap bg-primary2" v-if="medicinePointer === null">
-      <q-btn flat label="Alla" color="white" @click="changeAllSearch()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.all}"/>
-      <q-btn flat label="Glömt tagit" color="white" @click="changeSearchForgotten()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.forgot}">
-        <q-badge class="q-ml-xs" text-color="white" color="red" v-if="forgotAmount">
-          {{ forgotAmount }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
+    <div class="row justify-center no-wrap bg-primary2 q-pa-none q-ma-none q-gutter-none" v-if="medicinePointer === null">
+      <q-btn class="no-wrap" flat label="Alla" color="white" @click="changeAllSearch()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.all}"/>
+      <q-btn class="no-wrap" flat label="Glömt tagit" color="white" @click="changeSearchForgotten()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.forgot}">
+        <q-badge class="q-ml-xs no-wrap" text-color="white" color="red" v-if="forgotAmount">
+          {{ forgotAmount }} <q-icon name="warning" class="q-ml-xs no-wrap" size="14px"></q-icon>
         </q-badge>
       </q-btn>
 
-      <q-btn flat :label="runningOutMessage" color="white" @click="changeSearchRunningOut()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.runningOut}">
-        <q-badge class="q-ml-xs" text-color="black" color="yellow-6" v-if="runningOutAmount">
-          {{ runningOutAmount }} <q-icon name="warning" class="q-ml-xs" size="14px"></q-icon>
+      <q-btn class="no-wrap" flat :label="runningOutMessage" color="white" @click="changeSearchRunningOut()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.runningOut}">
+        <q-badge class="q-ml-xs no-wrap" text-color="black" color="yellow-6" v-if="runningOutAmount">
+          {{ runningOutAmount }} <q-icon name="warning" class="q-ml-xs no-wrap" size="14px"></q-icon>
         </q-badge>
       </q-btn>
     </div>
