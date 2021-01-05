@@ -39,7 +39,7 @@ export default {
         spinnerColor: 'primary1',
         spinnerSize: 130,
         backgroundColor: 'white',
-        message: 'We are getting things ready for you. Hang on...',
+        message: 'Vänligen vänta medan vi fixar saker åt dig...',
         messageColor: 'secondary1'
       })
       setTimeout(() => {
