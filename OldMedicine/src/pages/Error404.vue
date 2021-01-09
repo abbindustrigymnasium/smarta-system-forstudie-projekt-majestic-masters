@@ -5,7 +5,7 @@
         404
       </div>
 
-      <div class="text-h5" style="opacity:.4">
+      <div class="text-h5" style="opacity:.5">
         Inget att see här...
       </div>
 
