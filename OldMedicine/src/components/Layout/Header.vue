@@ -1,15 +1,5 @@
 <template>
   <div id="Header-Layout" class="column justify-center no-wrap q-pa-none q-ma-none q-gutter-none">
-    <!-- <q-item-section avatar v-if="$q.platform.is.desktop" class="q-pl-sm">
-      <q-icon v-if="personPointer === null && medicinePointer === null" name="people" class="white" size="lg"/>
-      <q-icon v-else name="person" class="white" size="lg"/>
-    </q-item-section> -->
-
-    <!-- <q-item-section v-if="$q.platform.is.desktop">
-      <q-item-label v-if="personPointer === null && medicinePointer === null">Personer</q-item-label>
-      <q-item-label v-else>{{ people[personPointer].name }}</q-item-label>
-    </q-item-section> -->
-
     <div class="row justify-center no-wrap bg-primary2 q-pa-none q-ma-none q-gutter-none" v-if="medicinePointer === null">
       <q-btn class="no-wrap" flat label="Alla" color="white" @click="changeAllSearch()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.all}"/>
       <q-btn class="no-wrap" flat label="Glömt tagit" color="white" @click="changeSearchForgotten()" style="border-radius: 0" v-bind:style="{'border-bottom': buttons.forgot}">
@@ -36,29 +26,6 @@
       </q-toolbar>
     </q-item-section>
 
-    <!-- <div class="bg-primary text-white fixed-bottom">
-      <q-toolbar>
-        <q-breadcrumbs active-color="white" style="font-size: 16px">
-          <q-breadcrumbs-el label="Personer" icon="people" to="/"></q-breadcrumbs-el>
-          <q-breadcrumbs-el v-if="personPointer !== null" :label="people[personPointer].namn" icon="person" to="/Person"></q-breadcrumbs-el>
-          <q-breadcrumbs-el v-if="medicinePointer !== null" :label="people[personPointer].mediciner[medicinePointer].namn" icon="medical_services"></q-breadcrumbs-el>
-        </q-breadcrumbs>
-      </q-toolbar>
-    </div> -->
-
-    <!-- <q-btn
-      v-if="personPointer === null && medicinePointer === null"
-      label="Lägg till någon"
-      class="bg-green"
-      @click="showNewDialog({ searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, '')"
-    />
-
-    <q-btn
-      v-else
-      label="Lägg till en medicin"
-      class="bg-green"
-      @click="showNewDialog({ searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, '')"
-    /> -->
   </div>
 </template>
 

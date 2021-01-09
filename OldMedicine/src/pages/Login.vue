@@ -30,6 +30,7 @@ import {
 export default {
   name: 'Init',
   mounted () {
+    this.$store.commit('user/changeClientId', '67890')
     this.$store.dispatch('user/getInit')
   },
   methods: {

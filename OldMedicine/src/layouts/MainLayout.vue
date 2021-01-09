@@ -14,19 +14,6 @@
       />
     </q-header>
 
-    <!-- <q-footer class="bg-primary1 elevated reveal sticky" v-else>
-      <Tabs
-        @showNewDialog="showNewDialog($event)"
-        :people="people"
-        :personPointer="personPointer"
-        :medicinePointer="medicinePointer"
-        :filterForgotten="filterForgotten"
-        :filterRunningOut="filterRunningOut"
-        :forgotAmount="forgotAmount"
-        :runningOutAmount="runningOutAmount"
-      />
-    </q-footer> -->
-
     <q-footer class="bg-primary1 elevated reveal sticky">
       <Header
         @showNewDialog="showNewDialog($event)"
@@ -39,22 +26,6 @@
         :runningOutAmount="runningOutAmount"
       />
     </q-footer>
-
-    <q-drawer v-if="1==2 && personPointer !== null && $q.platform.is.desktop" id="DrawerPerson" show-if-above :width="400" :breakpoint="200" bordered content-class="bg-grey-3 row">
-      <Drawer class="col"
-        v-if="personPointer !== null"
-        :list="people"
-        :personPointer="personPointer"
-        :medicinePointer="null"
-      />
-      <Drawer class="col"
-        v-if="medicinePointer !== null"
-        :list="people[personPointer].medications"
-        :personPointer="null"
-        :medicinePointer="medicinePointer"
-        :name="people[personPointer].name"
-      />
-    </q-drawer>
 
     <q-dialog v-model="dialogBooleans.searchDialog">
       <Dialog
@@ -139,7 +110,6 @@
 
 import Tabs from '../components/Layout/Tabs.vue'
 import Header from '../components/Layout/Header.vue'
-import Drawer from '../components/Layout/Drawer.vue'
 import Dialog from '../components/Layout/Dialog.vue'
 
 export default {
@@ -193,26 +163,10 @@ export default {
       }
       return this.currentList.filter(person => (this.lookForRunningOut(person.medications))).length
     }
-    //,
-    // filteredList () {
-    //   if (this.personPointer !== null) {
-    //     return this.people[this.personPointer].filter(meds => (
-    //       (!this.filterRunningOut && !this.filterForgotten) ||
-    //       (this.lookFor(meds, 'hasForgot') && this.filterForgotten) ||
-    //       (this.lookFor(meds, 'isRunningOut') && this.filterRunningOut)
-    //     ))
-    //   }
-    //   return this.people.filter(person => (
-    //     (!this.filterRunningOut && !this.filterForgotten) ||
-    //     (this.lookFor(person.medications, 'hasForgot') && this.filterForgotten) ||
-    //     (this.lookFor(person.medications, 'isRunningOut') && this.filterRunningOut)
-    //   ))
-    // }
   },
   components: {
     Tabs,
     Header,
-    Drawer,
     Dialog
   },
   methods: {
@@ -254,23 +208,6 @@ export default {
       }
       return false
     }
-    // lookForAmount (meds, key) {
-    //   let amount = 0
-    //   for (let i = 0; i < meds.length; i++) {
-    //     if (meds[i][key]) {
-    //       amount++
-    //     }
-    //   }
-    //   return amount
-    // },
-    // lookFor (meds, key) {
-    //   for (let i = 0; i < meds.length; i++) {
-    //     if (meds[i][key]) {
-    //       return true
-    //     }
-    //   }
-    //   return false
-    // }
   }
 }
 </script>

@@ -17,7 +17,7 @@
       <p class="text-body1 text-negative">Påfyllning krävs omedelbart.</p>
       <p class="text-subtitle1">{{ name }} har slut på {{ medicine.name }}.</p>
     </div>
-    <div v-else-if="medicine.remind < time">
+    <div v-else-if="medicine.remind < medicine.amount * medicine.interval">
       <p class="text-subtitle1">{{ name }} har kvar {{ medicine.amount }} tabletter av {{ medicine.name }}. Vilket räcker tills {{ räckerTill }}. Rekomenderad påfyllning är den {{ rekomenderatKöp }}.</p>
     </div>
     <div v-else>

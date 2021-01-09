@@ -6,9 +6,12 @@ export const updateFilterRunningOut = (state, filterRunningOut) => {
   state.filterRunningOut = filterRunningOut
 }
 
+export const changeClientId = (state, clientId) => {
+  state.clientId = clientId
+}
+
 export const resetPeople = (state) => {
   state.people = []
-  state.clientId = '67890'
 }
 
 export const pushPerson = (state, person) => {
@@ -43,21 +46,4 @@ export const changePersonPointer = (state, personPointer) => {
 
 export const changeMedicinePointer = (state, medicinePointer) => {
   state.medicinePointer = medicinePointer
-}
-
-export const changePerson = (state, indexPerson) => {
-
-}
-
-export const changeMedicine = (state, newMeds) => {
-  // axios({
-  //   method: 'patch',
-  //   url: baseURL + 'medicine/patch',
-  //   headers: {},
-  //   data: { medicine_id: newMeds.id, amount: newMeds.amount, interval: newMeds.interval, start_time: newMeds.startTime, medicine_name: newMeds.medicineName }
-  // }).then(response => {
-  //   console.log(response)
-  // }).catch(function (error) {
-  //   console.log(error)
-  // })
 }
