@@ -29,7 +29,8 @@
       <q-toolbar>
         <q-breadcrumbs gutter="xs" class="no-wrap" active-color="white" style="font-size: 15px">
           <q-breadcrumbs-el label="Personer" icon="people" to="/"></q-breadcrumbs-el>
-          <q-breadcrumbs-el v-if="personPointer !== null" :label="truncate(people[personPointer].name)" icon="person" to="/Person"></q-breadcrumbs-el>
+          <q-breadcrumbs-el v-if="personPointer !== null && medicinePointer === null" :label="people[personPointer].name" icon="person" to="/Person"></q-breadcrumbs-el>
+          <q-breadcrumbs-el v-else-if="personPointer !== null" :label="truncate(people[personPointer].name)" icon="person" to="/Person"></q-breadcrumbs-el>
           <q-breadcrumbs-el v-if="medicinePointer !== null" :label="truncate(people[personPointer].medications[medicinePointer].name)" icon="medical_services"></q-breadcrumbs-el>
         </q-breadcrumbs>
       </q-toolbar>

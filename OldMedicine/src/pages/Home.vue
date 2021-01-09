@@ -6,6 +6,10 @@
         :filterForgotten="filterForgotten"
         :filterRunningOut="filterRunningOut"
       />
+      <div class="justify-center fixed-center text-center" style="width: 80%" v-if="people.length === 0">
+        <q-item-label class="justify-center text-center row text-h5 text-weight-regular">Ser tomt ut</q-item-label>
+        <q-item-label class="justify-center text-center row text-body1">Testa lägga till en någon genom att trycka på '+' knappen</q-item-label>
+      </div>
     </q-page-container>
   </q-layout>
 </template>
