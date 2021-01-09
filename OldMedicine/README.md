@@ -1,35 +1,14 @@
 # OldMedicine (oldmedicine)
 
-Krävs endast medicine sidans funktionallitet och drawers funktionallitet sedan är funktionalliteten avklarad
-
-interval and starttime on medicine post
-
-input alert me when medicine is 5 days from gone
-
-
-kunna ta bort mediciner och personer, ändra personer och mediciner:
-patch medicine and person
-delete medicien and person
+Fixa:
+dialog style
+loggin sidan (funktionalitet och utseende)
+medicin sidan ska visa information given från en text tex: $person tog senast $medicin för $time timmar sedan. $person har/har inte glömt sin medicin. $person 's $medicin räcker i $tid
+add medicin ändra datum sak, så det är enklare att lägga in ANVÄND native time input på medicin, eller native date
+Får snart slut på medicin räknas bara när du startar om sidan
 
 
-
-
-
-
-räkna ut i clienten om man har slut på medicin: (antalet mediciner hur ofta man ska ta, om det tar slut om 3 dagar)
-
-räkna ut om man glömt tagit (tiden man senast tog, intervallet man ska ta)
-
-
-
-
-
-han rostade sidan lol
-expander
-eller
-tabbar
-
-
+delete backend funkar ej?
 
 
 # IMPORTANT:

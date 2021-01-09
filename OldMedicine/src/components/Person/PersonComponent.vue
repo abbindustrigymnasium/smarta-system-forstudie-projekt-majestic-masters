@@ -1,9 +1,11 @@
 <template>
   <div id="Person-Component">
+    <q-item-section class="q-gutter-sm q-pt-sm q-pl-sm">
+      <q-item-label>Mediciner - {{ person.medications.length }}</q-item-label>
+      <q-item-label caption>Filtrerad - {{ list.length }}</q-item-label>
+    </q-item-section>
 
-    <p class="text-subtitle1">Mediciner - {{ list.length }}</p>
-
-    <List :list="list"/>
+    <List :list="list" showDelete="medicine" :people="people"/>
 
   </div>
 </template>
@@ -14,7 +16,7 @@ import List from '../List.vue'
 
 export default {
   name: 'Person-Component',
-  props: ['person', 'filterForgotten', 'filterRunningOut'],
+  props: ['people', 'person', 'filterForgotten', 'filterRunningOut'],
   computed: {
     list: function () {
       const list = []

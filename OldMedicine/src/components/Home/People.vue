@@ -1,7 +1,11 @@
 <template>
   <div id="People-Home">
-    <p class="text-subtitle1">Personer - {{ list.length }}</p>
-    <List :list="list"/>
+    <q-item-section class="q-gutter-sm q-pt-sm q-pl-sm">
+      <q-item-label>Personer - {{ people.length }}</q-item-label>
+      <q-item-label caption>Filtrerad - {{ list.length }}</q-item-label>
+    </q-item-section>
+
+    <List :list="list" showDelete="person"/>
   </div>
 </template>
 

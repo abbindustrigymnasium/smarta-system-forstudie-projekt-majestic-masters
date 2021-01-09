@@ -17,6 +17,9 @@ import People from '../components/Home/People.vue'
 export default {
   name: 'Home',
   mounted () {
+    if (this.$store.state.user.clientId === '') {
+      this.$router.push('/Login')
+    }
     this.$store.commit('user/changePersonPointer', null)
     this.$store.commit('user/changeMedicinePointer', null)
     console.log(this.$store.state.user)

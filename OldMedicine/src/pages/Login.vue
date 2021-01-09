@@ -113,11 +113,11 @@ export default {
     showLoading () {
       Loading.show({
         spinner: QSpinnerFacebook,
-        spinnerColor: 'primary',
+        spinnerColor: 'primary1',
         spinnerSize: 130,
         backgroundColor: 'white',
-        message: 'We are getting things ready for you. Hang on...',
-        messageColor: 'secondary'
+        message: 'Vänligen vänta medan vi fixar saker åt dig...',
+        messageColor: 'secondary1'
       })
     },
     changeIdToken (idToken) {
