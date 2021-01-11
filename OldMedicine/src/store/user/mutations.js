@@ -28,6 +28,7 @@ export const getInit = (state, idToken) => {
       Authorization: idToken
     }
   }).then(response1 => {
+    console.log(response1)
     for (let i = 0; i < response1.data.body.length; i++) {
       state.people.push({
         index: i,
@@ -107,7 +108,8 @@ export const addMedicineApi = (state, medicineAndState) => {
       medicine_name: medicineAndState.name
     }
   }
-)}
+  )
+}
 
 export const resetPeople = (state) => {
   state.people = []
@@ -138,6 +140,11 @@ export const popMedicine = (state, index) => {
       state.people[state.personPointer].medications[i].index = i
     }
   }
+}
+
+export const changeClientId = (state, clientId) => {
+  console.log('CHANGING CLIENTID')
+  state.clientId = clientId
 }
 
 export const changePersonPointer = (state, personPointer) => {

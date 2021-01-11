@@ -268,7 +268,7 @@ export default {
     },
     createNew () {
       this.showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })
-      const idToken = this.$store.state.user.idToken
+      // const idToken = this.$store.state.user.idToken
       if (this.person) {
         const personObject = { index: this.$store.state.user.people.length, name: this.dialogsObjects.addPerson.name, id: this.dialogsObjects.addPerson.id }
         this.$store.dispatch('user/addPerson', personObject)
