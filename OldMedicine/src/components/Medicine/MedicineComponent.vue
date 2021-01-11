@@ -78,7 +78,7 @@ export default {
       return this.timeToDate((new Date()).getTime() + this.medicine.amount * this.medicine.interval)
     },
     rekomenderatKöp: function () {
-      return this.timeToDate((new Date()).getTime() + this.medicine.amount * this.medicine.remind)
+      return this.timeToDate((new Date()).getTime() + this.medicine.amount * this.medicine.interval - this.remind)
     },
     nästaDosering: function () {
       return this.timeOfDayToConsumeMeds((new Date()).getTime() + this.medicine.interval, this.medicine.startTime)
