@@ -24,7 +24,7 @@ export default {
   mounted () {
     this.$store.commit('user/changePersonPointer', null)
     this.$store.commit('user/changeMedicinePointer', null)
-    const alreadyLoggedIn = localStorage.getItem('email') !== ''
+    const alreadyLoggedIn = localStorage.getItem('email') !== null
     if (!alreadyLoggedIn) {
       console.log('GOING TO LOGIN')
       this.$router.push('/Login')

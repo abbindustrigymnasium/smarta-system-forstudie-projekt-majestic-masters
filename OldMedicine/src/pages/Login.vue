@@ -82,39 +82,6 @@ const AmazonCognitoIdentity = require('amazon-cognito-identity-js')
 export default {
   name: 'Init',
   mounted () {
-    const self = this
-    const refreshToken = localStorage.getItem('refresh')
-    const email = localStorage.getItem('email')
-
-    if (refreshToken !== undefined && email !== undefined) {
-      console.log('ALREADY LOGGED IN')
-      const poolData = {
-        UserPoolId: 'eu-north-1_xGf5vCkUT',
-        ClientId: '5c2d3lhicpqjk1ujlh8k5o8jeg'
-      }
-      const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
-      var userData = {
-        Username: email,
-        Pool: userPool
-      }
-      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
-      console.log(cognitoUser)
-      var token = new AmazonCognitoIdentity.CognitoRefreshToken({ RefreshToken: refreshToken })
-      cognitoUser.refreshSession(token, (err, session) => {
-        if (err) {
-          console.log(err)
-        }
-        var clientId = session.getIdToken().payload.['cognito:username']
-        var idToken = session.getIdToken().getJwtToken()
-        self.changeIdToken(idToken)
-        self.changeClientId(clientId)
-
-        console.log('IDTOKEN', idToken)
-
-        self.$router.push('/')
-        this.$store.dispatch('user/getInit', this.$store.state.user.idToken)
-      })
-    }
   },
   methods: {
     showCard (bool) {
