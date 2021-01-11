@@ -1,7 +1,7 @@
 <template>
-  <q-card style="height: 60vh; width: 85vh" id="Dialog-Layout">
+  <q-card style="width: 85vh" id="Dialog-Layout">
     <q-card-section class="q-pb-none">
-      <q-item class="justify-center q-pb-none text-primary2 text-subtitle1" v-if="!medicine && !person">
+      <q-item class="justify-center q-pb-none text-primary2 text-subtitle1 row text-center" v-if="!medicine && !person">
         <p v-if="personPointer === null">
           Sök efter personer och mediciner
         </p>
@@ -9,12 +9,12 @@
           Sök efter mediciner som {{ people[personPointer].name }} tar
         </p>
       </q-item>
-      <q-item class="justify-center q-pb-none text-primary2 text-subtitle1" v-if="person">
+      <q-item class="justify-center q-pb-none text-primary2 text-subtitle1 row text-center" v-if="person">
         <p>
           Lägg till en person
         </p>
       </q-item>
-      <q-item class="justify-center q-pb-none text-primary2 text-subtitle1" v-else-if="medicine">
+      <q-item class="justify-center q-pb-none text-primary2 text-subtitle1 row text-center" v-else-if="medicine">
         <p>
           Lägg till en medicin som {{ people[personPointer].name }} ska ta
         </p>
@@ -28,40 +28,55 @@
       <q-input color="primary2" class="col" outlined v-model="dialogsObjects.addPerson.name" label="Skriv in personens namn"/>
       <q-input color="primary2" class="col" outlined v-model="dialogsObjects.addPerson.id" label="Skriv in enhetens ID"/>
     </q-card-actions>
+
     <q-card-actions v-else-if="medicine" class="column items-stretch q-pt-none">
-      <q-input color="primary2" class="col" outlined v-model="dialogsObjects.addMedicine.name" label="Skriv in medicinens namn"/>
-      <q-input color="primary2" class="col" type='number' outlined v-model="dialogsObjects.addMedicine.amount" label="Skriv in antalet tabletter"/>
 
-      Hur ofta medicinen ska tas
-      <q-item class="col">
-        <q-input color="primary2" class="col" outlined type="date" v-model="dialogsObjects.addMedicine.date"/>
-        <q-input color="primary2" class="col" outlined type="time" v-model="dialogsObjects.addMedicine.date"/>
-      </q-item>
-      När medicinen ska börja tas
-      <q-item class="col">
-        <q-input color="primary2" class="col" outlined type="date" v-model="dialogsObjects.addMedicine.date"/>
-        <q-input color="primary2" class="col" outlined type="time" v-model="dialogsObjects.addMedicine.date"/>
-      </q-item>
-      <!-- Intervall
-      <q-input class="col" type='number' outlined v-model="dialogsObjects.addMedicine.interval.days" label="Dagar"/>
-      <q-input class="col" type='number' outlined v-model="dialogsObjects.addMedicine.interval.hours" label="Timmar"/>
-      <q-input class="col" type='number' outlined v-model="dialogsObjects.addMedicine.interval.minutes" label="Minuter"/>
+      <q-input color="primary2" class="col q-pb-sm" outlined v-model="dialogsObjects.addMedicine.name" label="Skriv in medicinens namn"/>
+      <q-input color="primary2" class="col q-pb-md" type='number' outlined v-model="dialogsObjects.addMedicine.amount" label="Skriv in antalet tabletter"/>
 
-      Påminnelse innan medicinen tar slut
-      <q-input class="col" type='number' outlined v-model="dialogsObjects.addMedicine.remind.days" label="Dagar"/>
-      <q-input class="col" type='number' outlined v-model="dialogsObjects.addMedicine.remind.hours" label="Timmar"/>
-      <q-input class="col" type='number' outlined v-model="dialogsObjects.addMedicine.remind.minutes" label="Minuter"/> -->
+      <q-item class="column q-pa-none q-pb-md">
+        <p class="row q-pa-none q-ma-none text-primary2">När medicinen ska börja tas</p>
+        <q-item class="row q-pa-none">
+          <q-input color="primary2" class="col q-pr-sm" outlined type="date" v-model="dialogsObjects.addMedicine.date"/>
+          <q-input color="primary2" class="col" outlined type="time" v-model="dialogsObjects.addMedicine.time"/>
+        </q-item>
+      </q-item>
+
+      <q-item class="column q-pa-none q-pb-md">
+        <p class="row q-pa-none q-ma-none text-primary2">Hur ofta medicinen ska tas</p>
+        <q-item class="row q-pa-none">
+          <q-input color="primary2" class="col q-pr-sm" outlined type="number" label="Dagar" v-model="dialogsObjects.addMedicine.interval.days"/>
+          <q-input color="primary2" class="col" outlined type="number" label="Timmar" v-model="dialogsObjects.addMedicine.interval.hours"/>
+        </q-item>
+      </q-item>
+
+      <q-item class="column q-pa-none">
+        <p class="row q-pa-none q-ma-none text-primary2">Påminn mig inann medicinen tar slut</p>
+        <q-item class="row q-pa-none">
+          <q-input color="primary2" class="col" label="Dagar" outlined type="number" v-model="dialogsObjects.addMedicine.remind"/>
+        </q-item>
+      </q-item>
+
     </q-card-actions>
 
-    <q-card-section v-if="!medicine && !person">
-      <q-item-label>Söker bland {{ listAmount }} föremål</q-item-label>
-      <q-item-label caption>Filtrerad sökning gav {{ dialogsObjects.search.list.length }} resultat</q-item-label>
-    </q-card-section>
+    <q-card-actions v-if="!medicine && !person" class="q-pb-none">
+      <q-card-section class="col">
+        <q-item-label style="white-space: nowrap">Söker bland {{ listAmount }} föremål</q-item-label>
+        <q-item-label style="white-space: nowrap" caption>Filtrerad sökning gav {{ dialogsObjects.search.list.length }} resultat</q-item-label>
+      </q-card-section>
 
-    <List @showNewDialog="showNewDialog($event)" :list="dialogsObjects.search.list" :personPointer="personPointer" :people="people"/>
+      <q-card-actions align="right" class="col">
+        <q-btn v-if="dialogsObjects.search.error.list === ''" color="negative" flat @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })">Avbryt</q-btn>
+      </q-card-actions>
+    </q-card-actions>
 
+    <q-scroll-area v-if="!medicine && !person && dialogsObjects.search.error.list === ''" class="q-pa-none items-start" style="height: 32vh">
+      <List class="full-width" @showNewDialog="showNewDialog($event)" :list="dialogsObjects.search.list" :personPointer="personPointer" :people="people"/>
+    </q-scroll-area>
+
+    <!-- FUCKING EWWWWWW, DISCUSTING, WHAT HAVE I CREATED -->
     <q-card-section
-      class="q-pt-none q-pl-none row"
+      class="q-pt-none q-pl-none"
       white-space:
       pre-line
       v-if="
@@ -69,7 +84,13 @@
         dialogsObjects.addPerson.error.name !== '' ||
         dialogsObjects.addPerson.error.id !== '' ||
         dialogsObjects.addMedicine.error.name !== '' ||
-        dialogsObjects.addMedicine.error.amount !== ''
+        dialogsObjects.addMedicine.error.amount !== '' ||
+        dialogsObjects.addMedicine.error.time !== '' ||
+        dialogsObjects.addMedicine.error.date !== '' ||
+        dialogsObjects.addMedicine.error.days !== '' ||
+        dialogsObjects.addMedicine.error.hours !== '' ||
+        dialogsObjects.addMedicine.error.bothIsZero !== '' ||
+        dialogsObjects.addMedicine.error.remind !== ''
       ">
 
       <q-list class="text-negative text-body2">
@@ -86,27 +107,54 @@
           {{ dialogsObjects.addPerson.error.id }}
         </q-item>
 
+        <q-item v-if="dialogsObjects.addMedicine.error.name !== ''">
+          {{ dialogsObjects.addMedicine.error.name }}
+        </q-item>
+        <q-item v-else-if="dialogsObjects.addMedicine.error.amount !== ''">
+          {{ dialogsObjects.addMedicine.error.amount }}
+        </q-item>
+        <q-item v-else-if="dialogsObjects.addMedicine.error.date !== ''">
+          {{ dialogsObjects.addMedicine.error.date }}
+        </q-item>
+        <q-item v-else-if="dialogsObjects.addMedicine.error.time !== ''">
+          {{ dialogsObjects.addMedicine.error.time }}
+        </q-item>
+        <q-item v-else-if="dialogsObjects.addMedicine.error.days !== ''">
+          {{ dialogsObjects.addMedicine.error.days }}
+        </q-item>
+        <q-item v-else-if="dialogsObjects.addMedicine.error.hours !== ''">
+          {{ dialogsObjects.addMedicine.error.hours }}
+        </q-item>
+        <q-item v-else-if="dialogsObjects.addMedicine.error.bothIsZero !== ''">
+          {{ dialogsObjects.addMedicine.error.bothIsZero }}
+        </q-item>
+        <q-item v-else-if="dialogsObjects.addMedicine.error.remind !== ''">
+          {{ dialogsObjects.addMedicine.error.remind }}
+        </q-item>
+
       </q-list>
 
-      <!-- <q-list v-for="(obj, index) in dialogsObjects" :key="`q-list-${index}`">
-        <q-item v-for="(error, indexes) in obj.error" :key="`q-item-${indexes}`">
-          <p v-if="error !== ''">
-            {{ error }}
-          </p>
-        </q-item>
-      </q-list> -->
-
-      <q-card-actions align="right" class="col">
+      <q-card-actions align="right" class="row" v-if="!medicine && !person">
+        <q-btn color="negative" flat @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })">Avbryt</q-btn>
         <q-btn color="primary1" flat v-if="!medicine && !person && personPointer === null" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: true, addMedicineDialog: false }, key: dialogsObjects.search.key })">Ja</q-btn>
         <q-btn color="primary1" flat v-else-if="!medicine && !person" @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: true }, key: dialogsObjects.search.key })">Ja</q-btn>
       </q-card-actions>
 
     </q-card-section>
 
+    <q-card-section v-else-if="medicine || person" class="q-pt-none q-pl-none row" white-space: pre-line>
+      <q-list class="text-negative text-body2">
+        <q-item class="column q-pt-none q-pb-none">
+          <p></p>
+        </q-item>
+      </q-list>
+    </q-card-section>
+
     <q-card-actions align="right" v-if="medicine || person">
       <q-btn color="negative" flat @click="showNewDialog({ dialogBooleans: { searchDialog: false, addPersonDialog: false, addMedicineDialog: false }, key: '' })">Avbryt</q-btn>
-      <q-btn color="primary1" flat @click="createNew()" :disabled="dialogsObjects.addPerson.error.name !== '' || dialogsObjects.addPerson.error.id !== '' || dialogsObjects.addMedicine.error.name !== '' || dialogsObjects.addMedicine.error.interval !== '' || dialogsObjects.addMedicine.error.remind !== ''">Lägg till</q-btn>
+      <q-btn color="primary1" flat @click="createNew()" :disabled="dialogsObjects.addPerson.error.name !== '' || dialogsObjects.addPerson.error.id !== '' ||         dialogsObjects.addMedicine.error.name !== '' || dialogsObjects.addMedicine.error.amount !== '' || dialogsObjects.addMedicine.error.time !== '' || dialogsObjects.addMedicine.error.date !== '' || dialogsObjects.addMedicine.error.days !== '' || dialogsObjects.addMedicine.error.hours !== '' || dialogsObjects.addMedicine.error.bothIsZero !== '' || dialogsObjects.addMedicine.error.remind !== ''">Lägg till</q-btn>
     </q-card-actions>
+
   </q-card>
 </template>
 
@@ -141,12 +189,17 @@ export default {
           name: '',
           amount: 0,
           date: '',
-          interval: { days: 0, hours: 0, minutes: 0 },
-          remind: { days: 0, hours: 0, minutes: 0 },
+          time: '',
+          interval: { days: 0, hours: 0 },
+          remind: 0,
           error: {
             name: '',
             amount: '',
-            interval: '',
+            date: '',
+            time: '',
+            days: '',
+            hours: '',
+            bothIsZero: '',
             remind: ''
           }
         }
@@ -165,8 +218,12 @@ export default {
       if (this.dialogsObjects.addMedicine.name === '') {
         this.dialogsObjects.addMedicine.error.name = 'Namn fältet får ej vara tomt!'
       }
+      this.dialogsObjects.addMedicine.error.date = 'Ogiltigt datum för när medicinen ska börja tas'
+      this.dialogsObjects.addMedicine.error.time = 'Ogiltigt tid för när medicinen ska börja tas'
+      this.dialogsObjects.addMedicine.error.bothIsZero = 'Medicinen kan ej tas på sådant kort intervall'
+    } else {
+      this.dialogsObjects.search.key = ''
     }
-    this.dialogsObjects.search.key = ''
   },
   watch: {
     'dialogsObjects.search.key' (newKey, oldKey) {
@@ -176,19 +233,19 @@ export default {
         for (var i = 0; i < this.list.length; i++) {
           for (var q = 0; q < this.list[i].medications.length; q++) {
             this.listAmount++
-            if (this.list[i].medications[q].name.toLowerCase().includes(newKey) && newKey !== '') {
+            if (this.list[i].medications[q].name.toLowerCase().includes(newKey.toLowerCase()) && newKey !== '') {
               this.dialogsObjects.search.list.push(this.list[i].medications[q])
             }
           }
           this.listAmount++
-          if (this.list[i].name.toLowerCase().includes(newKey) && newKey !== '') {
+          if (this.list[i].name.toLowerCase().includes(newKey.toLowerCase()) && newKey !== '') {
             this.dialogsObjects.search.list.push(this.list[i])
           }
         }
       } else {
         for (var r = 0; r < this.list.medications.length; r++) {
           this.listAmount++
-          if (this.list.medications[r].name.toLowerCase().includes(newKey) && newKey !== '') {
+          if (this.list.medications[r].name.toLowerCase().includes(newKey.toLowerCase()) && newKey !== '') {
             this.dialogsObjects.search.list.push(this.list.medications[r])
           }
         }
@@ -234,25 +291,44 @@ export default {
       }
     },
     'dialogsObjects.addMedicine.amount' (newAmount, oldAmount) {
-      this.dialogsObjects.addMedicine.error.amount = this.validInt(newAmount, 'Ogiltig mängd')
+      this.dialogsObjects.addMedicine.error.amount = this.validInt(newAmount, 'Ogiltig mängd tabletter')
     },
-    'dialogsObjects.addMedicine.interval.days' (newAmount, oldAmount) {
-      this.dialogsObjects.addMedicine.error.interval = this.validInt(newAmount, 'Ogiltig datum för intervall')
+    'dialogsObjects.addMedicine.date' (newDate, oldDate) {
+      if (newDate === '') {
+        this.dialogsObjects.addMedicine.error.date = 'Ogiltigt datum för när medicinen ska börja tas'
+      } else {
+        this.dialogsObjects.addMedicine.error.date = ''
+      }
+    },
+    'dialogsObjects.addMedicine.time' (newDate, oldAmount) {
+      if (newDate === '') {
+        this.dialogsObjects.addMedicine.error.time = 'Ogiltigt tid för när medicinen ska börja tas'
+      } else {
+        this.dialogsObjects.addMedicine.error.time = ''
+      }
     },
     'dialogsObjects.addMedicine.interval.hours' (newAmount, oldAmount) {
-      this.dialogsObjects.addMedicine.error.interval = this.validInt(newAmount, 'Ogiltig datum för intervall')
+      this.dialogsObjects.addMedicine.error.hours = this.validInt(newAmount, `'${newAmount}' är ett ogiltigt nummer`)
+      if (newAmount === '0' && this.dialogsObjects.addMedicine.interval.days === '0') {
+        this.dialogsObjects.addMedicine.error.bothIsZero = 'Medicinen kan ej tas på sådant kort intervall'
+      } else {
+        this.dialogsObjects.addMedicine.error.bothIsZero = ''
+      }
     },
-    'dialogsObjects.addMedicine.interval.minutes' (newAmount, oldAmount) {
-      this.dialogsObjects.addMedicine.error.interval = this.validInt(newAmount, 'Ogiltig datum för intervall')
+    'dialogsObjects.addMedicine.interval.days' (newAmount, oldAmount) {
+      this.dialogsObjects.addMedicine.error.days = this.validInt(newAmount, `'${newAmount}' är ett ogiltigt nummer`)
+      if (newAmount === '0' && this.dialogsObjects.addMedicine.interval.hours === '0') {
+        this.dialogsObjects.addMedicine.error.bothIsZero = 'Medicinen kan ej tas på sådant kort intervall'
+      } else {
+        this.dialogsObjects.addMedicine.error.bothIsZero = ''
+      }
     },
-    'dialogsObjects.addMedicine.remind.days' (newAmount, oldAmount) {
-      this.dialogsObjects.addMedicine.error.remind = this.validInt(newAmount, 'Ogiltig datum för påminnelse')
-    },
-    'dialogsObjects.addMedicine.remind.hours' (newAmount, oldAmount) {
-      this.dialogsObjects.addMedicine.error.remind = this.validInt(newAmount, 'Ogiltig datum för påminnelse')
-    },
-    'dialogsObjects.addMedicine.remind.minutes' (newAmount, oldAmount) {
-      this.dialogsObjects.addMedicine.error.remind = this.validInt(newAmount, 'Ogiltig datum för påminnelse')
+    'dialogsObjects.addMedicine.remind' (newDate, oldDate) {
+      if (newDate === '') {
+        this.dialogsObjects.addMedicine.error.remind = 'Ogiltigt tidsintervall för påminnelse'
+      } else {
+        this.dialogsObjects.addMedicine.error.remind = ''
+      }
     }
   },
   methods: {
@@ -278,8 +354,9 @@ export default {
           index: this.$store.state.user.people[this.personPointer].medications.length,
           name: this.dialogsObjects.addMedicine.name,
           amount: this.dialogsObjects.addMedicine.amount,
-          interval: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.interval.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.interval.hours + 1000 * 60 * this.dialogsObjects.addMedicine.interval.minutes,
-          remind: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.remind.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.remind.hours + 1000 * 60 * this.dialogsObjects.addMedicine.remind.minutes,
+          startTime: Date.parse(this.dialogsObjects.addMedicine.date + ' ' + this.dialogsObjects.addMedicine.time),
+          interval: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.interval.days + 1000 * 60 * 60 * this.dialogsObjects.addMedicine.interval.hours,
+          remind: 1000 * 60 * 60 * 24 * this.dialogsObjects.addMedicine.remind,
           personId: this.$store.state.user.people[this.personPointer].id,
           personName: this.$store.state.user.people[this.personPointer].name
         }

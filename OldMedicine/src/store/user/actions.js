@@ -29,7 +29,7 @@ export const getInit = ({ commit, state }) => {
               index: q,
               name: response2.data.body[q].medicine_name,
               amount: response2.data.body[q].amount,
-              hasForgot: 1,
+              hasForgot: response2.data.body[q].has_forgot,
               remind: response2.data.body[q].remind,
               interval: response2.data.body[q].medicine_interval,
               startTime: response2.data.body[q].start_time,
@@ -68,7 +68,6 @@ export const addPerson = ({ commit, state }, object) => {
 
 export const addMedicine = ({ commit, state }, object) => {
   const uniqueid = guid()
-  const time = (new Date()).getTime()
 
   commit('pushMedicine', {
     index: object.personPointer,
@@ -77,10 +76,10 @@ export const addMedicine = ({ commit, state }, object) => {
       index: object.index,
       name: object.name,
       amount: object.amount,
-      hasForgot: 1,
+      hasForgot: 0,
       remind: object.remind,
-      interval: object.medicineInterval,
-      startTime: time,
+      interval: object.interval,
+      startTime: object.startTime,
       medicine_id: uniqueid
     }
   })
@@ -96,7 +95,7 @@ export const addMedicine = ({ commit, state }, object) => {
       amount: object.amount,
       interval: object.interval,
       remind: object.remind,
-      start_time: time,
+      start_time: object.startTime,
       medicine_name: object.name,
       medicine_id: uniqueid
     }

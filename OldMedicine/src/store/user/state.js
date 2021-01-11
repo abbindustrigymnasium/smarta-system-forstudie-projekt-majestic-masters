@@ -1,7 +1,7 @@
 export default {
   personPointer: null,
   medicinePointer: null,
-  clientId: '', // 67890
+  clientId: '',
   people: [],
   filterForgotten: false,
   filterRunningOut: false,
