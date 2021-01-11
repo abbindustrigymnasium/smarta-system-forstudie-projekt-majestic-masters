@@ -28,7 +28,7 @@ export default {
     if (!alreadyLoggedIn) {
       console.log('GOING TO LOGIN')
       this.$router.push('/Login')
-    } else {
+    } else if (this.$store.state.user.clientId === '') {
       this.refresh()
     }
   },
