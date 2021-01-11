@@ -8,7 +8,7 @@
               <q-card-section class='bg-primary1'>
                 <h4 class='text-h5 text-white q-my-md'>Inloggning</h4>
               </q-card-section>
-              <p v-if="failedLogin" class="text-negative q-mt-md q-mb-none q-ml-md">Email och lösenord matchar inte</p>
+              <p v-if="failedLogin" class="text-negative q-mt-md q-mb-none q-ml-md">Inloggning misslyckades</p>
               <p v-else class="text-transparent q-mt-md q-mb-none q-ml-md">.</p>
               <q-card-section class="bg-light2 q-pt-none">
                 <q-form class='q-px-sm'>
@@ -108,6 +108,8 @@ export default {
         var idToken = session.getIdToken().getJwtToken()
         self.changeIdToken(idToken)
         self.changeClientId(clientId)
+
+        console.log('IDTOKEN', idToken)
 
         self.$router.push('/')
         this.$store.dispatch('user/getInit', this.$store.state.user.idToken)
@@ -209,7 +211,9 @@ export default {
           }
           console.log(result)
           self.registerSuccess = true
-          document.getElementById('registration-email-input').value = ''
+          self.registration_email = ''
+          self.registration_password = ''
+          self.registration_password_confirm = ''
         })
       } else {
         this.failedRegisterPassword = true
@@ -232,9 +236,16 @@ export default {
   },
   watch: {
     login_email (newEmail) {
-      if (newEmail === '') {
-        this.failedLogin = false
-      }
+      this.failedLogin = false
+    },
+    login_password (newPassword) {
+      this.failedLogin = false
+    },
+    registration_password (newRegistrationPassword) {
+      this.failedRegisterPassword = false
+    },
+    registration_password_confirm (newEmail) {
+      this.failedRegisterPassword = false
     }
   }
 }

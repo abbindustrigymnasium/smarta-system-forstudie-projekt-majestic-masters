@@ -9,9 +9,15 @@ const guid = () => {
 }
 
 export const getInit = ({ commit, state }) => {
+  console.log(state)
   commit('resetPeople')
   var queryParameters = '?client_id=' + state.clientId
-  axios.get(baseURL + 'connections/get' + queryParameters).then(response1 => {
+  axios.get(baseURL + 'connections/get' + queryParameters, {
+    headers: {
+      Authorization: state.idToken
+    }
+  }).then(response1 => {
+    console.log('RESPONSE!', response1)
     for (let i = 0; i < response1.data.body.length; i++) {
       commit('pushPerson', {
         index: i,
@@ -20,7 +26,11 @@ export const getInit = ({ commit, state }) => {
         id: response1.data.body[i].patient_id
       })
 
-      axios.get(baseURL + 'medicine/get' + '?patient_id=' + response1.data.body[i].patient_id).then(response2 => {
+      axios.get(baseURL + 'medicine/get' + '?patient_id=' + response1.data.body[i].patient_id, {
+        headers: {
+          Authorization: state.idToken
+        }
+      }).then(response2 => {
         for (let q = 0; q < response2.data.body.length; q++) {
           commit('pushMedicine', {
             index: i,
@@ -57,7 +67,9 @@ export const addPerson = ({ commit, state }, object) => {
   axios({
     method: 'post',
     url: baseURL + 'connections/post',
-    headers: {},
+    headers: {
+      Authorization: state.idToken
+    },
     data: { client_id: state.clientId, patient_id: object.id, patient_name: object.name }
   }).then(response => {
     console.log(response)
@@ -87,7 +99,9 @@ export const addMedicine = ({ commit, state }, object) => {
   axios({
     method: 'post',
     url: baseURL + 'medicine/post',
-    headers: {},
+    headers: {
+      Authorization: state.idToken
+    },
     data: {
       client_id: state.clientId,
       patient_id: object.personId,
@@ -112,7 +126,9 @@ export const deletePerson = ({ commit, state }, object) => {
   axios({
     method: 'delete',
     url: baseURL + 'connections/delete',
-    headers: {},
+    headers: {
+      Authorization: state.idToken
+    },
     data: { patient_id: object.id, client_id: state.clientId }
   }).then(response => {
     console.log(response)
@@ -121,13 +137,15 @@ export const deletePerson = ({ commit, state }, object) => {
   })
 }
 
-export const deleteMedicine = ({ commit }, object) => {
+export const deleteMedicine = ({ commit, state }, object) => {
   commit('popMedicine', object.index)
 
   axios({
     method: 'delete',
     url: baseURL + 'medicine/delete',
-    headers: {},
+    headers: {
+      Authorization: state.idToken
+    },
     data: { medicine_id: object.id }
   }).then(response => {
     console.log(response)
