@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseURL = 'https://pxe6lsvbkl.execute-api.eu-north-1.amazonaws.com/default/'
+const baseURL = 'https://2r6362m556.execute-api.eu-north-1.amazonaws.com/default/'
 
 const guid = () => {
   const s4 = () => {

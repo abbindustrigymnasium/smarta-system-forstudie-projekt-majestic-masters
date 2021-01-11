@@ -1,86 +1,81 @@
 <template>
   <q-layout>
-  <q-page-container>
-  <q-page
-    class='window-height window-width row justify-center items-center'
-    style='background: linear-gradient(#8274C5, #5A4A9F) '>
-    <div class='column q-pa-lg'>
-      <div class='row'>
-        <q-card square class='shadow-24' style='width:300px height:485px '>
-          <q-card-section class='bg-deep-purple-7'>
-            <h4 class='text-h5 text-white q-my-md'>Inloggning</h4>
-            <p v-if="failedLogin" style="color:red">Email och lösenord matchar inte</p>
-            <div class='absolute-bottom-right q-pr-md' style='transform: translateY(50%) '>
-              <q-btn fab icon='add' color='purple-4' />
-            </div>
-          </q-card-section>
-          <q-card-section>
-            <q-form class='q-px-sm q-pt-xl'>
-              <q-input square v-model='login_email' type='email' label='Email'>
-                <template v-slot:prepend>
-                  <q-icon name='email' />
-                </template>
-              </q-input>
-              <q-input square v-model='login_password' type='password' label='Lösenord'>
-                <template v-slot:prepend>
-                  <q-icon name='lock' />
-                </template>
-              </q-input>
-            </q-form>
-          </q-card-section>
-          <q-card-actions class='q-px-lg'>
-            <q-btn unelevated size='lg' color='purple-4' class='full-width text-white' label='Logga in' v-on:click="login()"/>
-          </q-card-actions>
-        </q-card>
-      </div>
-    </div>
-    <div class='column q-pa-lg'>
-      <div class='row'>
-        <q-card square class='shadow-24' style='width:300px height:485px '>
-          <q-card-section class='bg-deep-purple-7'>
-            <h4 class='text-h5 text-white q-my-md'>Registrering</h4>
-            <p v-if="failedRegister" style="color:red">Registrering misslyckades</p>
-            <p v-if="failedRegisterPassword" style="color:red">Lösenorden matchar inte</p>
-            <b v-if="registerSuccess" style="color:green">Registrering lyckades</b>
-            <div class='absolute-bottom-right q-pr-md' style='transform: translateY(50%) '>
-              <q-btn fab icon='add' color='purple-4' />
-            </div>
-          </q-card-section>
-          <q-card-section>
-            <q-form class='q-px-sm q-pt-xl'>
-              <q-input square v-model='registration_email' type='email' label='Email' id='registration-email-input'>
-                <template v-slot:prepend>
-                  <q-icon name='email' />
-                </template>
-              </q-input>
-              <q-input square v-model='registration_password' type='password' label='Lösenord' id='registration-password-input'>
-                <template v-slot:prepend>
-                  <q-icon name='lock' />
-                </template>
-              </q-input>
-              <q-input square v-model='registration_password_confirm' type='password' label='Bekräfta lösenord' id='registration-password-confirm-input'>
-                <template v-slot:prepend>
-                  <q-icon name='lock' />
-                </template>
-              </q-input>
-            </q-form>
-          </q-card-section>
-          <q-card-actions class='q-px-lg'>
-            <q-btn unelevated size='lg' color='purple-4' class='full-width text-white' label='Registrera dig' v-on:click="register()"/>
-          </q-card-actions>
-        </q-card>
-      </div>
-    </div>
-  </q-page>
-  </q-page-container>
+    <q-page-container>
+      <q-page class='window-height window-width row justify-center items-center bg-light1'>
+        <div class='column q-pa-lg' v-if="loggingIn">
+          <div class='row'>
+            <q-card square class='shadow-5' style='width: 300px height: 485px'>
+              <q-card-section class='bg-primary1'>
+                <h4 class='text-h5 text-white q-my-md'>Inloggning</h4>
+              </q-card-section>
+              <p v-if="failedLogin" class="text-negative q-mt-md q-mb-none q-ml-md">Email och lösenord matchar inte</p>
+              <p v-else class="text-transparent q-mt-md q-mb-none q-ml-md">.</p>
+              <q-card-section class="bg-light2 q-pt-none">
+                <q-form class='q-px-sm'>
+                  <q-input color="primary2" square v-model='login_email' type='email' label='Email'>
+                    <template v-slot:prepend>
+                      <q-icon name='email' color="primary2"/>
+                    </template>
+                  </q-input>
+                  <q-input color="primary2" square v-model='login_password' type='password' label='Lösenord'>
+                    <template v-slot:prepend>
+                      <q-icon name='lock' color="primary2"/>
+                    </template>
+                  </q-input>
+                </q-form>
+              </q-card-section>
+              <q-card-actions class='q-px-lg'>
+                <q-btn unelevated size='lg' color='secondary1' class='full-width text-white' label='Logga in' v-on:click="login()"/>
+              </q-card-actions>
+              <q-card-actions class='q-px-lg q-pb-md'>
+                <q-btn no-caps unelevated size='md' color='light2' class='full-width text-grey' label='Inget konto? Skapa ett!' v-on:click="showCard(false)"/>
+              </q-card-actions>
+            </q-card>
+          </div>
+        </div>
+        <div class='column q-pa-lg' v-else>
+          <div class='row'>
+            <q-card square class='shadow-5' style='width: 300px height: 485px '>
+              <q-card-section class='bg-primary1'>
+                <h4 class='text-h5 text-white q-my-md'>Registrering</h4>
+              </q-card-section>
+              <p v-if="failedRegister" class="text-negative q-mt-md q-mb-none q-ml-md">Registrering misslyckades</p>
+              <p v-else-if="failedRegisterPassword" class="text-negative q-mt-md q-mb-none q-ml-md">Lösenorden matchar inte</p>
+              <b v-else-if="registerSuccess" class="text-positive q-mt-md q-mb-none q-ml-md">Registrering lyckades</b>
+              <p v-else class="text-transparent q-mt-md q-mb-none q-ml-md">.</p>
+              <q-card-section class="bg-light2 q-pt-none">
+                <q-form class='q-px-sm'>
+                  <q-input color="primary2" square v-model='registration_email' type='email' label='Email' id='registration-email-input'>
+                    <template v-slot:prepend>
+                      <q-icon name='email' color="primary2"/>
+                    </template>
+                  </q-input>
+                  <q-input color="primary2" square v-model='registration_password' type='password' label='Lösenord' id='registration-password-input'>
+                    <template v-slot:prepend>
+                      <q-icon name='lock' color="primary2"/>
+                    </template>
+                  </q-input>
+                  <q-input color="primary2" square v-model='registration_password_confirm' type='password' label='Bekräfta lösenord' id='registration-password-confirm-input'>
+                    <template v-slot:prepend>
+                      <q-icon name='lock' color="primary2"/>
+                    </template>
+                  </q-input>
+                </q-form>
+              </q-card-section>
+              <q-card-actions class='q-px-lg'>
+                <q-btn unelevated size='lg' color='secondary1' class='full-width text-white' label='Registrera dig' v-on:click="register()"/>
+              </q-card-actions>
+              <q-card-actions class='q-px-lg q-pb-md'>
+                <q-btn no-caps unelevated size='md' color='light2' class='full-width text-grey' label='Tillbaka till login' v-on:click="showCard(true)"/>
+              </q-card-actions>
+            </q-card>
+          </div>
+        </div>
+      </q-page>
+    </q-page-container>
   </q-layout>
 </template>
 <script>
-
-import {
-  Loading,
-  QSpinnerFacebook
-} from 'quasar'
 
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js')
 
@@ -115,33 +110,21 @@ export default {
         self.changeClientId(clientId)
 
         self.$router.push('/')
+        this.$store.dispatch('user/getInit', this.$store.state.user.idToken)
       })
     }
   },
   methods: {
-    showLoading () {
-      Loading.show({
-        spinner: QSpinnerFacebook,
-        spinnerColor: 'primary1',
-        spinnerSize: 130,
-        backgroundColor: 'white',
-        message: 'Vänligen vänta medan vi fixar saker åt dig...',
-        messageColor: 'secondary1'
-      })
+    showCard (bool) {
+      this.loggingIn = bool
     },
     changeIdToken (idToken) {
-      console.log('HALÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅ', idToken)
-      Loading.hide()
       this.$store.commit('user/updateIdToken', idToken)
     },
     changeClientId (clientId) {
-      console.log('HALÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅ', clientId)
-      Loading.hide()
       this.$store.commit('user/changeClientId', clientId)
     },
     login () {
-      console.log(this.login_email, this.login_password)
-
       const self = this
 
       const poolData = {
@@ -166,8 +149,6 @@ export default {
 
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
-          console.log(result)
-          console.log('LOGGED IN')
           idToken = result.getIdToken().getJwtToken()
           var clientId = result.getIdToken().payload.['cognito:username']
           self.changeIdToken(idToken)
@@ -177,6 +158,7 @@ export default {
           localStorage.setItem('email', self.login_email)
 
           self.$router.push('/')
+          this.$store.dispatch('user/getInit', this.$store.state.user.idToken)
         },
         onFailure: function (err) {
           console.log(err)
@@ -222,7 +204,7 @@ export default {
 
         userPool.signUp(this.registration_email, this.registration_password, attributeList, null, function (err, result) {
           if (err) {
-            alert(err.message || JSON.stringify(err))
+            self.failedRegister = true
             return
           }
           console.log(result)
@@ -236,6 +218,7 @@ export default {
   },
   data () {
     return {
+      loggingIn: true,
       login_email: '',
       login_password: '',
       registration_email: '',
