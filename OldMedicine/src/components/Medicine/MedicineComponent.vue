@@ -15,7 +15,7 @@
       <p class="text-subtitle2">Nästa dosering sker den {{ nästaDosering }}.</p>
     </div>
 
-    <div v-if="!medicine.amount">
+    <div v-if="medicine.amount == 0">
       <q-item-label class="text-negative text-left row text-h6 text-weight-regular">Varning!</q-item-label>
       <p class="text-body1 text-negative q-mb-none">Påfyllning krävs omedelbart.</p>
       <p class="text-subtitle2">{{ name }} har slut på {{ medicine.name }}.</p>
