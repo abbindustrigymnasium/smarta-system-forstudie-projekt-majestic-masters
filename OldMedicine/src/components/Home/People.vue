@@ -1,9 +1,14 @@
 <template>
   <div id="People-Home">
-    <q-item-section class="q-gutter-sm q-pt-sm q-pl-sm">
-      <q-item-label>Personer - {{ people.length }}</q-item-label>
-      <q-item-label caption>Filtrerad - {{ list.length }}</q-item-label>
-    </q-item-section>
+    <div class="row">
+      <q-item-section class="col-8 q-gutter-sm q-pt-sm q-pl-sm">
+        <q-item-label>Personer - {{ people.length }}</q-item-label>
+        <q-item-label caption>Filtrerad - {{ list.length }}</q-item-label>
+      </q-item-section>
+      <q-item-section class="col-4 float-right q-pt-xs q-pr-xs">
+        <q-btn size="md" flat color="primary1" style="white-space: nowrap" @click="loggout()">Logga ut</q-btn>
+      </q-item-section>
+    </div>
 
     <List :list="list" showDelete="person"/>
   </div>
@@ -35,6 +40,13 @@ export default {
     }
   },
   methods: {
+    loggout () {
+      this.$store.commit('user/updateIdToken', '')
+      this.$store.commit('user/changeClientId', '')
+      this.$store.commit('user/resetPeople')
+      localStorage.clear()
+      this.$router.push('/Person')
+    },
     goToPerson (personPointer) {
       this.$store.commit('user/changePersonPointer', personPointer)
       this.$router.push('/Person')

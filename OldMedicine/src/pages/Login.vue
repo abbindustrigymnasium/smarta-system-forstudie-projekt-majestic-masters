@@ -41,7 +41,7 @@
               </q-card-section>
               <p v-if="failedRegister" class="text-negative q-mt-md q-mb-none q-ml-md">Registrering misslyckades</p>
               <p v-else-if="failedRegisterPassword" class="text-negative q-mt-md q-mb-none q-ml-md">Lösenorden matchar inte</p>
-              <b v-else-if="registerSuccess" class="text-positive q-mt-md q-mb-none q-ml-md">Registrering lyckades</b>
+              <p v-else-if="registerSuccess" class="text-positive q-mt-md q-mb-none q-ml-md">Registrering lyckades</p>
               <p v-else class="text-transparent q-mt-md q-mb-none q-ml-md">.</p>
               <q-card-section class="bg-light2 q-pt-none">
                 <q-form class='q-px-sm'>
@@ -214,6 +214,21 @@ export default {
     registration_password_confirm (newEmail) {
       this.failedRegisterPassword = false
     }
+    // failedRegister (n) {
+    //   console.log('failedRegister chaged')
+    //   this.failedRegisterPassword = false
+    //   this.registerSuccess = false
+    // },
+    // failedRegisterPassword (n) {
+    //   console.log('failedRegisterPassword chaged')
+    //   this.failedRegister = false
+    //   this.registerSuccess = false
+    // },
+    // registerSuccess (n) {
+    //   console.log('registerSuccess chaged')
+    //   this.failedRegister = false
+    //   this.failedRegisterPassword = false
+    // }
   }
 }
 </script>
