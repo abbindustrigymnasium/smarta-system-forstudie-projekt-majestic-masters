@@ -75,10 +75,10 @@ export default {
   },
   computed: {
     räckerTill: function () {
-      return this.timeToDate((new Date()).getTime() + this.medicine.amount * this.medicine.interval)
+      return this.timeOfDayToConsumeMeds((new Date()).getTime() + this.medicine.amount * this.medicine.interval, this.medicine.startTime)
     },
     rekomenderatKöp: function () {
-      return this.timeToDate((new Date()).getTime() + this.medicine.amount * this.medicine.interval - this.medicine.remind)
+      return this.timeOfDayToConsumeMeds((new Date()).getTime() + this.medicine.amount * this.medicine.interval - this.medicine.remind, this.medicine.startTime)
     },
     nästaDosering: function () {
       return this.timeOfDayToConsumeMeds((new Date()).getTime() + this.medicine.interval, this.medicine.startTime)
