@@ -127,6 +127,7 @@ export default {
 
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
+          console.log('LOGGED IN')
           idToken = result.getIdToken().getJwtToken()
           var clientId = result.getIdToken().payload.['cognito:username']
           self.changeIdToken(idToken)
@@ -136,7 +137,7 @@ export default {
           localStorage.setItem('email', self.login_email)
 
           self.$router.push('/')
-          this.$store.dispatch('user/getInit', this.$store.state.user.idToken)
+          self.$store.dispatch('user/getInit', self.$store.state.user.idToken)
         },
         onFailure: function (err) {
           console.log(err)
