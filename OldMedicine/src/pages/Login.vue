@@ -140,6 +140,7 @@ export default {
         },
         onFailure: function (err) {
           console.log(err)
+          console.log('err')
           self.failedLogin = true
         },
         newPasswordRequired: function (userAttributes) {
@@ -182,6 +183,7 @@ export default {
 
         userPool.signUp(this.registration_email, this.registration_password, attributeList, null, function (err, result) {
           if (err) {
+            console.log('THIS HAPPEND')
             self.failedRegister = true
             return
           }
