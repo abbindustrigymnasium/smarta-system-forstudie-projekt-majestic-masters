@@ -86,6 +86,15 @@ export default {
   methods: {
     showCard (bool) {
       this.loggingIn = bool
+      this.login_email = ''
+      this.login_password = ''
+      this.registration_email = ''
+      this.registration_password = ''
+      this.registration_password_confirm = ''
+      this.failedLogin = false
+      this.failedRegister = false
+      this.failedRegisterPassword = false
+      this.registerSuccess = false
     },
     changeIdToken (idToken) {
       this.$store.commit('user/updateIdToken', idToken)
