@@ -140,13 +140,14 @@ export const deletePerson = ({ commit, state }, object) => {
 export const deleteMedicine = ({ commit, state }, object) => {
   commit('popMedicine', object.index)
 
+  console.log(object)
+
   axios({
     method: 'delete',
-    url: baseURL + 'medicine/delete',
+    url: baseURL + 'medicine/delete?medicine_id=' + object.id,
     headers: {
       Authorization: state.idToken
-    },
-    data: { medicine_id: object.id }
+    }
   }).then(response => {
     console.log(response)
   }).catch(function (error) {
