@@ -5,8 +5,10 @@
         <q-item-label>Personer - {{ people.length }}</q-item-label>
         <q-item-label caption>Filtrerad - {{ list.length }}</q-item-label>
       </q-item-section>
-      <q-item-section class="col-4 float-right q-pt-xs q-pr-xs">
-        <q-btn size="md" flat color="primary1" style="white-space: nowrap" @click="loggout()">Logga ut</q-btn>
+      <q-item-section class="col-4 q-pt-xs q-pr-xs">
+        <div>
+          <q-btn class="float-right" size="md" flat color="primary1" style="white-space: nowrap" @click="loggout()">Logga ut</q-btn>
+        </div>
       </q-item-section>
     </div>
 
