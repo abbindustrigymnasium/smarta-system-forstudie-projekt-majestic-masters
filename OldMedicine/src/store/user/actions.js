@@ -121,6 +121,7 @@ export const addMedicine = ({ commit, state }, object) => {
 }
 
 export const deletePerson = ({ commit, state }, object) => {
+  console.log(object)
   commit('popPerson', object.index)
 
   axios({
@@ -138,6 +139,7 @@ export const deletePerson = ({ commit, state }, object) => {
 }
 
 export const deleteMedicine = ({ commit, state }, object) => {
+  console.log(object)
   commit('popMedicine', object.index)
 
   console.log(object)
