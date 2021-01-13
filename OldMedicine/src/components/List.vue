@@ -65,7 +65,7 @@
         <q-card-actions align="right">
           <q-btn flat label="Nej" color="primary2" v-close-popup/>
           <q-btn flat label="Ja" v-if="showDelete === 'person'" @click="$store.dispatch('user/deletePerson', { index: item.index, id: item.id })" color="negative" v-close-popup/>
-          <q-btn flat label="Ja" v-else-if="showDelete === 'medicine'" @click="$store.dispatch('user/deleteMedicine', { id: item.medicine_id, index: item.index })" color="negative" v-close-popup/>
+          <q-btn flat label="Ja" v-else-if="showDelete === 'medicine'" @click="$store.dispatch('user/deleteMedicine', { id: item.id, index: item.index })" color="negative" v-close-popup/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -80,17 +80,21 @@ export default {
   data () {
     return {
       confirm: false,
-      item: {}
+      item: { index: null, id: null, name: null }
     }
   },
   methods: {
     deleteItem (item) {
       if (this.showDelete === 'person') {
+        this.item.index = item.index
+        this.item.id = item.id
+        this.item.name = item.name
         this.confirm = true
-        this.item = { index: item.index, id: item.id, name: item.name }
       } else if (this.showDelete === 'medicine') {
+        this.item.index = item.index
+        this.item.id = item.medicine_id
+        this.item.name = item.name
         this.confirm = true
-        this.item = { index: item.index, id: item.medicine_id, name: item.name }
       }
     },
     lookForForgotAmount (meds) {
