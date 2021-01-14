@@ -190,9 +190,12 @@ export default {
           }
           console.log(result)
           self.registerSuccess = true
+          self.login_password = self.registration_password
+          self.login_email = self.registration_email
           self.registration_email = ''
           self.registration_password = ''
           self.registration_password_confirm = ''
+          self.login()
         })
       } else {
         this.failedRegisterPassword = true
