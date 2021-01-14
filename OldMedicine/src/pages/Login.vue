@@ -223,11 +223,17 @@ export default {
     login_password (newPassword) {
       this.failedLogin = false
     },
+    registration_email (newRegistrationEmail) {
+      this.failedRegisterPassword = false
+      this.failedRegister = false
+    },
     registration_password (newRegistrationPassword) {
       this.failedRegisterPassword = false
+      this.failedRegister = false
     },
     registration_password_confirm (newEmail) {
       this.failedRegisterPassword = false
+      this.failedRegister = false
     }
     // failedRegister (n) {
     //   console.log('failedRegister chaged')

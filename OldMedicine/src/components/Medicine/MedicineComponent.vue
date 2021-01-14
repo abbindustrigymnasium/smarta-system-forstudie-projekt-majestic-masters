@@ -7,12 +7,12 @@
     <div v-if="medicine.hasForgot">
       <q-item-label class="text-negative text-left row text-h6 text-weight-regular">Varning!</q-item-label>
       <p class="text-body1 text-negative q-mb-none">{{ name }} har glömt att ta sin medicin.</p>
-      <p class="text-subtitle2">Glömd dosering var den {{ skulleDosera }}.</p>
+      <p class="text-subtitle2">Glömd dosering var den {{ missedDose }}.</p>
     </div>
     <div v-else>
       <q-item-label class="text-positive text-left row text-h6 text-weight-regular">Va bra!</q-item-label>
       <p class="text-body1 text-positive q-mb-none">{{ name }} har tagit sin medicin.</p>
-      <p class="text-subtitle2">Nästa dosering sker den {{ nästaDosering }}.</p>
+      <p class="text-subtitle2">Nästa dosering sker den {{ nextDose }}.</p>
     </div>
 
     <div v-if="medicine.amount == 0">
@@ -23,12 +23,12 @@
     <div v-else-if="medicine.remind < medicine.amount * medicine.interval">
       <q-item-label class="text-positive text-left row text-h6 text-weight-regular">Va bra!</q-item-label>
       <p class="text-body1 text-positive q-mb-none">{{ name }} har tillräckligt med medicin.</p>
-      <p class="text-subtitle2">{{ name }} har kvar {{ medicine.amount }} tabletter av {{ medicine.name }}. Vilket räcker tills {{ räckerTill }}. Rekomenderad påfyllning är den {{ rekomenderatKöp }}.</p>
+      <p class="text-subtitle2">{{ name }} har kvar {{ medicine.amount }} tabletter av {{ medicine.name }}. Vilket räcker tills {{ sufficientTo }}. Rekomenderad påfyllning är den {{ recomendedBuy }}.</p>
     </div>
     <div v-else>
       <q-item-label class="text-warning text-left row text-h6 text-weight-regular">Varning! </q-item-label>
       <p class="text-body1 text-warning q-mb-none">Påfyllning är försenad.</p>
-      <p class="text-subtitle2">{{ name }} har endast {{ medicine.amount }} {{ tabletter }} kvar, {{ name }} kommer få slut på {{ medicine.name }} den {{ räckerTill }}.</p>
+      <p class="text-subtitle2">{{ name }} har endast {{ medicine.amount }} {{ tabletter }} kvar, {{ name }} kommer få slut på {{ medicine.name }} den {{ sufficientTo }}.</p>
     </div>
 
   </div>
@@ -74,16 +74,16 @@ export default {
     }
   },
   computed: {
-    räckerTill: function () {
+    sufficientTo: function () {
       return this.timeOfDayToConsumeMeds((new Date()).getTime() + this.medicine.amount * this.medicine.interval, this.medicine.startTime)
     },
-    rekomenderatKöp: function () {
+    recomendedBuy: function () {
       return this.timeOfDayToConsumeMeds((new Date()).getTime() + this.medicine.amount * this.medicine.interval - this.medicine.remind, this.medicine.startTime)
     },
-    nästaDosering: function () {
+    nextDose: function () {
       return this.timeOfDayToConsumeMeds((new Date()).getTime() + this.medicine.interval, this.medicine.startTime)
     },
-    skulleDosera: function () {
+    missedDose: function () {
       return this.timeOfDayToConsumeMeds((new Date()).getTime() - this.medicine.interval, this.medicine.startTime)
     }
   }
