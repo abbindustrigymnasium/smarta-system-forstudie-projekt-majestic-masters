@@ -1,4 +1,3 @@
 # OldMedicine (oldmedicine)
 
-When i tried to fuck this bitch up this happend:
-om man lyckas skapa ett konto och sedan skapar ett nytt och misslyckas kommer erroret inte fram, ibland står det failed login fastän man loggas in
+lägg till shopping cart på hemsidan, jag vill köpa så många mediciner så att de räcker till (datum), delete from shopping cart, add to shopping cart
